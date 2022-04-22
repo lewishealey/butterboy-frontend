@@ -4,24 +4,11 @@ import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 const BASE_URL = 'https://butterboy.test/wp-json/wp/v2';
 
 const api = new WooCommerceRestApi({
-    url: "https://butterboy.test/",
-    consumerKey: "ck_cbcdfd631fe10a27c0985d772edd91706619111c",
-    consumerSecret: "cs_32d1d362587694d3be00d262d7b5021d38567af4",
+    url: process.env.WOO_URL,
+    consumerKey: process.env.WOO_KEY,
+    consumerSecret: process.env.WOO_SECRET,
     version: "wc/v3"
-  });
-
-// export async function getPosts() {
-//   const postsRes = await fetch(BASE_URL + '/posts?_embed');
-//   const posts = await postsRes.json();
-//   return posts;
-// }
-
-// export async function getPost(slug) {
-//   const posts = await getPosts();
-//   const postArray = posts.filter((post) => post.slug == slug);
-//   const post = postArray.length > 0 ? postArray[0] : null;
-//   return post;
-// }
+});
 
 export async function getCookies() {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -39,6 +26,42 @@ export async function getProducts() {
     }
 }
 
+export async function getProduct(slug) {
+    try {
+      const response = await api.get(`products/?slug=${slug}`);
+      return response.data[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+}
+
+export async function getMerch() {
+    try {
+      const response = await api.get(`products/tag/${process.env.MERCH_TAG}`);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+}
+
+export async function getBoxes() {
+    try {
+      const response = await api.get(`products/tag/${process.env.COOKIES_TAG}`);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+}
+
+export async function getOther() {
+    try {
+      const response = await api.get(`products/tag/${process.env.OTHER_TAG}`);
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+}
+
 // export async function getEvent(slug) {
 //   const events = await getEvents();
 //   const eventArray = events.filter((event) => event.slug == slug);
@@ -46,22 +69,23 @@ export async function getProducts() {
 //   return event;
 // }
 
-// export async function getSlugs(type) {
-//   let elements = [];
-//   switch (type) {
-//     case 'posts':
-//       elements = await getPosts();
-//       break;
-//     case 'events':
-//       elements = await getEvents();
-//       break;
-//   }
-//   const elementsIds = elements.map((element) => {
-//     return {
-//       params: {
-//         slug: element.slug,
-//       },
-//     };
-//   });
-//   return elementsIds;
-// }
+export async function getSlugs(type) {
+  let elements = [];
+  switch (type) {
+    case 'products':
+      elements = await getProducts();
+      break;
+    case 'cookies':
+      elements = await getCookies();
+      break;
+  }
+  console.log(elements)
+  const elementsIds = elements.data.map((element) => {
+    return {
+      params: {
+        slug: element.slug,
+      },
+    };
+  });
+  return elementsIds;
+}

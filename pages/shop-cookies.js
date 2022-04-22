@@ -1,5 +1,5 @@
 import Page from "components/Page";
-import { getCookies, getProducts } from '../utils/wordpress';
+import { getCookies, getProducts } from 'utils/wordpress';
 
 import Cookie from 'components/Cookie';
 import Product from 'components/Product';
