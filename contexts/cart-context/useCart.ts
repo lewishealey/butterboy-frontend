@@ -3,7 +3,6 @@ import useCartProducts from './useCartProducts';
 import useCartTotal from './useCartTotal';
 
 const useCart = () => {
-  const { isOpen, setIsOpen } = useCartContext();
   const {
     products,
     addProduct,
