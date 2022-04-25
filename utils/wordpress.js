@@ -18,6 +18,7 @@ export async function getCookies() {
 }
 
 export async function getProducts() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     try {
       const response = await api.get("products");
       return response;
@@ -27,6 +28,7 @@ export async function getProducts() {
 }
 
 export async function getProduct(slug) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     try {
       const response = await api.get(`products/?slug=${slug}`);
       return response.data[0];
@@ -36,6 +38,7 @@ export async function getProduct(slug) {
 }
 
 export async function getMerch() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     try {
       const response = await api.get(`products/tag/${process.env.MERCH_TAG}`);
       return response;
@@ -45,6 +48,7 @@ export async function getMerch() {
 }
 
 export async function getBoxes() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     try {
       const response = await api.get(`products/tag/${process.env.COOKIES_TAG}`);
       return response;
@@ -54,6 +58,7 @@ export async function getBoxes() {
 }
 
 export async function getOther() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     try {
       const response = await api.get(`products/tag/${process.env.OTHER_TAG}`);
       return response;
@@ -79,7 +84,6 @@ export async function getSlugs(type) {
       elements = await getCookies();
       break;
   }
-  console.log(elements)
   const elementsIds = elements.data.map((element) => {
     return {
       params: {

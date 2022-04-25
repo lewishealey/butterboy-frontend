@@ -2,11 +2,11 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 const Timer = (props) => {
-    const {initialMinute = 0,initialSeconds = 0} = props;
-    const [ minutes, setMinutes ] = useState(initialMinute);
-    const [seconds, setSeconds ] =  useState(initialSeconds);
-    useEffect(()=>{
-    let myInterval = setInterval(() => {
+    const { initialMinute = 0, initialSeconds = 0 } = props;
+    const [minutes, setMinutes] = useState(initialMinute);
+    const [seconds, setSeconds] = useState(initialSeconds);
+    useEffect(() => {
+        let myInterval = setInterval(() => {
             if (seconds > 0) {
                 setSeconds(seconds - 1);
             }
@@ -17,19 +17,19 @@ const Timer = (props) => {
                     setMinutes(minutes - 1);
                     setSeconds(59);
                 }
-            } 
+            }
         }, 1000)
-        return ()=> {
+        return () => {
             clearInterval(myInterval);
-          };
+        };
     });
 
     return (
         <div>
-        { minutes === 0 && seconds === 0
-            ? null
-            : <h1> {minutes}:{seconds < 10 ?  `0${seconds}` : seconds} until delivery cut off!</h1> 
-        }
+            {minutes === 0 && seconds === 0
+                ? null
+                : <h3 className="bg-vibrant text-white w-full font-display py-8 justify-center text-center text-xl uppercase"> {minutes}:{seconds < 10 ? `0${seconds}` : seconds} until next-day collection cut off!</h3>
+            }
         </div>
     )
 }

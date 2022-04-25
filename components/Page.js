@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Header from 'components/Header'
+import Footer from 'components/Footer'
 
 const Page = ({ title, heading, children, header = true }) => {
     return (
@@ -11,10 +12,11 @@ const Page = ({ title, heading, children, header = true }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             {header && <Header />}
-            {heading && <h1 className="text-9xl text-center text-mauve font-bold font-display uppercase">{heading} </h1>}
+            {heading && <h1 className="text-9xl text-center text-mauve font-bold font-display uppercase">{heading}</h1>}
             <div className="flex flex-col">
                 {children}
             </div>
+            <Footer />
         </div>
     )
 }
