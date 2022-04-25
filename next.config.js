@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     //enter the domain or subdomain where you have WordPress installed
-    domains: ['butterboy.test'],
+    domains: ['butterboy.test','butterboy.live'],
   },
 }
 

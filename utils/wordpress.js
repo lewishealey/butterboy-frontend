@@ -1,13 +1,14 @@
 
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
-const BASE_URL = 'https://butterboy.test/wp-json/wp/v2';
+const BASE_URL = process.env.WOO_URL + 'wp-json/wp/v2';
 
 const api = new WooCommerceRestApi({
     url: process.env.WOO_URL,
     consumerKey: process.env.WOO_KEY,
     consumerSecret: process.env.WOO_SECRET,
-    version: "wc/v3"
+    version: "wc/v3",
+    queryStringAuth: true,
 });
 
 export async function getCookies() {
