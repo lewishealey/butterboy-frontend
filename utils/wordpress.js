@@ -84,7 +84,7 @@ export async function getSlugs(type) {
       elements = await getCookies();
       break;
   }
-  const elementsIds = elements.data.map((element) => {
+  const elementsIds = elements.data.forEach((element) => {
     return {
       params: {
         slug: element.slug,

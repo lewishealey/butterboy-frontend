@@ -63,7 +63,7 @@ export default function SingleProduct({ product, cookies }) {
 
     function countCookies() {
         let sumCookiesAdded = 0;
-        cookiesAdded.map(added =>
+        cookiesAdded.forEach(added =>
             sumCookiesAdded = sumCookiesAdded + added.quantity
         )
         return sumCookiesAdded;

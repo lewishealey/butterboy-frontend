@@ -30,7 +30,7 @@ const AddToBox = ({ cookie, onSelect, children, count, max }) => {
 
     function countCookies() {
         let sumCookiesAdded = 0;
-        count.map(added =>
+        count.forEach(added =>
             sumCookiesAdded = sumCookiesAdded + added.quantity
         )
         return sumCookiesAdded;
