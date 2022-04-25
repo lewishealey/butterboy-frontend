@@ -34,8 +34,8 @@ export default function Cart() {
                             Total
                         </div>
                     </div>
-                    {products.map(product =>
-                        <div className="border-b border-vibrant flex w-full">
+                    {products.map((product, i) =>
+                        <div className="border-b border-vibrant flex w-full" key={`product_${i}`}>
                             <div className="border-r border-vibrant py-12 px-12" style={{ width: "50%" }}>
                                 <h3 className="font-display text-3xl text-vibrant mb-6 uppercase">{product.title}</h3>
                                 <div className="w-full flex space-x-2 items-center">
