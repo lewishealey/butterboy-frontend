@@ -35,7 +35,7 @@ export default function SingleProduct({ product, cookies }) {
     const { addProduct } = useCart();
 
     const jsxCookies = cookies.map((cookie) => {
-        return <AddToBox onSelect={addCookieToCart} cookie={cookie} count={cookiesAdded} max={6}><Cookie cookie={cookie} key={cookie.id} /></AddToBox>;
+        return <AddToBox onSelect={addCookieToCart} cookie={cookie} count={cookiesAdded} max={6} key={cookie.id}><Cookie cookie={cookie} /></AddToBox>;
     });
 
     function openModal() {

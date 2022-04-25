@@ -42,7 +42,7 @@ export default function Cart() {
                                     <Image src={product.image} width={170} height={150} />
                                     <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">
                                         {product.cookies && product.cookies.map(cookie =>
-                                            <div className="">{cookie.quantity} X {cookie.title}</div>
+                                            <div className="" key={cookie.id}>{cookie.quantity} X {cookie.title}</div>
                                         )}
                                     </div>
                                 </div>
