@@ -5,7 +5,6 @@ import Cookie from 'components/Cookie';
 import Product from 'components/Product';
 
 export default function Shop({ cookies, products }) {
-    console.log(products, cookies)
 
     // Loop of cookies
     const jsxCookies = cookies && cookies.map((cookie) => {
