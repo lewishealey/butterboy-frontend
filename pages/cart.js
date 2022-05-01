@@ -74,7 +74,7 @@ export default function Cart() {
                         <input type="time" className="h-full flex-1 w-full p-4 text-3xl" />
                     </div>
                 </div>
-                <button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve">Check out</button>
+                <Link href="/checkout"><button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve">Check out</button></Link>
                 <Marquee className="bg-vibrant text-white font-body text-3xl py-6" gradient={false}>
                     BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY - BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY - BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY
                 </Marquee>
