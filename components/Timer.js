@@ -28,7 +28,7 @@ const Timer = (props) => {
         <div>
             {minutes === 0 && seconds === 0
                 ? null
-                : <h3 className="bg-vibrant text-white w-full font-display py-8 justify-center text-center text-xl uppercase"> {minutes}:{seconds < 10 ? `0${seconds}` : seconds} until next-day collection cut off!</h3>
+                : <h3 className="bg-vibrant text-white w-full font-display py-8 justify-center text-center text-xl uppercase"> {minutes}:{seconds < 10 ? `0${seconds}` : seconds} {props.message}</h3>
             }
         </div>
     )

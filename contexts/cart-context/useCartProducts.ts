@@ -3,7 +3,7 @@ import useCartTotal from './useCartTotal';
 import { ICartProduct } from 'models';
 
 const useCartProducts = () => {
-  const { products, setProducts } = useCartContext();
+  const { products, setProducts, deliveryType, setDeliveryType } = useCartContext();
   const { updateCartTotal } = useCartTotal();
 
   const updateQuantitySafely = (
@@ -48,6 +48,10 @@ const useCartProducts = () => {
     updateCartTotal(updatedProducts);
   };
 
+  const assignDeliveryType = (type: string) => {
+    setDeliveryType(type);
+  };
+
   const increaseProductQuantity = (productToIncrease: ICartProduct) => {
     const updatedProducts = products.map((product: ICartProduct) => {
       return updateQuantitySafely(product, productToIncrease, +1);
@@ -72,6 +76,8 @@ const useCartProducts = () => {
     removeProduct,
     increaseProductQuantity,
     decreaseProductQuantity,
+    assignDeliveryType,
+    deliveryType,
   };
 };
 

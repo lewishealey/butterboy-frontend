@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const AddToBox = ({ cookie, onSelect, children, count, max }) => {
     const [quantity, setQuantity] = useState(0);
-    const buttonClasses = "flex-1 text-xl text-white text-center py-2";
+    const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
 
     function onQuantitySelect(math) {
         const newNumber = quantity + math;

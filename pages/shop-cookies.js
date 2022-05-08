@@ -23,13 +23,11 @@ export default function Shop({ cookies, products }) {
             title="Shop cookies"
             heading="Shop cookies">
 
-            <div className="grid grid-cols-4 py-12 max-w-7xl m-auto">
+            {/* <div className="grid grid-cols-4 py-12 max-w-7xl m-auto">
                 {jsxCookies}
-            </div>
+            </div> */}
 
-            <section className="text-center bg-vibrant text-mauve font-display text-6xl py-12">Shop pick up</section>
-
-            <section className="grid grid-cols-2">
+            <section className="grid grid-cols-2 border-t border-vibrant mt-12">
                 {jsxProducts}
             </section>
         </Page>

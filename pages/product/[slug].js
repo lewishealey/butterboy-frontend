@@ -93,7 +93,7 @@ export default function SingleProduct({ product, cookies }) {
                 contentLabel="Example Modal"
             >
                 <div className='sticky top-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
-                    <h2 className='text-white text-3xl'>{countCookies()}/6 added to box</h2>
+                    <h2 className='text-vibrant text-3xl'>{countCookies()}/6 added to box</h2>
                     <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${countCookies() < 6 ? 'opacity-50' : ''}`} disabled={countCookies() < 6} onClick={handleCart}>Add to cart</button>
                 </div>
                 <div className='grid grid-cols-4 p-6 gap-4'>
@@ -101,14 +101,13 @@ export default function SingleProduct({ product, cookies }) {
                 </div>
             </Modal>
 
-            <div className="flex border-b border-t border-vibrant mt-12">
-                <div className='flex flex-1 border-r border-b border-vibrant justify-center'>
-                    <Image src={product.images[0].src} width={600} height={500} />
-                </div>
-                <div className='flex flex-1 border-r border-b border-vibrant items-center justify-center flex-col space-y-6'>
-                    <h2 className="text-5xl font-body uppercase text-vibrant">${product.price}</h2>
-                    <button className='text-white px-8 py-4 bg-vibrant hover:text-vibrant hover:bg-mauve font-heading uppercase text-2xl' onClick={openModal}>Select cookies</button>
-                </div>
+            <div className='grid grid-cols-4 p-6 gap-4'>
+                {jsxCookies}
+            </div>
+
+            <div className='sticky bottom-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
+                    <h2 className='text-white text-3xl'>{countCookies()}/6 added to box</h2>
+                    <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${countCookies() < 6 ? 'opacity-50' : ''}`} disabled={countCookies() < 6} onClick={handleCart}>Add to cart</button>
             </div>
 
         </Page>

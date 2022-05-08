@@ -26,3 +26,8 @@
     font-style: normal;
 }
 
+.svg-inline--fa {
+    height: 20px;
+    width: 20px;
+    margin: 0 auto;
+}
