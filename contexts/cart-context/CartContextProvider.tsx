@@ -10,6 +10,10 @@ export interface ICartContext {
   setTotal(products: any): void;
   deliveryType: string;
   setDeliveryType(type: any): void;
+  pickupDate: string;
+  setPickupDate(type: any): void;
+  pickupTime: string;
+  setPickupTime(type: any): void;
 }
 
 export interface DeliveryType {
@@ -36,12 +40,18 @@ const CartProvider: FC = (props) => {
   const [products, setProducts] = useState<ICartProduct[]>([]);
   const [total, setTotal] = useState<ICartTotal>(totalInitialValues);
   const [deliveryType, setDeliveryType] = useState("collect");
+  const [pickupDate, setPickupDate] = useState(null);
+  const [pickupTime, setPickupTime] = useState(null);
 
   const CartContextValue: ICartContext = {
     products,
     setProducts,
     deliveryType,
     setDeliveryType,
+    pickupDate,
+    setPickupDate,
+    pickupTime,
+    setPickupTime,
     total,
     setTotal,
   };

@@ -10,13 +10,16 @@ import Modal from 'react-modal';
 import moment from 'moment';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import styled from 'styled-components';
+import { urlFor } from "helpers/sanity";
+import PickDateTime from "components/PickDateTime"
+import product from "../studio/schemas/product";
 
 Modal.setAppElement('#__next');
 
 const customStyles = {
     background: {
         zIndex: "1000",
-    },
+},
     content: {
         top: '50%',
         left: '50%',
@@ -32,26 +35,27 @@ const customStyles = {
 };
 
 export default function Cart() {
-    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType } = useCart();
+    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime } = useCart();
     const [postcodeModal, setPostcodeModal] = useState(false);
     const [date, setDate] = useState(null);
     const [dateModal, setDateModal] = useState(false);
     const [postcode, setPostcode] = useState("");
     const [message, setMessage] = useState("");
+    const format = "dddd, MMMM Do YYYY";
 
     function timeSlotValidator(slotTime) {
         const eveningTime = new Date(
-          slotTime.getFullYear(),
-          slotTime.getMonth(),
-          slotTime.getDate(),
-          9,
-          0,
-          0
+            slotTime.getFullYear(),
+            slotTime.getMonth(),
+            slotTime.getDate(),
+            9,
+            0,
+            0
         );
         const isValid = slotTime.getTime() > eveningTime.getTime();
         return isValid;
     }
-      
+
 
     //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
     const allowedPostcodes = ["2095"];
@@ -77,6 +81,12 @@ export default function Cart() {
 
     function handleDate(date) {
         setDate(date);
+    }
+
+    function handleSchedule(date, time) {
+        assignPickupDate(date);
+        assignPickupTime(time);
+        closeDateModal();
     }
 
     function handlePostcodeChange(e) {
@@ -106,7 +116,16 @@ export default function Cart() {
         }
     ]`;
 
-    console.log(date)
+    if(products.length === 0) {
+        return <Page
+        title="Your Cart"
+        heading="Your Cart">
+            <div className="py-8 space-y-4">
+                <h2 className="font-body text-2xl text-center text-vibrant">Please add some items to your cart</h2>
+                <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
+            </div>
+        </Page>
+    }
 
     return (
         <Page
@@ -135,14 +154,7 @@ export default function Cart() {
             >
                 <Container>
                     <div className="w-full h-full p-12 space-y-8">
-                        <h2 className="font-display text-4xl text-center text-vibrant uppercase">Enter date & time</h2>
-                        <div className="flex justify-center">
-                            <DayTimePicker 
-                                timeSlotSizeMinutes={60} 
-                                timeSlotValidator={timeSlotValidator}
-                                onConfirm={closeDateModal}
-                            />
-                        </div>
+                        <PickDateTime onSchedule={handleSchedule} />
                     </div>
                 </Container>
             </Modal>
@@ -170,10 +182,13 @@ export default function Cart() {
                             <div className="border-r border-vibrant py-12 px-12 col-span-3">
                                 <h3 className="font-display text-3xl text-vibrant mb-6 uppercase">{product.title}</h3>
                                 <div className="w-full flex space-x-2 items-center">
-                                    <Image src={product.image} width={170} height={150} />
+                                    {/* <Image src={product.thumbnail} width={170} height={150} /> */}
                                     <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">
                                         {product.cookies && product.cookies.map(cookie =>
-                                            <div className="" key={cookie.id}>{cookie.quantity} X {cookie.title}</div>
+                                            <div className="flex space-x-4 items-center" key={cookie._id}>
+                                                <img src={urlFor(cookie.thumbnail)} className="w-8 h-8" />
+                                                <span>{cookie.quantity} X {cookie.title}</span>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
@@ -222,12 +237,12 @@ export default function Cart() {
                         </div>
                         <div className="flex w-full flex-col">
                             <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>CHOOSE A DATE AND TIME</button>
+                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${moment(pickupDate).format(format).toString()} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
                                 <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-8">
                                     <img src="/calendar.svg" className='w-12' />
                                 </button>
                             </div>
-                            <Link href="/checkout"><button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve">Check out</button></Link>
+                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!pickupDate && !pickupTime ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!pickupDate && !pickupTime}>Check out</button></Link>
                         </div>
                     </div>
                 </section>}
@@ -244,9 +259,9 @@ export default function Cart() {
                         </div>
                         <div className="flex w-full flex-col">
                             <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE" }</button>
+                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
-                            <Link href="/checkout"><button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve">Check out</button></Link>
+                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode ? 'bg-gray-200 text-gray-400 cursor-not-allowed': 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button></Link>
                         </div>
                     </div>
                 </section>}

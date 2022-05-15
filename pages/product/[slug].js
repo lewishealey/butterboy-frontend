@@ -8,6 +8,8 @@ import Page from "components/Page";
 import Cookie from 'components/Cookie';
 import AddToBox from 'components/AddToBox';
 import { useCart } from 'contexts/cart-context';
+import client from 'utils/sanity';
+import { urlFor } from "helpers/sanity";
 
 Modal.setAppElement('#__next');
 
@@ -29,29 +31,42 @@ const customStyles = {
 };
 
 export default function SingleProduct({ product, cookies }) {
+
     const router = useRouter();
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [cookiesAdded, setCookiesAdded] = useState([]);
+    const [cookiesObject, setCookiesObject] = useState(cookies);
     const { addProduct } = useCart();
-
-    const jsxCookies = cookies.map((cookie) => {
-        return <AddToBox onSelect={addCookieToCart} cookie={cookie} count={cookiesAdded} max={6} key={cookie.id}><Cookie cookie={cookie} /></AddToBox>;
-    });
+    const [maxCookies, setMaxCookies] = useState(false);
+    const [count, setCount] = useState(0);
+    const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
 
     function openModal() {
         setIsOpen(true);
     }
 
-    function addCookieToCart(data) {
-        const cookies = cookiesAdded.filter(x => x.id !== data.id);
+    function addCookieToCart(cookie, math) {
 
-        // If quantity is 0 then remove from object
-        if (data.quantity === 0) {
-            setCookiesAdded(cookies);
+        let newCookie = cookiesObject.find((c) => c._id === cookie._id);
+        if (newCookie.quantity) {
+            newCookie.quantity += math;
         } else {
-            setCookiesAdded([...cookies, data]);
+            newCookie.quantity = 1;
         }
+
+        const updatedCookies = cookiesObject.map(c => {
+            if (newCookie._id === c._id) return newCookie;
+            return c;
+        });
+
+        let count = 0;
+        updatedCookies.forEach(c => {
+            if (c.quantity) { count = count + c.quantity; }
+        });
+
+        setCount(count);
+        setCookiesObject(updatedCookies);
     }
+
 
     function closeModal() {
         setIsOpen(false);
@@ -61,22 +76,14 @@ export default function SingleProduct({ product, cookies }) {
         return null;
     }
 
-    function countCookies() {
-        let sumCookiesAdded = 0;
-        cookiesAdded.forEach(added =>
-            sumCookiesAdded = sumCookiesAdded + added.quantity
-        )
-        return sumCookiesAdded;
-    }
-
     function handleCart() {
+        const addedCookies = cookiesObject.filter(c => c.quantity > 0);
         const productItem = {
-            id: product?.id,
-            sku: product?.sku,
-            title: product?.name,
+            id: product?._id,
+            title: product?.title,
             price: product?.price,
-            cookies: cookiesAdded,
-            image: product?.images[0]?.src,
+            cookies: addedCookies,
+            image: product.thumbnail,
             quantity: 1,
         }
         addProduct({ ...productItem, quantity: 1 });
@@ -84,53 +91,58 @@ export default function SingleProduct({ product, cookies }) {
     }
 
     return (
-        <Page title={product.name} heading={product.name}>
-
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <div className='sticky top-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
-                    <h2 className='text-vibrant text-3xl'>{countCookies()}/6 added to box</h2>
-                    <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${countCookies() < 6 ? 'opacity-50' : ''}`} disabled={countCookies() < 6} onClick={handleCart}>Add to cart</button>
-                </div>
-                <div className='grid grid-cols-4 p-6 gap-4'>
-                    {jsxCookies}
-                </div>
-            </Modal>
-
-            <div className='grid grid-cols-4 p-6 gap-4'>
-                {jsxCookies}
-            </div>
-
-            <div className='sticky bottom-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
-                    <h2 className='text-white text-3xl'>{countCookies()}/6 added to box</h2>
-                    <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${countCookies() < 6 ? 'opacity-50' : ''}`} disabled={countCookies() < 6} onClick={handleCart}>Add to cart</button>
-            </div>
-
+        <Page title={product.title} heading={product.title}>
+            {product.type === "box" &&
+                <>
+                    <div className='grid grid-cols-4 p-24 gap-20 pt-24'>
+                        {cookiesObject.map((cookie) => {
+                            return <div key={cookie.id}>
+                                <Cookie cookie={cookie} />
+                                <div className='flex border border-white'>
+                                    <button className={buttonClasses} onClick={() => addCookieToCart(cookie, -1)}>-</button>
+                                    <span className={buttonClasses}>{cookie.quantity ? cookie.quantity : 0}</span>
+                                    <button className={buttonClasses} onClick={() => addCookieToCart(cookie, +1)} disabled={count === product.maxCookies}>+</button>
+                                </div>
+                            </div>;
+                        })}
+                    </div>
+                    <div className='sticky bottom-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
+                        <h2 className='text-white text-3xl'>{count}/{product.maxCookies} added to box</h2>
+                        <div>
+                            <span className="font-display text-white px-8 py-4 text-2xl">${product.price}</span>
+                            <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${count < product.maxCookies ? 'opacity-50' : ''}`} disabled={count < product.maxCookies} onClick={handleCart}>Add to cart</button>
+                        </div>
+                    </div>
+                </>
+            }
         </Page>
     )
 }
 
+
 export async function getStaticPaths() {
-    const paths = await getSlugs('products');
+    const paths = await client.fetch(
+        `*[_type == "product" && defined(slug.current)][].slug.current`
+    )
     return {
-        paths,
-        fallback: 'blocking',
-    };
+        paths: paths.map((slug) => ({ params: { slug } })),
+        fallback: true,
+    }
 }
 
-export async function getStaticProps({ params }) {
-    const product = await getProduct(params.slug);
-    const cookies = await getCookies();
-
+export async function getStaticProps(context) {
+    // It's important to default the slug so that it doesn't return "undefined"
+    const { slug = "" } = context.params
+    const product = await client.fetch(`
+      *[_type == "product" && slug.current == $slug][0]
+    `, { slug })
+    const cookies = await client.fetch(`
+        *[_type == "cookie"]
+    `);
     return {
         props: {
-            cookies,
             product,
-        },
-        revalidate: 10, // In seconds
-    };
+            cookies
+        }
+    }
 }

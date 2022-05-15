@@ -1,10 +1,10 @@
 import Page from "components/Page";
-import { getCookies, getProducts } from 'utils/wordpress';
+import client from 'utils/sanity';
 
 import Cookie from 'components/Cookie';
 import Product from 'components/Product';
 
-export default function Shop({ cookies, products }) {
+export default function Shop({ products, cookies }) {
 
     // Loop of cookies
     const jsxCookies = cookies && cookies.map((cookie) => {
@@ -23,11 +23,10 @@ export default function Shop({ cookies, products }) {
             title="Shop cookies"
             heading="Shop cookies">
 
-            {/* <div className="grid grid-cols-4 py-12 max-w-7xl m-auto">
+            <div className="grid grid-cols-4 py-12 max-w-7xl m-auto gap-20">
                 {jsxCookies}
-            </div> */}
-
-            <section className="grid grid-cols-2 border-t border-vibrant mt-12">
+            </div>
+            <section className="grid grid-cols-2 border-t border-vibrant">
                 {jsxProducts}
             </section>
         </Page>
@@ -35,21 +34,18 @@ export default function Shop({ cookies, products }) {
 }
 
 export async function getStaticProps({ params }) {
-    const cookies = await getCookies();
-    const products = await getProducts().catch((error) =>
-      console.error(error)
-    );
+    const cookies = await client.fetch(`
+        *[_type == "cookie"]
+    `);
 
-    // if (!products) {
-    //     return {
-    //       notFound: true,
-    //     };
-    // }
+    const products = await client.fetch(`
+        *[_type == "product" && type == "box" || type == "other"] | order(title)
+    `);
 
     return {
         props: {
             cookies,
-            products: products ? products.data : [],
+            products
         },
         revalidate: 10, // In seconds
     };

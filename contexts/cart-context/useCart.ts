@@ -10,6 +10,10 @@ const useCart = () => {
     increaseProductQuantity,
     decreaseProductQuantity,
     assignDeliveryType,
+    assignPickupDate,
+    assignPickupTime,
+    pickupDate,
+    pickupTime,
     deliveryType,
   } = useCartProducts();
   const { total, updateCartTotal } = useCartTotal();
@@ -21,6 +25,10 @@ const useCart = () => {
     increaseProductQuantity,
     decreaseProductQuantity,
     assignDeliveryType,
+    assignPickupDate,
+    assignPickupTime,
+    pickupDate,
+    pickupTime,
     deliveryType,
     total,
     updateCartTotal,

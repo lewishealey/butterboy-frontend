@@ -3,7 +3,7 @@ import useCartTotal from './useCartTotal';
 import { ICartProduct } from 'models';
 
 const useCartProducts = () => {
-  const { products, setProducts, deliveryType, setDeliveryType } = useCartContext();
+  const { products, setProducts, deliveryType, setDeliveryType, pickupDate, setPickupDate, pickupTime, setPickupTime } = useCartContext();
   const { updateCartTotal } = useCartTotal();
 
   const updateQuantitySafely = (
@@ -27,13 +27,15 @@ const useCartProducts = () => {
       (product: ICartProduct) => newProduct.id === product.id
     );
 
-    if (isProductAlreadyInCart) {
-      updatedProducts = products.map((product: ICartProduct) => {
-        return updateQuantitySafely(product, newProduct, newProduct.quantity);
-      });
-    } else {
-      updatedProducts = [...products, newProduct];
-    }
+    updatedProducts = [...products, newProduct];
+
+    // if (isProductAlreadyInCart) {
+    //   updatedProducts = products.map((product: ICartProduct) => {
+    //     return updateQuantitySafely(product, newProduct, newProduct.quantity);
+    //   });
+    // } else {
+    //   updatedProducts = [...products, newProduct];
+    // }
 
     setProducts(updatedProducts);
     updateCartTotal(updatedProducts);
@@ -50,6 +52,14 @@ const useCartProducts = () => {
 
   const assignDeliveryType = (type: string) => {
     setDeliveryType(type);
+  };
+
+  const assignPickupDate = (date: string) => {
+    setPickupDate(date);
+  };
+
+  const assignPickupTime = (time: string) => {
+    setPickupTime(time);
   };
 
   const increaseProductQuantity = (productToIncrease: ICartProduct) => {
@@ -78,6 +88,10 @@ const useCartProducts = () => {
     decreaseProductQuantity,
     assignDeliveryType,
     deliveryType,
+    assignPickupDate,
+    pickupDate,
+    assignPickupTime,
+    pickupTime,
   };
 };
 
