@@ -12,9 +12,14 @@ const useCart = () => {
     assignDeliveryType,
     assignPickupDate,
     assignPickupTime,
+    assignDeliveryPostcode,
+    assignOrderMessage,
     pickupDate,
     pickupTime,
     deliveryType,
+    deliveryPostcode,
+    clearCart,
+    orderMessage
   } = useCartProducts();
   const { total, updateCartTotal } = useCartTotal();
 
@@ -27,11 +32,16 @@ const useCart = () => {
     assignDeliveryType,
     assignPickupDate,
     assignPickupTime,
+    assignDeliveryPostcode,
+    assignOrderMessage,
+    deliveryPostcode,
     pickupDate,
     pickupTime,
     deliveryType,
+    orderMessage,
     total,
     updateCartTotal,
+    clearCart
   };
 };
 

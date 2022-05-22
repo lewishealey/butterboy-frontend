@@ -3,7 +3,20 @@ import useCartTotal from './useCartTotal';
 import { ICartProduct } from 'models';
 
 const useCartProducts = () => {
-  const { products, setProducts, deliveryType, setDeliveryType, pickupDate, setPickupDate, pickupTime, setPickupTime } = useCartContext();
+  const { 
+    products, 
+    setProducts, 
+    deliveryType, 
+    setDeliveryType, 
+    pickupDate, 
+    setPickupDate, 
+    pickupTime, 
+    setPickupTime, 
+    deliveryPostcode, 
+    setDeliveryPostcode,
+    orderMessage,
+    setOrderMessage
+  } = useCartContext();
   const { updateCartTotal } = useCartTotal();
 
   const updateQuantitySafely = (
@@ -20,6 +33,11 @@ const useCartProducts = () => {
       return currentProduct;
     }
   };
+
+  const clearCart = () => {
+    setProducts(null);
+    updateCartTotal(null);
+  }
 
   const addProduct = (newProduct: ICartProduct) => {
     let updatedProducts;
@@ -62,6 +80,14 @@ const useCartProducts = () => {
     setPickupTime(time);
   };
 
+  const assignDeliveryPostcode = (postcode: string) => {
+    setDeliveryPostcode(postcode);
+  };
+
+  const assignOrderMessage = (message: string) => {
+    setOrderMessage(message);
+  };
+
   const increaseProductQuantity = (productToIncrease: ICartProduct) => {
     const updatedProducts = products.map((product: ICartProduct) => {
       return updateQuantitySafely(product, productToIncrease, +1);
@@ -84,6 +110,7 @@ const useCartProducts = () => {
     products,
     addProduct,
     removeProduct,
+    clearCart,
     increaseProductQuantity,
     decreaseProductQuantity,
     assignDeliveryType,
@@ -92,6 +119,10 @@ const useCartProducts = () => {
     pickupDate,
     assignPickupTime,
     pickupTime,
+    assignDeliveryPostcode,
+    deliveryPostcode,
+    assignOrderMessage,
+    orderMessage
   };
 };
 

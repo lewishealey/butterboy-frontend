@@ -87,7 +87,7 @@ const ElementsForm: FC<{
     const { error } = await stripe!.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'http://localhost:3000/donate',
+        // return_url: 'http://localhost:3000/donate',
         payment_method_data: {
           billing_details: {
             name: input.cardholderName,
@@ -139,14 +139,14 @@ const ElementsForm: FC<{
             !stripe
           }
         >
-          Complete order ${defaultAmout}
+          {payment && payment.status ? payment.status : `Complete order ${defaultAmout}`}
         </button>
         <Link href="/cart">
           <button className='font-body px-5 py-3 text-lg rounded text-gray-600 hover:bg-black hover:bg-opacity-10'>Return to cart</button>
         </Link>
       </form>
-      <PaymentStatus status={payment.status} />
-      <PrintObject content={payment} />
+      {/* <PaymentStatus status={payment.status} /> */}
+      {/* <PrintObject content={payment} /> */}
     </>
   )
 }

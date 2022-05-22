@@ -23,11 +23,15 @@ export default function Shop({ products, cookies }) {
             title="Shop cookies"
             heading="Shop cookies">
 
-            <div className="grid grid-cols-4 py-12 max-w-7xl m-auto gap-20">
-                {jsxCookies}
-            </div>
-            <section className="grid grid-cols-2 border-t border-vibrant">
+            <section className="grid grid-cols-2 mt-24 border-t border-vibrant mb-12">
                 {jsxProducts}
+            </section>
+
+            <section className="space-y-24 pt-12">
+                <h2 className="text-7xl text-center text-mauve font-bold font-display uppercase">Flavours</h2>
+                <div className="grid grid-cols-4 max-w-7xl m-auto gap-20">
+                    {jsxCookies}
+                </div>
             </section>
         </Page>
     )
@@ -35,11 +39,11 @@ export default function Shop({ products, cookies }) {
 
 export async function getStaticProps({ params }) {
     const cookies = await client.fetch(`
-        *[_type == "cookie"]
+        *[_type == "cookie" && type == "cookie"]
     `);
 
     const products = await client.fetch(`
-        *[_type == "product" && type == "box" || type == "other"] | order(title)
+        *[_type == "product" && details.type == "box" || details.type == "other"] | order(title)
     `);
 
     return {

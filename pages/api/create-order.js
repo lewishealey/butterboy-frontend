@@ -5,8 +5,9 @@ export default async (req, res) => {
 
   try {
     let collection = db.collection("orders");
-    collection.insertOne(data, function(err,docsInserted){
-        res.json(docsInserted);
+    collection.insertOne(data, function(err, docsInserted){
+        let id = data._id;
+        res.status(200).json({ id: id });
     });
 
   } catch(e){

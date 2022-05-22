@@ -6,7 +6,6 @@ import client from 'utils/sanity'
 
 const Product = ({ product }) => {
 
-    console.log(product);
     if(!product) {
         return null;
     }

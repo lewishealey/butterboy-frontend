@@ -37,10 +37,10 @@ const Footer = () => {
             </footer>
             <div className="relative">
                 <div id="left-eye" className="absolute z-20" style={{ bottom: "5%", left: "39%", width: "10%", height: "17%", transform: rotateLeftEye }}>
-                    <div className="h-8 md:h-12 w-8 md:w-12 bg-white rounded-full absolute right-0" />
+                    <div className="h-8 md:h-12 w-8 md:w-12 bg-cream rounded-full absolute right-0" />
                 </div>
                 <div id="right-eye" className="absolute z-20" style={{bottom: "4%", right: "32%", width: "7%", height: "16%", transform: rotateRightEye }}>
-                    <div className="h-8 md:h-12 w-8 md:w-12 bg-white rounded-full absolute right-0" />
+                    <div className="h-8 md:h-12 w-8 md:w-12 bg-cream rounded-full absolute right-0" />
                 </div>
                 <img src="/head.svg" className='w-full m-auto' style={{ width: "50%" }} />
             </div>

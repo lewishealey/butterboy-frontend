@@ -3,6 +3,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 
 // Then import schema types from any plugins that might expose them
 import schemaTypes from 'all:part:@sanity/base/schema-type'
+import blockContent from './blockContent'
 import product from './product'
 import discount from './discount'
 import cookie from './cookie'
@@ -17,5 +18,6 @@ export default createSchema({
     product,
     cookie,
     discount,
+    blockContent
   ]),
 })

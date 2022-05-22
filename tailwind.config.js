@@ -15,7 +15,8 @@ module.exports = {
         "brand-red": "#ed1c24",
         "brand-purple": "#d9bce2",
         vibrant: "#E50001",
-        mauve: "#DCC9E8"
+        mauve: "#DCC9E8",
+        cream: "#F5F4F0"
         
       }
     },

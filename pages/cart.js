@@ -19,7 +19,7 @@ Modal.setAppElement('#__next');
 const customStyles = {
     background: {
         zIndex: "1000",
-},
+    },
     content: {
         top: '50%',
         left: '50%',
@@ -35,7 +35,7 @@ const customStyles = {
 };
 
 export default function Cart() {
-    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime } = useCart();
+    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime, assignDeliveryPostcode, deliveryPostcode, assignOrderMessage, orderMessage } = useCart();
     const [postcodeModal, setPostcodeModal] = useState(false);
     const [date, setDate] = useState(null);
     const [dateModal, setDateModal] = useState(false);
@@ -58,7 +58,7 @@ export default function Cart() {
 
 
     //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
-    const allowedPostcodes = ["2095"];
+    const allowedPostcodes = ["2000","2007","2008","2008","2009","2010","2011","2015","2016","2017","2021","2060","2061","2062","2063","2064","2065","2066","2067","2068","2069","2086","2087","2088","2089","2090","2092","2093","2094","2095","2096","2097","2099","2100"];
 
     const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-6xl py-12 uppercase";
     const inActiveDeliveryClasses = "flex-1 text-center bg-white text-mauve font-display text-6xl py-12 uppercase";
@@ -94,6 +94,7 @@ export default function Cart() {
         if (e.target.value.length > 3) {
             if (allowedPostcodes.includes(e.target.value)) {
                 setMessage(true);
+                assignDeliveryPostcode(e.target.value);
             } else {
                 setMessage(false);
             }
@@ -116,16 +117,18 @@ export default function Cart() {
         }
     ]`;
 
-    if(products.length === 0) {
+    if (products.length === 0) {
         return <Page
-        title="Your Cart"
-        heading="Your Cart">
+            title="Your Cart"
+            heading="Your Cart">
             <div className="py-8 space-y-4">
                 <h2 className="font-body text-2xl text-center text-vibrant">Please add some items to your cart</h2>
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
             </div>
         </Page>
     }
+
+    console.log(products)
 
     return (
         <Page
@@ -140,7 +143,7 @@ export default function Cart() {
             >
                 <div className="w-full h-full p-12 space-y-4">
                     <h2 className="font-display text-5xl text-center text-vibrant uppercase">Enter postcode</h2>
-                    <input className="border border-vibrant h-20 px-6 py-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} />
+                    <input className="border border-vibrant h-20 px-6 py-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} autoFocus />
                     {message === false && <div className="space-y-4"><p className="font-body text-xl">Postcode not available for delivery, sorry :(</p><button className="font-display uppercase text-vibrant bg-gray-100 py-4 text-2xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Close</button></div>}
                     {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Proceed</button>}
                 </div>
@@ -177,20 +180,21 @@ export default function Cart() {
                             Total
                         </div>
                     </div>
-                    {products.map((product, i) =>
-                        <div className="border-b border-vibrant grid grid-cols-6 w-full" key={`product_${i}`}>
+                    {products.map((product, i) => {
+                        return <div className="border-b border-vibrant grid grid-cols-6 w-full" key={`product_${i}`}>
                             <div className="border-r border-vibrant py-12 px-12 col-span-3">
-                                <h3 className="font-display text-3xl text-vibrant mb-6 uppercase">{product.title}</h3>
+                                <h3 className="font-display text-3xl text-vibrant mb-4 uppercase">{product.title}</h3>
+                                {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                                 <div className="w-full flex space-x-2 items-center">
-                                    {/* <Image src={product.thumbnail} width={170} height={150} /> */}
-                                    <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">
-                                        {product.cookies && product.cookies.map(cookie =>
+                                    {/* <img src={thumbnail} width={170} height={150} /> */}
+                                    {product.cookies && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">
+                                        {product.cookies.map(cookie =>
                                             <div className="flex space-x-4 items-center" key={cookie._id}>
                                                 <img src={urlFor(cookie.thumbnail)} className="w-8 h-8" />
                                                 <span>{cookie.quantity} X {cookie.title}</span>
                                             </div>
                                         )}
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                             <div className="font-body text-2xl text-vibrant px-8 py-4 text-center border-r border-vibrant flex items-center justify-center">
@@ -207,12 +211,12 @@ export default function Cart() {
                                 ${product.quantity * product.price}
                             </div>
                         </div>
-                    )}
+                    })}
                 </div>
                 <div className="flex border-t border-b border-vibrant">
                     <div className="grid grid-cols-6 w-full">
                         <label className="font-display uppercase flex items-center text-vibrant bg-white text-xl hover:bg-gray-100 w-full border-r border-vibrant h-full justify-center col-span-1">ADD A MESSAGE</label>
-                        <textarea className="py-8 w-full h-full col-span-3 border-r border-vibrant" />
+                        <textarea className="p-8 w-full h-full col-span-3 border-r border-vibrant" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
                         <div className="col-span-2">
                             <div className="flex items-center border-b border-vibrant w-full">
                                 <div className="font-display uppercase flex items-center text-vibrant bg-white text-xl flex-1 py-4 border-r border-vibrant justify-center">Subtotal</div>
@@ -261,7 +265,7 @@ export default function Cart() {
                             <div className="border-b border-vibrant flex w-full">
                                 <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
-                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode ? 'bg-gray-200 text-gray-400 cursor-not-allowed': 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button></Link>
+                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button></Link>
                         </div>
                     </div>
                 </section>}

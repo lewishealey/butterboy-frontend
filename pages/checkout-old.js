@@ -77,7 +77,6 @@ export default function Checkout() {
 
   function handleCheckout() {
     //const createCustomerOrder = await createTheOrder( input, setRequestError,  '' );
-    console.log("efwew");
   }
 
   console.log(input);

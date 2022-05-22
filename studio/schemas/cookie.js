@@ -11,12 +11,23 @@ export default {
       {
         name: 'description',
         title: 'Description',
-        type: 'string',
+        type: 'blockContent',
       },
       {
         name: 'allergens',
         title: 'Allergens',
         type: 'string',
+      },
+      {
+        name: "type",
+        title: "Type",
+        type: "string",
+        options: {
+          list: [
+            { title: "Cookie", value: "cookie" },
+            { title: "Dough", value: "dough" },
+          ],
+        },
       },
       {
         name: 'thumbnail',
@@ -30,6 +41,7 @@ export default {
     preview: {
       select: {
         title: 'title',
+        subtitle: 'type',
         media: 'thumbnail',
       },
     },

@@ -1,8 +1,6 @@
 import { createContext, useContext, FC, useState } from 'react';
 import { ICartProduct, ICartTotal } from 'models';
 
-
-
 export interface ICartContext {
   products: ICartProduct[];
   setProducts(products: ICartProduct[]): void;
@@ -14,6 +12,10 @@ export interface ICartContext {
   setPickupDate(type: any): void;
   pickupTime: string;
   setPickupTime(type: any): void;
+  deliveryPostcode: string;
+  setDeliveryPostcode(type: any): void;
+  orderMessage: string;
+  setOrderMessage(type: any): void;
 }
 
 export interface DeliveryType {
@@ -42,6 +44,8 @@ const CartProvider: FC = (props) => {
   const [deliveryType, setDeliveryType] = useState("collect");
   const [pickupDate, setPickupDate] = useState(null);
   const [pickupTime, setPickupTime] = useState(null);
+  const [deliveryPostcode, setDeliveryPostcode] = useState(null);
+  const [orderMessage, setOrderMessage] = useState(null);
 
   const CartContextValue: ICartContext = {
     products,
@@ -52,6 +56,10 @@ const CartProvider: FC = (props) => {
     setPickupDate,
     pickupTime,
     setPickupTime,
+    deliveryPostcode,
+    setDeliveryPostcode,
+    orderMessage,
+    setOrderMessage,
     total,
     setTotal,
   };

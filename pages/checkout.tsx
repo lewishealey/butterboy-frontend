@@ -3,16 +3,25 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCart } from 'contexts/cart-context';
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { ChevronRightIcon, LockClosedIcon } from '@heroicons/react/solid';
 import axios from 'axios';
+import Page from "components/Page"
 import { urlFor } from "helpers/sanity";
 import * as config from 'config'
 import { Elements } from '@stripe/react-stripe-js'
 import getStripe from '../utils/getstripejs'
 import { fetchPostJSON } from 'utils/api-helpers'
 import ElementsForm from '../components/ElementsForm'
+import AddressBox from '../components/AddressBox'
 import { PaymentIntent } from '@stripe/stripe-js'
 import moment from 'moment';
+import Dot from 'components/Dot';
+
+interface EmailType {
+  date: string;
+  prettyDate: string;
+}
 
 const defaultCustomerInfo = {
   firstName: 'Lewis',
@@ -28,10 +37,26 @@ const defaultCustomerInfo = {
   errors: null
 }
 
+const blankCustomerInfo = {
+  firstName: '',
+  lastName: '',
+  address1: '',
+  address2: '',
+  city: '',
+  country: '',
+  suburb: '',
+  state: '',
+  postcode: '',
+  company: '',
+  errors: null
+}
+
 export default function Checkout() {
-  const { products, deliveryType, pickupDate, pickupTime, total } = useCart();
+  const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage } = useCart();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null)
   const format = "dddd, MMMM Do YYYY";
+  const [shipping, setShipping] = useState(null);
+  const router = useRouter()
 
   useEffect(() => {
     fetchPostJSON('/api/payment_intents', {
@@ -45,42 +70,54 @@ export default function Checkout() {
     email: 'hello@lewi.sh',
     phone: '0466154186',
     billing: {
-        ...defaultCustomerInfo,
+      ...defaultCustomerInfo
     },
     shipping: {
-        ...defaultCustomerInfo
+      ...defaultCustomerInfo
     },
+    deliveryCost: shipping,
     items: products,
     stripe_id: null,
     pick_up_time: pickupTime,
     pick_up_date: pickupDate,
     deliveryType: deliveryType,
+    sameAsShipping: true,
     newsletter: false,
-    orderNotes: '',
+    orderMessage: orderMessage,
+    total: total,
     paymentMethod: "stripe",
     payment_method_title: "Credit card",
-};
+  };
 
   const [input, setInput] = useState(initialState);
   const inputClasses = "h-11 border border-gray-300 px-3 rounded";
   const breadcrumbClasses = "hover:underline";
   const [requestError, setRequestError] = useState(null);
   const [stage, setStage] = useState(1);
-  
-  const handleOnChange = (event) => {
-      const {target} = event || {};
-      const newState = {...input, [target.name]: target.value};
-      setInput(newState);
+
+  const handleAddress = (name, value, type) => {
+    const newState = {
+      ...input, [type]: {
+        ...input[type],
+        [name]: value
+      }
+    };
+    setInput(newState);
   };
 
   const handleSignup = (event) => {
-      const {target} = event || {};
-      const newState = {...input, newsletter: target.value};
-      setInput(newState);
+    const { target } = event || {};
+    const newState = { ...input, newsletter: target.value };
+    setInput(newState);
+  };
+
+  const handleShipping = (type) => {
+    setShipping(type);
   };
 
   async function handleCheckout(paymentResolve) {
-    const newInput = {...input, stripe_id: paymentResolve.id };
+    const newInput = { ...input, stripe_id: paymentResolve.id };
+    // console.log(paymentResolve);
 
     fetch("api/create-order", {
       method: "POST",
@@ -89,13 +126,32 @@ export default function Checkout() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(newInput)
-    }).then((res) => {
-      console.log("Checkout confirmed!")
-      console.log("Send confirmation email")
-    });
+    }).then(response => response.json())
+      .then(data => {
+        clearCart();
+        sendEmail(null, data.id);
+      });
   }
 
-  //console.log(input);
+  const sendEmail = (data, id) => {
+    console.log("Id " + id)
+    const emailData = {};
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(emailData)
+    }).then(response => response.json())
+      .then((res) => {
+      console.log("Email sent")
+      if(id) {
+        router.push("/confirmed/" + id);
+      }
+    });
+
+  };
 
   return (
     <div>
@@ -117,124 +173,163 @@ export default function Checkout() {
               {deliveryType == "collect" ? <button className={breadcrumbClasses} onClick={() => setStage(3)}>Collection</button> : <button className={breadcrumbClasses} onClick={() => setStage(3)}>Shipping</button>}
               <ChevronRightIcon className="h-4 w-4" />
               <button className={breadcrumbClasses} onClick={() => setStage(4)}>Payment</button>
-              <ChevronRightIcon className="h-4 w-4" />
-              <button className={breadcrumbClasses} onClick={() => setStage(5)} disabled>Review</button>
             </div>
-            <fieldset className='flex flex-col space-y-2'>
-              <label className='font-heading text-vibrant text-xl'>Contact information</label>
-              <input className={inputClasses} placeholder="Email" name="email" defaultValue={input.email} />
-              <div className="flex space-x-2 items-center">
-                <input type="checkbox" className="h-4 w-4 border rounded" name="newsletter" defaultChecked={input.newsletter} onChange={handleSignup} />
-                <label className="text-gray-600">Email me with news, updates and offers</label>
-              </div>
-            </fieldset>
-            <fieldset className='flex flex-col space-y-4'>
-              <label className='font-heading text-vibrant text-xl'>Shipping address</label>
-              <div className="flex space-x-2">
-                <input className={inputClasses} placeholder="First name" name="firstName" onChange={ handleOnChange } defaultValue={input.shipping.firstName} />
-                <input className={inputClasses} placeholder="Last name" name="lastName" onChange={ handleOnChange } defaultValue={input.shipping.lastName} />
-              </div>
-              <input className={inputClasses} placeholder="Address" name="address1" onChange={ handleOnChange } defaultValue={input.shipping.address1} />
-              <input className={inputClasses} placeholder="Apartment, suite, etc (optional)" name="address2" onChange={ handleOnChange } defaultValue={input.shipping.address2} />
-              <div className="flex space-x-2">
-                <input className={inputClasses} placeholder="Suburb" name="suburb" onChange={ handleOnChange } defaultValue={input.shipping.suburb} />
-                <input className={inputClasses} placeholder="State" name="state" onChange={ handleOnChange } defaultValue={input.shipping.state} />
-                <input className={inputClasses} placeholder="Postcode" name="postcode" onChange={ handleOnChange } defaultValue={input.shipping.postcode} />
-              </div>
-              <input className="h-11 border border-gray-300 px-3 rounded text-gray-500 bg-white cursor-not-allowed" defaultValue={input.shipping.country} name="country" disabled />
-              <input className={inputClasses} placeholder="Phone (optional)" name="phone" onChange={ handleOnChange } defaultValue={input.phone} />
-            </fieldset>
-            {(deliveryType == "collect" && pickupDate && pickupTime) && <fieldset className='flex flex-col space-y-4'>
-              <label className='font-heading text-vibrant text-xl'>Collection</label>
-              <div className="border border-gray-300 bg-white rounded w-full">
-                {pickupDate && <div className="flex justify-between px-4 py-2 w-full">
-                  <div className="flex space-x-8"><span className="text-gray-500">Date</span><span className="text-gray-800">
-                    {moment(pickupDate).format(format).toString()}</span></div>
-                    <Link href="/cart"><button className="hover:underline text-sm text-gray-500">Change</button></Link>
+            {stage === 1 &&
+              <>
+                <fieldset className='flex flex-col space-y-2'>
+                  <label className='font-heading text-vibrant text-xl'>Contact information</label>
+                  <input className={inputClasses} placeholder="Email" name="email" defaultValue={input.email} />
+                  <div className="flex space-x-2 items-center">
+                    <input type="checkbox" className="h-4 w-4 border rounded" name="newsletter" defaultChecked={input.newsletter} onChange={handleSignup} />
+                    <label className="text-gray-600">Email me with news, updates and offers</label>
+                  </div>
+                </fieldset>
+                <fieldset className='flex flex-col space-y-4'>
+                  <label className='font-heading text-vibrant text-xl'>Shipping address</label>
+                  <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
+                </fieldset>
+                <div>
+                  <button
+                    className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500 inline-flex"
+                    onClick={() => setStage(2)}
+                  >
+                    Proceed to {deliveryType == "collect" ? "collection summary" : "delivery options"}
+                  </button>
+                </div>
+              </>}
+
+              {stage > 1 && 
+              <fieldset className='flex flex-col space-y-4'>
+                <label className='font-heading text-vibrant text-xl'>Information</label>
+                <div className="border border-gray-300 bg-white rounded w-full">
+                  {input.email && <div className="flex justify-between px-4 py-2 w-full">
+                    <div className="flex space-x-8"><span className="text-gray-500">Email</span><span className="text-gray-800">
+                      {input.email}</span></div>
+                    <button className="hover:underline text-sm text-gray-500" onClick={() => setStage(1)}>Change</button>
                   </div>}
-                {pickupTime && <div className="flex justify-between px-4 py-2 w-full border-t">
-                  <div className="flex space-x-8"><span className="text-gray-500">Time</span><span className="text-gray-800">1:00pm</span></div>
-                  <Link href="/cart"><button className="hover:underline text-sm text-gray-500">Change</button></Link>
+                  {input.shipping && <div className="flex justify-between px-4 py-2 w-full border-t">
+                    <div className="flex space-x-8"><span className="text-gray-500">Address</span><span className="text-gray-800">{input.shipping.address1}</span></div>
+                    <button className="hover:underline text-sm text-gray-500" onClick={() => setStage(1)}>Change</button>
                   </div>}
-              </div>
-            </fieldset>}
-            {deliveryType == "delivery" && <fieldset className='flex flex-col space-y-4'>
-              <label className='font-heading text-vibrant text-xl'>Shipping method</label>
-              <div className="border border-gray-300 bg-white rounded w-full">
-                <div className="flex justify-between px-4 py-2 w-full items-start">
-                  <div className="flex flex-col">
-                    <span className="text-gray-700">Standard</span>
-                    <span className="text-sm text-gray-500">3-8 business days, via Sendle</span>
+                </div>
+              </fieldset>
+              }
+
+            {stage >= 2 &&
+              <>
+                {(deliveryType == "collect" && pickupDate && pickupTime) && <fieldset className='flex flex-col space-y-4'>
+                  <label className='font-heading text-vibrant text-xl'>Collection</label>
+                  <div className="border border-gray-300 bg-white rounded w-full">
+                    {pickupDate && <div className="flex justify-between px-4 py-2 w-full">
+                      <div className="flex space-x-8"><span className="text-gray-500">Date</span><span className="text-gray-800">
+                        {moment(pickupDate).format(format).toString()}</span></div>
+                      <Link href="/cart"><button className="hover:underline text-sm text-gray-500">Change</button></Link>
+                    </div>}
+                    {pickupTime && <div className="flex justify-between px-4 py-2 w-full border-t">
+                      <div className="flex space-x-8"><span className="text-gray-500">Time</span><span className="text-gray-800">{pickupTime}</span></div>
+                      <Link href="/cart"><button className="hover:underline text-sm text-gray-500">Change</button></Link>
+                    </div>}
                   </div>
-                  <div className="hover:underline text-sm text-gray-500 pt-1">$10.00</div>
-                </div>
-                <div className="flex justify-between px-4 py-2 w-full border-t items-center">
-                  <div className="flex flex-col">
-                      <span className="text-gray-700">Express</span>
-                      <span className="text-sm text-gray-500">2-4 business days, via Auspost</span>
+                </fieldset>}
+                {deliveryType == "delivery" && <fieldset className='flex flex-col space-y-4'>
+                  <label className='font-heading text-vibrant text-xl'>Shipping method</label>
+                  <div className="border border-gray-300 bg-white rounded w-full">
+                    <button className={`flex justify-between px-4 py-2 w-full items-start text-left hover:bg-gray-100 ${shipping && shipping.type === "standard" && "border-2 border-blue-500"}`} onClick={() => setShipping({
+                      type: "standard",
+                      price: 10
+                    })}>
+                      <div className="flex flex-col">
+                        <span className="text-gray-700">Standard</span>
+                        <span className="text-sm text-gray-500">3-8 business days, via Sendle</span>
+                      </div>
+                      <div className="hover:underline text-sm text-gray-500 pt-1">$10.00</div>
+                    </button>
+                    <button className={`flex justify-between px-4 py-2 w-full border-t items-center text-left hover:bg-gray-100 ${shipping && shipping.type === "express" && "border-2 border-blue-500"}`} onClick={() => setShipping({
+                      type: "express",
+                      price: 25
+                    })}>
+                      <div className="flex flex-col">
+                        <span className="text-gray-700">Express</span>
+                        <span className="text-sm text-gray-500">2-4 business days, via Auspost</span>
+                      </div>
+                      <div className="hover:underline text-sm text-gray-500">$25.00</div>
+                    </button>
                   </div>
-                  <div className="hover:underline text-sm text-gray-500">$25.00</div>
-                </div>
-              </div>
-            </fieldset>}
-            <fieldset className='flex flex-col space-y-4'>
-              <label className='font-heading text-vibrant text-xl'>Billing address</label>
-              <div className="border border-gray-300 bg-white rounded w-full">
-                <div className="flex justify-between px-4 py-2 w-full items-start">
-                  <div className="flex flex-col">
-                    <span className="text-gray-700">Same as shipping address</span>
+                </fieldset>}
+                {stage === 2 && <div>
+                  <button
+                    className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500 inline-flex"
+                    onClick={() => setStage(3)}
+                  >
+                    Proceed to payment
+                  </button>
+                </div>}
+              </>
+            }
+            {stage === 3 &&
+              <>
+                <fieldset className='flex flex-col space-y-4'>
+                  <label className='font-heading text-vibrant text-xl'>Billing address</label>
+                  <div className="border border-gray-300 bg-white rounded w-full">
+                    <button className={`flex justify-between px-4 py-2 w-full items-start hover:bg-gray-100`} onClick={() => { const newState = { ...input, billing: input.shipping, sameAsShipping: true }; setInput(newState); }}>
+                      <div className="flex space-x-3 items-center">
+                        <Dot checked={input.sameAsShipping} /><span className="text-gray-700">Same as shipping address</span>
+                      </div>
+                    </button>
+                    <button className={`flex justify-between px-4 py-2 w-full items-center hover:bg-gray-100 border-t`} onClick={() => { const newState = { ...input, billing: blankCustomerInfo, sameAsShipping: false }; setInput(newState); }}>
+                      <div className="flex space-x-3 items-center">
+                        <Dot checked={!input.sameAsShipping} /><span className="text-gray-700">Use a different billing address</span>
+                      </div>
+                    </button>
+                    {!input.sameAsShipping && <fieldset className='flex flex-col space-y-4 border-t p-4'>
+                      <AddressBox data={input.billing} onChange={handleAddress} type="billing" />
+                    </fieldset>}
                   </div>
-                </div>
-                <div className="flex justify-between px-4 py-2 w-full border-t items-center">
-                  <div className="flex flex-col">
-                      <span className="text-gray-700">Use a different billing address</span>
+                </fieldset>
+                <fieldset className='flex flex-col space-y-4'>
+                  <div>
+                    <label className='font-heading text-vibrant text-xl'>Payment</label>
+                    <p className="text-sm text-gray-500">All transactions are secure and encrypted.</p>
                   </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset className='flex flex-col space-y-4'>
-              <div>
-                <label className='font-heading text-vibrant text-xl'>Payment</label>
-                <p className="text-sm text-gray-500">All transactions are secure and encrypted.</p>
-              </div>
-              <div className="border border-gray-300 bg-white rounded w-full">
-                <div className="flex justify-between px-4 py-2 w-full items-start">
-                  <div className="flex flex-col">
-                    <span className="text-gray-700">Credit card</span>
+                  <div className="border border-gray-300 bg-white rounded w-full">
+                    <div className="flex justify-between px-4 py-2 w-full items-start">
+                      <div className="flex flex-col">
+                        <span className="text-gray-700">Credit card</span>
+                      </div>
+                      <div className="hover:underline text-sm text-gray-500 flex items-center"><LockClosedIcon className="h-5 w-5" /></div>
+                    </div>
+                    <div className="p-4 border-t flex flex-col space-y-3 bg-gray-50">
+                      {paymentIntent && paymentIntent.client_secret ? (
+                        <Elements
+                          stripe={getStripe()}
+                          options={{
+                            appearance: {
+                              variables: {
+                                colorIcon: '#6772e5',
+                                fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                              },
+                            },
+                            clientSecret: paymentIntent.client_secret,
+                          }}
+                        >
+                          <ElementsForm paymentIntent={paymentIntent} onPaymentResolve={handleCheckout} />
+                        </Elements>
+                      ) : (
+                        <p>Loading...</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="hover:underline text-sm text-gray-500 flex items-center"><LockClosedIcon className="h-5 w-5" /></div>
-                </div>
-                <div className="p-4 border-t flex flex-col space-y-3 bg-gray-50">
-                  {paymentIntent && paymentIntent.client_secret ? (
-                    <Elements
-                      stripe={getStripe()}
-                      options={{
-                        appearance: {
-                          variables: {
-                            colorIcon: '#6772e5',
-                            fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-                          },
-                        },
-                        clientSecret: paymentIntent.client_secret,
-                      }}
-                    >
-                      <ElementsForm paymentIntent={paymentIntent} onPaymentResolve={handleCheckout} />
-                    </Elements>
-                  ) : (
-                    <p>Loading...</p>
-                  )}
-                </div>
-              </div>
-            </fieldset>
+                </fieldset>
+              </>}
           </div>
         </div>
         <div className='flex-1'>
           <div className="p-12 space-y-6 pt-24 top-0 sticky">
-          {products.map((product, i) =>
-            <div className="flex w-full" key={`product_${i}`}>
+            {products.map((product, i) =>
+              <div className="flex w-full" key={`product_${i}`}>
                 <div className="w-full flex space-x-2 items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="relative h-12 w-12 bg-gray-200 rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="relative h-12 w-12 bg-gray-200 rounded-lg">
                       &nbsp;
                       <div className="h-5 w-5 bg-vibrant rounded-full text-xs text-center flex items-center text-white justify-center absolute -top-2 -right-2">{product.quantity}</div>
                     </div>
@@ -242,31 +337,31 @@ export default function Checkout() {
                   </div>
                   <span className="font-body text-xl text-gray-800">${product.price}</span>
                 </div>
+              </div>
+            )}
+            <div className="flex space-x-2">
+              <input type="text" placeholder="Gift card or discount code" className="h-12 border rounded w-full px-4 border-gray-300" />
+              <button className="bg-mauve px-4 h-12 rounded hover:bg-vibrant">Apply</button>
             </div>
-          )}
-          <div className="flex space-x-2">
-            <input type="text" placeholder="Gift card or discount code" className="h-12 border rounded w-full px-4 border-gray-300" />
-            <button className="bg-mauve px-4 h-12 rounded hover:bg-vibrant">Apply</button>
-          </div>
-          <div className="flex flex-col justify-between py-6 border-t border-b space-y-2">
-            <div className="flex w-full justify-between">
-              <div className="font-body text-xl">Subtotal</div>
-              <div className="font-body text-xl">$77.95</div>
+            <div className="flex flex-col justify-between py-6 border-t border-b space-y-2">
+              <div className="flex w-full justify-between">
+                <div className="font-body text-xl">Subtotal</div>
+                <div className="font-body text-xl">${total.totalPrice.toFixed(2)}</div>
+              </div>
+              {(deliveryType === "delivery" && shipping) && <div className="flex w-full justify-between">
+                <div className="font-body text-xl">Shipping ({shipping.type})</div>
+                <div className="font-body text-xl">${(shipping.price).toFixed(2)}</div>
+              </div>}
             </div>
-            {deliveryType === "delivery" && <div className="flex w-full justify-between">
-              <div className="font-body text-xl">Shipping</div>
-              <div className="font-body text-xl">$10.00</div>
-            </div>}
-          </div>
-          <div className="flex flex-col justify-between space-y-2">
-            <div className="flex w-full justify-between">
-              <div className="font-body text-xl text-gray-500">Total</div>
-              <div className="font-body text-2xl space-x-2 items-center flex">
-                <span className="text-base text-gray-500">AUD</span>
-                <span className="text-3xl">${total.totalPrice.toFixed(2)}</span>
+            <div className="flex flex-col justify-between space-y-2">
+              <div className="flex w-full justify-between">
+                <div className="font-body text-xl text-gray-500">Total</div>
+                <div className="font-body text-2xl space-x-2 items-center flex">
+                  <span className="text-base text-gray-500">AUD</span>
+                  {shipping ? <span className="text-3xl">${(total.totalPrice + shipping.price).toFixed(2)}</span> : <span className="text-3xl">${total.totalPrice.toFixed(2)}</span>}
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
