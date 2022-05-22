@@ -132,14 +132,14 @@ const ElementsForm: FC<{
           </div>
         </fieldset>
         <button
-          className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500"
+          className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500 capitalize"
           type="submit"
           disabled={
             !['initial', 'succeeded', 'error'].includes(payment.status) ||
             !stripe
           }
         >
-          {payment && payment.status ? payment.status : `Complete order ${defaultAmout}`}
+          {payment && payment.status !== "initial" ? payment.status : `Complete order ${defaultAmout}`}
         </button>
         <Link href="/cart">
           <button className='font-body px-5 py-3 text-lg rounded text-gray-600 hover:bg-black hover:bg-opacity-10'>Return to cart</button>

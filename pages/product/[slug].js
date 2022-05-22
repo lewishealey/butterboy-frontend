@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Modal from 'react-modal';
 import { useEffect, useState } from "react";
@@ -33,17 +34,11 @@ const customStyles = {
 export default function SingleProduct({ product, cookies }) {
 
     const router = useRouter();
-    const [modalIsOpen, setIsOpen] = useState(false);
     const [cookiesObject, setCookiesObject] = useState(cookies);
     const { addProduct } = useCart();
-    const [maxCookies, setMaxCookies] = useState(false);
     const [count, setCount] = useState(0);
     const [selectedSize, setSelectedSize] = useState(null);
     const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
-
-    function openModal() {
-        setIsOpen(true);
-    }
 
     function addCookieToCart(cookie, math) {
 
@@ -66,11 +61,6 @@ export default function SingleProduct({ product, cookies }) {
 
         setCount(count);
         setCookiesObject(updatedCookies);
-    }
-
-
-    function closeModal() {
-        setIsOpen(false);
     }
 
     if (!product) {
@@ -143,7 +133,10 @@ export default function SingleProduct({ product, cookies }) {
     } else {
         return (
             <Page title={product.title} heading={product.title}>
-                We just launched our new store and are still gettting to grips so sorry, this product isn't available for purchase just yet.
+                <div className="space-y-12 flex flex-col justify-center w-full items-center py-12">
+                    {product.thumbnail && <img src={urlFor(product.thumbnail)} className="m-auto" style={{ width: "30%" }} />}
+                    <h2 className="text-2xl font-body text-vibrant max-w-2xl text-center">We just launched our new store and are still gettting to grips with our operation, this product isn't available for purchase just yet. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link> or a <Link href="/product/cookie-cake"><a className='inline text-vibrant font-body underline'>cookie cake</a></Link> though.</h2>
+                </div>
             </Page>
         )
     }
@@ -168,7 +161,7 @@ export async function getStaticProps(context) {
       *[_type == "product" && slug.current == $slug][0]
     `, { slug })
     const cookies = await client.fetch(`
-        *[_type == "cookie"]
+        *[_type == "cookie" && type == "cookie"]
     `);
     return {
         props: {

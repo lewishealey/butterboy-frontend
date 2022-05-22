@@ -9,14 +9,6 @@ export default {
             type: 'string',
         },
         {
-            name: 'hover',
-            title: 'Hover',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
-        },
-        {
             name: "type",
             title: "Type",
             type: "string",

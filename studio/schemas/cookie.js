@@ -26,6 +26,7 @@ export default {
           list: [
             { title: "Cookie", value: "cookie" },
             { title: "Dough", value: "dough" },
+            { title: "Cake", value: "cake" },
           ],
         },
       },

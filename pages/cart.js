@@ -117,7 +117,7 @@ export default function Cart() {
         }
     ]`;
 
-    if (products.length === 0) {
+    if (product && products.length === 0) {
         return <Page
             title="Your Cart"
             heading="Your Cart">

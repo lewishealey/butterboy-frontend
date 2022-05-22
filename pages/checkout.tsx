@@ -116,7 +116,13 @@ export default function Checkout() {
   };
 
   async function handleCheckout(paymentResolve) {
-    const newInput = { ...input, stripe_id: paymentResolve.id };
+    var val = Math.floor(1000 + Math.random() * 9000);
+    const newInput = { ...input, 
+      stripe_id: paymentResolve.id,
+      order_number: val,
+      date_created: new Date(),
+      completed: false
+    };
     // console.log(paymentResolve);
 
     fetch("api/create-order", {
@@ -128,7 +134,6 @@ export default function Checkout() {
       body: JSON.stringify(newInput)
     }).then(response => response.json())
       .then(data => {
-        clearCart();
         sendEmail(null, data.id);
       });
   }
@@ -162,7 +167,7 @@ export default function Checkout() {
       </Head>
 
       <div className='flex min-h-screen'>
-        <div className='flex-1 bg-gray-100 py-16 px-16 flex justify-center'>
+        <div className='flex-1 bg-cream py-16 px-16 flex justify-center'>
           <div className='flex flex-col w-full space-y-8 max-w-xl'>
             <h1 className="text-7xl text-vibrant font-bold font-display uppercase">Checkout</h1>
             <div className="flex space-x-2 items-center text-sm">
@@ -325,12 +330,12 @@ export default function Checkout() {
         </div>
         <div className='flex-1'>
           <div className="p-12 space-y-6 pt-24 top-0 sticky">
-            {products.map((product, i) =>
+            {products && products.map((product, i) =>
               <div className="flex w-full" key={`product_${i}`}>
                 <div className="w-full flex space-x-2 items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className="relative h-12 w-12 bg-gray-200 rounded-lg">
-                      &nbsp;
+                    {/* <div className="h-12 w-12 overflow-hidden"><img src={urlFor(product.image as any)} /></div> */}
                       <div className="h-5 w-5 bg-vibrant rounded-full text-xs text-center flex items-center text-white justify-center absolute -top-2 -right-2">{product.quantity}</div>
                     </div>
                     <h3 className="font-body text-xl text-gray-800">{product.title}</h3>
