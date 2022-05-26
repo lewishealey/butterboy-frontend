@@ -11,6 +11,10 @@
 			margin:10px 0;
 			padding:0;
 		}
+
+		body, html {
+			background-color: #F5F4F0 !important;
+		}
 		table{
 			border-collapse:collapse;
 		}
@@ -156,7 +160,7 @@
 	@section Header Container Style
 	*/
 		#templateHeader{
-			/*@editable*/background-color:#ffffff;
+			/*@editable*/background-color:#F5F4F0;
 			/*@editable*/background-image:none;
 			/*@editable*/background-repeat:repeat;
 			/*@editable*/background-position:50% 50%;
@@ -206,7 +210,7 @@
 	@section Body Container Style
 	*/
 		#templateBody{
-			/*@editable*/background-color:#ffffff;
+			/*@editable*/background-color:#F5F4F0;
 			/*@editable*/background-image:none;
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
@@ -221,7 +225,7 @@
 	@section Body Interior Style
 	*/
 		.bodyContainer{
-			/*@editable*/background-color:#ffffff;
+			/*@editable*/background-color:#F5F4F0;
 			/*@editable*/background-image:none;
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
@@ -256,7 +260,7 @@
 	@section Footer Style
 	*/
 		#templateFooter{
-			/*@editable*/background-color:#ffffff;
+			/*@editable*/background-color:#F5F4F0;
 			/*@editable*/background-image:none;
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
@@ -484,7 +488,7 @@
             <!-- BEGIN TEMPLATE // -->
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td align="center" valign="top" id="templateHeader" bgColor="#222222" style="background-color: #222222;">
+                    <td align="center" valign="top" id="templateHeader" bgColor="#F5F4F0" style="background-color: #F5F4F0;">
                         <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
                             <tr>
                                 <td valign="top" class="headerContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnImageBlock" style="min-width:100%;">
@@ -494,7 +498,7 @@
                                                     <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;">
                                                         <tbody><tr>
                                                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
-                                                                <img align="center" alt="" src="https://images.ctfassets.net/uefpddncbaai/5dUhxArYubAATM9Wl76EDb/e19c5808ad76b6fd2d98f41f98978905/logo.png" width="225" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnRetinaImage">
+                                                                <img align="center" alt="" src="https://butterboy-frontend.vercel.app/logo.png" width="225" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnRetinaImage">
                                                             </td>
                                                         </tr>
                                                     </tbody></table>
@@ -517,35 +521,12 @@
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
                                 
                           
-                                        <img align="center" alt="" src="https://images.ctfassets.net/uefpddncbaai/5iOgdPMhHPl6AZ6mlSClfs/744c2cd1bbcc344e0a5412b91094ba86/header-img.jpg" width="564" style="max-width: 2000px; padding-bottom: 0px; border-top: 4px solid #9A9779; vertical-align: bottom; display: inline !important; border-radius: 2px;" class="mcnRetinaImage">
+                                        <img align="center" alt="" src="https://butterboy-frontend.vercel.app/butter-confirmed.png" width="564" style="max-width: 2000px; padding-bottom: 0px; vertical-align: bottom; display: inline !important; border-radius: 2px;" class="mcnRetinaImage">
                                     
                                 
                             </td>
                         </tr>
                     </tbody></table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
-                <tbody class="mcnTextBlockOuter">
-                    <tr>
-                        <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
-                                <tbody><tr>
-
-                                    <td valign="top" class="mcnTextContent" style="padding: 18px 12px 18px 10px; line-height: 100%;">
-
-                                        <h3 style="color:#222222; font-size:28px !important; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif;">
-                                            Thank you for your estimate request
-                                        </h3>
-                                        <h4 style="color:#676363; font-size:18px; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif; font-style: normal; margin-top: 12px;">
-                                            See below for a confirmation of the details you provided
-                                        </h4>
-                                    </td>
-                                </tr>
-                            </tbody></table>
                         </td>
                     </tr>
                 </tbody>
@@ -576,23 +557,19 @@
                                     </td>
                                 </tr>
                                 
-                                {{if postCode}}
                                 <tr>
                                     <td valign="top" align="center" class="mcnTextContent" style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif; color: #666; font-size: 18px; padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                                         <h5 style="color:#676363; font-size:16px; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif; font-style: normal; padding-bottom: 4px; display:block;">Address</h5>
                                         <span style="color:#222222; font-size:20px; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif; font-style: normal; display:block;">{{postCode}}</span>
                                     </td>
                                 </tr>
-                                {{end}}
                                 
-                                {{if notes}}
                                 <tr>
                                     <td valign="top" align="center" class="mcnTextContent" style="font-family:open sans,helvetica neue,helvetica,arial,sans-serif; color: #666; font-size: 18px; padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                                         <h5 style="color:#676363; font-size:16px; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif; font-style: normal; padding-bottom: 4px; display:block;">Notes</h5>
                                         <span style="color:#222222; font-size:20px; font-weight: normal; text-align: center; font-family:open sans,helvetica neue,helvetica,arial,sans-serif; font-style: normal; display:block;">{{notes}}</span>
                                     </td>
                                 </tr>
-                                {{end}}
                                 
                             </tbody></table>
                         </td>
@@ -600,7 +577,6 @@
                 </tbody>
             </table>
             
-            {{if repName}}
            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="background-color: #F1F0EA;">
                 <tbody class="mcnTextBlockOuter">
                     <tr>
@@ -629,7 +605,6 @@
                     </tr>
                 </tbody>
             </table>
-            {{end}}
 
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
                 <tr>

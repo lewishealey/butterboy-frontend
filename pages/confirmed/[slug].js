@@ -4,6 +4,8 @@ import { ObjectId } from 'mongodb';
 import { urlFor } from "helpers/sanity";
 import { useEffect } from "react";
 import moment from 'moment';
+import Page from "components/Page";
+import Link from 'next/link'
 
 export default function Confirmed({ order }) {
     const format = "dddd, MMMM Do YYYY";
@@ -29,6 +31,17 @@ export default function Confirmed({ order }) {
         });
 
     }, [])
+
+    if(!order) {
+        return <Page
+        title="404 order"
+        heading="404 order">
+        <div className="py-8 space-y-4">
+            <h2 className="font-body text-2xl text-center text-vibrant">No order of that ID</h2>
+            <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
+        </div>
+    </Page>
+    }
 
     return (
         <div>
@@ -129,7 +142,6 @@ export async function getServerSideProps(context) {
     const { slug = "" } = context.params;
 
     const order = await db.collection("orders").findOne({ _id: ObjectId(slug) });
-
 
     return {
         props: {
