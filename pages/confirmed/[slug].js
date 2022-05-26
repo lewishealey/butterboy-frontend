@@ -1,14 +1,13 @@
 import Head from 'next/head'
-import { connectToDatabase } from "utils/mongodb";
-import { ObjectId } from 'mongodb';
 import { urlFor } from "helpers/sanity";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import moment from 'moment';
 import Page from "components/Page";
 import Link from 'next/link'
 
-export default function Confirmed({ order }) {
+export default function Confirmed({ slug }) {
     const format = "dddd, MMMM Do YYYY";
+    const [order, setOrder] = useState(null);
 
     useEffect(() => {
         const profile = {
@@ -16,6 +15,19 @@ export default function Confirmed({ order }) {
                 "fififw@lewi.sh"
             ]
         }
+
+        fetch("/api/get-order", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(slug)
+        }).then(response => response.json()).then((res) => {
+            setOrder(res);
+        }).catch(rejected => {
+            console.log(rejected);
+        });
 
         fetch("/api/subscribe-email", {
             method: "POST",
@@ -138,14 +150,10 @@ export default function Confirmed({ order }) {
 }
 
 export async function getServerSideProps(context) {
-    const { db } = await connectToDatabase();
     const { slug = "" } = context.params;
-
-    const order = await db.collection("orders").findOne({ _id: ObjectId(slug) });
-
     return {
         props: {
-            order: JSON.parse(JSON.stringify(order)),
+            slug: slug
         },
     };
 }
