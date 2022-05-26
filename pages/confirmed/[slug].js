@@ -10,11 +10,11 @@ export default function Confirmed({ slug }) {
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
-        const profile = {
-            "emails": [
-                "fififw@lewi.sh"
-            ]
-        }
+        // const profile = {
+        //     "emails": [
+        //         "fififw@lewi.sh"
+        //     ]
+        // }
 
         fetch("/api/get-order", {
             method: "POST",
@@ -24,23 +24,24 @@ export default function Confirmed({ slug }) {
             },
             body: JSON.stringify(slug)
         }).then(response => response.json()).then((res) => {
+
             setOrder(res);
         }).catch(rejected => {
             console.log(rejected);
         });
 
-        fetch("/api/subscribe-email", {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(profile)
-        }).then((res) => {
-            //console.log(res);
-        }).catch(rejected => {
-            console.log(rejected);
-        });
+        // fetch("/api/subscribe-email", {
+        //     method: "POST",
+        //     headers: {
+        //         Accept: "application/json, text/plain, */*",
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(profile)
+        // }).then((res) => {
+        //     //console.log(res);
+        // }).catch(rejected => {
+        //     console.log(rejected);
+        // });
 
     }, [])
 
