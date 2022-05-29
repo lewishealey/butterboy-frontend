@@ -241,7 +241,7 @@ export default function Cart() {
                         </div>
                         <div className="flex w-full flex-col">
                             <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${moment(pickupDate).format(format).toString()} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
+                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
                                 <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-8">
                                     <img src="/calendar.svg" className='w-12' />
                                 </button>

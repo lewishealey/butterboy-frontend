@@ -74,7 +74,7 @@ export default function SingleProduct({ product, cookies }) {
             title: product?.title,
             price: product?.price,
             cookies: addedCookies,
-            image: product.thumbnail,
+            image: urlFor(product.thumbnail),
             quantity: 1,
             size: selectedSize ? selectedSize : product.details.sizing
         }
@@ -100,10 +100,10 @@ export default function SingleProduct({ product, cookies }) {
                             })}
                         </div>
                         <div className='sticky bottom-0 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-12 items-center z-20'>
-                            <h2 className='text-white text-3xl'>{count}/{product.maxCookies} added to box</h2>
+                            <h2 className='text-white text-3xl'>{count}/{product.details.maxCookies} added to box</h2>
                             <div>
                                 <span className="font-display text-white px-8 py-4 text-2xl">${product.price}</span>
-                                <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${count < product.maxCookies ? 'opacity-50' : ''}`} disabled={count < product.maxCookies} onClick={handleCart}>Add to cart</button>
+                                <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${count < product.details.maxCookies ? 'opacity-50' : ''}`} disabled={count < product.details.maxCookies} onClick={handleCart}>Add to cart</button>
                             </div>
                         </div>
                     </>

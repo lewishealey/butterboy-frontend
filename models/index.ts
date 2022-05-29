@@ -7,6 +7,7 @@ export interface IProduct {
 }
 
 export interface ICartProduct extends IProduct {
+  image: any;
   quantity: number;
 }
 
@@ -18,6 +19,7 @@ export interface Cookies {
 }
 
 export interface ICartTotal {
+  toFixed?(arg0: number): import("react").ReactNode;
   productQuantity: number;
   totalPrice: number;
 }

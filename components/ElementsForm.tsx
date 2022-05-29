@@ -19,7 +19,8 @@ const inputClasses = "h-11 border border-gray-300 px-3 rounded";
 const ElementsForm: FC<{
   paymentIntent?: PaymentIntent | null
   onPaymentResolve: any
-}> = ({ paymentIntent = null, onPaymentResolve }) => {
+  data: any
+}> = ({ paymentIntent = null, onPaymentResolve, data = null }) => {
 
   const defaultAmout = formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
   const [input, setInput] = useState({
@@ -91,11 +92,14 @@ const ElementsForm: FC<{
         payment_method_data: {
           billing_details: {
             name: input.cardholderName,
+            email: data?.email,
+            phone: data?.phone,
+            address: data?.billing?.address1
           },
         },
       },
       redirect: "if_required",
-    });
+    })
 
     if (error) {
       setPayment({ status: 'error' })
@@ -106,6 +110,8 @@ const ElementsForm: FC<{
       setPayment({ status: 'succeeded' })
     }
   }
+
+  console.log(paymentIntent)
 
   return (
     <>

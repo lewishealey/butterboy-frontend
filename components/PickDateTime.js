@@ -18,13 +18,13 @@ function scheduleDateTime() {
             {!date && <h2 className="font-display text-4xl text-center text-vibrant uppercase">Select date</h2>}
             {!date && <ul className="flex flex-col space-y-2 font-body text-xl w-full">
                 <button className={buttonClasses} onClick={() => setDate(today)}>{today.format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
-                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days'))}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
+                <button className={buttonClasses} onClick={() => setDate(today.add(1,'days').format(format).toString())}>{today.add(1,'days').format(format).toString()}</button>
             </ul>}
             {date && !time && <h2 className="font-display text-4xl text-center text-vibrant uppercase">Select time</h2>}
             {date && !time && <ul className="flex flex-col space-y-2 font-body text-xl w-full">
@@ -39,7 +39,7 @@ function scheduleDateTime() {
             </ul>}
             {date && time && <div className="space-y-4">
                 <h2 className="font-display text-4xl text-center text-vibrant uppercase">Collection</h2>
-                <p className="text-2xl font-body">{moment(date).format(format).toString()} {time}</p>
+                <p className="text-2xl font-body">{date} {time}</p>
                 <button className="font-display uppercase text-vibrant bg-mauve py-4 text-3xl px-8 hover:bg-vibrant hover:text-mauve" onClick={scheduleDateTime}>Schedule</button>
             </div>}
         </div>
