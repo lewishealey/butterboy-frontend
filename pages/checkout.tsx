@@ -139,13 +139,12 @@ export default function Checkout() {
       body: JSON.stringify(newInput)
     }).then(response => response.json())
       .then(data => {
-        sendEmail(null, data.id);
+        sendEmail(newInput, data.id);
       });
   }
 
   const sendEmail = (data, id) => {
-    console.log("Id " + id)
-    const emailData = {};
+    const emailData = data;
     fetch('/api/send-email', {
       method: 'POST',
       headers: {
@@ -198,13 +197,20 @@ export default function Checkout() {
                   <label className='font-heading text-vibrant text-xl'>Shipping address</label>
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
-                <div>
+                <div className="flex space-x-4">
                   <button
                     className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500 inline-flex"
                     onClick={() => setStage(2)}
                   >
                     Proceed to {deliveryType == "collect" ? "collection summary" : "delivery options"}
                   </button>
+                  <Link href="/cart">
+                    <button
+                    className="bg-white px-5 py-3 text-vibrant font-body rounded text-lg hover:bg-gray-200 inline-flex"
+                  >
+                    Back to cart
+                  </button>
+                  </Link>
                 </div>
               </>}
 

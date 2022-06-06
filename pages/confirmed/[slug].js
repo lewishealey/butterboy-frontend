@@ -9,7 +9,6 @@ export default function Confirmed({ slug }) {
     const format = "dddd, MMMM Do YYYY";
     const [order, setOrder] = useState(null);
     const [status, setStatus] = useState("loading");
-    console.log(order)
 
     useEffect(() => {
         // const profile = {
@@ -32,18 +31,18 @@ export default function Confirmed({ slug }) {
             console.log(rejected);
         });
 
-        // fetch("/api/subscribe-email", {
-        //     method: "POST",
-        //     headers: {
-        //         Accept: "application/json, text/plain, */*",
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(profile)
-        // }).then((res) => {
-        //     //console.log(res);
-        // }).catch(rejected => {
-        //     console.log(rejected);
-        // });
+        fetch("/api/subscribe-email", {
+            method: "POST",
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(profile)
+        }).then((res) => {
+            //console.log(res);
+        }).catch(rejected => {
+            console.log(rejected);
+        });
 
     }, [])
 

@@ -31,3 +31,13 @@
     width: 20px;
     margin: 0 auto;
 }
+
+.square {
+	transform: rotateY(45deg);
+	animation: rotateAnimation 2s linear infinite;
+}
+
+@keyframes rotateAnimation {
+	from {transform: rotateY(0);}
+	to {transform: rotateY(360deg);}
+}

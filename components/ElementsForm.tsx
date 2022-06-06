@@ -111,8 +111,6 @@ const ElementsForm: FC<{
     }
   }
 
-  console.log(paymentIntent)
-
   return (
     <>
       <form onSubmit={handleSubmit} className="space-y-4">

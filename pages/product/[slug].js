@@ -75,12 +75,15 @@ export default function SingleProduct({ product, cookies }) {
             price: product?.price,
             cookies: addedCookies,
             image: urlFor(product.thumbnail),
+            type: product?.details?.type,
             quantity: 1,
             size: selectedSize ? selectedSize : product.details.sizing
         }
         addProduct({ ...productItem, quantity: 1 });
         router.push("/cart")
     }
+
+    console.log(product)
 
     if(product.available) {
         return (

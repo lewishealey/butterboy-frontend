@@ -128,7 +128,7 @@ export default function Cart() {
         </Page>
     }
 
-    console.log(products)
+    const hasCookes = products.filter(x => x.type === "box")
 
     return (
         <Page
@@ -262,10 +262,10 @@ export default function Cart() {
                             </div>
                         </div>
                         <div className="flex w-full flex-col">
-                            <div className="border-b border-vibrant flex w-full">
+                            {hasCookes.length > 0 ? <div className="border-b border-vibrant flex w-full">
                                 <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
-                            </div>
-                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button></Link>
+                            </div>: <div className="border-b border-vibrant flex w-full"><div className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full">&nbsp;</div></div>}
+                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && hasCookes.length > 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode && hasCookes.length > 0}>Check out</button></Link>
                         </div>
                     </div>
                 </section>}

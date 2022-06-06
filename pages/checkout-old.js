@@ -79,8 +79,6 @@ export default function Checkout() {
     //const createCustomerOrder = await createTheOrder( input, setRequestError,  '' );
   }
 
-  console.log(input);
-
   return (
     <div>
       <Head>

@@ -8,6 +8,8 @@ import product from './product'
 import discount from './discount'
 import cookie from './cookie'
 import job from './job'
+import review from './review'
+import logo from './logo'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -19,6 +21,8 @@ export default createSchema({
     product,
     cookie,
     discount,
+    review,
+    logo,
     job,
     blockContent
   ]),
