@@ -7,7 +7,7 @@ const Header = () => {
 
     return (
         <div className="flex justify-center items-center py-12">  
-            <nav className="space-x-24 flex hidden md:visible">
+            <nav className="space-x-24 hidden md:flex">
                 <NavLink href="/">Home</NavLink>
                 <NavLink href="/shop-cookies">Cookies</NavLink>
                 <NavLink href="/merch">Merch</NavLink>

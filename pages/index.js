@@ -77,26 +77,74 @@ export default function Home({ products, reviews, logos }) {
           <p>Here is your step-by-step guide on how-to-heat-up your cookie, to perfect that warm, gooey, crunchy cookie, so when your in-laws come around you can pretend that you actually bake... and bake well.</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-base">
             <div className="space-y-4">
-              <div className="h-40 border rounded-lg border-vibrant">
-                &nbsp;
+              <div className="h-52 md:h-40 flex justify-center">
+              <video
+                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  autoPlay
+                  muted
+                  loop
+                  poster="placeholder.png"
+                >
+                  <source
+                      src="GIF-1.mp4"
+                      type="video/mp4"
+                      className="md:w-full h-full object-cover z-auto"
+                    />
+                </video>
               </div>
               <p>Store your cookies in the fridge to keep them fresh.</p>
             </div>
             <div className="space-y-4">
-              <div className="h-40 border rounded-lg border-vibrant">
-                &nbsp;
+              <div className="h-52 md:h-40 flex justify-center">
+                <video
+                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  autoPlay
+                  muted
+                  loop
+                  poster="placeholder.png"
+                >
+                  <source
+                      src="GIF-2.mp4"
+                      type="video/mp4"
+                      className="md:w-full h-full object-cover z-auto"
+                    />
+                </video>
               </div>
               <p>Preheat the oven to 175 degrees celsius, then place the cookies on a baking tray.</p>
             </div>
             <div className="space-y-4">
-              <div className="h-40 border rounded-lg border-vibrant">
-                &nbsp;
+              <div className="h-52 md:h-40 flex justify-center">
+                <video
+                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  autoPlay
+                  muted
+                  loop
+                  poster="placeholder.png"
+                >
+                  <source
+                      src="GIF-3.mp4"
+                      type="video/mp4"
+                      className="md:w-full h-full object-cover z-auto"
+                    />
+                </video>
               </div>
               <p>Heat your cookies in the oven for 3-5 minutes, remove them once the chocolate has melted.</p>
             </div>
             <div className="space-y-4">
-              <div className="h-40 border rounded-lg border-vibrant">
-                &nbsp;
+              <div className="h-52 md:h-40 flex justify-center">
+              <video
+                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  autoPlay
+                  muted
+                  loop
+                  poster="placeholder.png"
+                >
+                  <source
+                      src="GIF-4.mp4"
+                      type="video/mp4"
+                      className="md:w-full h-full object-cover z-auto"
+                    />
+                </video>
               </div>
               <p>Enjoy the warm gooey cookie with a glass of cold milk.</p>
             </div>
