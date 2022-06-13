@@ -25,7 +25,7 @@ export const NavLink: React.FC<NavLinkProps> = ({
 
     return (
         <Link href={href}>
-            <a className={`block text-vibrant text-xl font-body ${activeClassName}`}>
+            <a className={`block text-vibrant text-2xl font-body ${activeClassName}`}>
                 {children}
             </a>
       </Link>

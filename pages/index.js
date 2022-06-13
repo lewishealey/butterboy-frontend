@@ -29,18 +29,18 @@ export default function Home({ products, reviews, logos }) {
     <Page
       title="Homepage">
 
-      <div className="relative py-12">
+      <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
           <div className="max-w-7xl m-auto">
             <img src="mark_red.svg" className="square" style={{ width: "12%" }} />
           </div>
         </div>
-        <div className="absolute w-full"><img src="logo_lilac.svg" className="m-auto" style={{ width: "60%" }} /></div>
+        <div className="absolute w-full"><img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" /></div>
         <div className="relative">
           <Image src="/banner.png" layout="responsive" width={400} height={250} />
         </div>
       </div>
-      <div className="p-6 md:p-12 pb-0">
+      <div className="p-6 pb-0 pt-0 md:p-12 pb-0">
         <video
           className="md:w-full h-full object-cover z-auto rounded-xl border-2 border-vibrant"
           autoPlay
@@ -61,17 +61,17 @@ export default function Home({ products, reviews, logos }) {
         </video>
       </div>
 
-      <Marquee className="text-vibrant font-body text-3xl py-6" gradient={false}>
+      <Marquee className="text-vibrant font-body text-xl md:text-3xl py-6" gradient={false}>
         THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES - THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES
       </Marquee>
 
-      <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16">Shop cookies</h2>
+      <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16">Shop cookies</h2>
 
       <section className="grid grid-cols-1 md:grid-cols-2 border-t border-vibrant">
         {jsxBoxes}
       </section>
       <section className="px-4 md:px-0">
-        <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">How to heat</h2>
+        <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-b border-vibrant">How to heat</h2>
         
         <div className="max-w-5xl m-auto flex text-center font-body text-vibrant text-xl py-12 flex-col space-y-6">
           <p>Here is your step-by-step guide on how-to-heat-up your cookie, to perfect that warm, gooey, crunchy cookie, so when your in-laws come around you can pretend that you actually bake... and bake well.</p>
@@ -79,7 +79,7 @@ export default function Home({ products, reviews, logos }) {
             <div className="space-y-4">
               <div className="h-52 md:h-40 flex justify-center">
               <video
-                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl"
                   autoPlay
                   muted
                   loop
@@ -97,7 +97,7 @@ export default function Home({ products, reviews, logos }) {
             <div className="space-y-4">
               <div className="h-52 md:h-40 flex justify-center">
                 <video
-                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl"
                   autoPlay
                   muted
                   loop
@@ -115,7 +115,7 @@ export default function Home({ products, reviews, logos }) {
             <div className="space-y-4">
               <div className="h-52 md:h-40 flex justify-center">
                 <video
-                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl"
                   autoPlay
                   muted
                   loop
@@ -133,7 +133,7 @@ export default function Home({ products, reviews, logos }) {
             <div className="space-y-4">
               <div className="h-52 md:h-40 flex justify-center">
               <video
-                  className="md:w-full h-full object-cover z-auto border-t border-b border-vibrant"
+                  className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl"
                   autoPlay
                   muted
                   loop

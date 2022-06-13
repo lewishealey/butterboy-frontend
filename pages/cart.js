@@ -60,8 +60,8 @@ export default function Cart() {
     //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
     const allowedPostcodes = ["2000","2007","2008","2008","2009","2010","2011","2015","2016","2017","2021","2060","2061","2062","2063","2064","2065","2066","2067","2068","2069","2086","2087","2088","2089","2090","2092","2093","2094","2095","2096","2097","2099","2100"];
 
-    const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-6xl py-12 uppercase";
-    const inActiveDeliveryClasses = "flex-1 text-center bg-white text-mauve font-display text-6xl py-12 uppercase";
+    const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-4xl md:text-6xl py-6 md:py-12 uppercase";
+    const inActiveDeliveryClasses = "flex-1 text-center bg-cream text-mauve font-display text-4xl md:text-6xl py-6 md:py-12 uppercase";
 
     function openDateModal() {
         setDateModal(true);
@@ -166,7 +166,7 @@ export default function Cart() {
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
                 <Timer initialMinute={60} initialSeconds={40} message={deliveryType === "collect" ? "until next-day collection cut off!" : "until Tuesday delivery cut off!"} />
                 <div>
-                    <div className="border-t border-b border-vibrant grid grid-cols-6 w-full">
+                    <div className="border-t border-b border-vibrant grid-cols-6 w-full hidden md:grid">
                         <div className="font-display text-2xl text-vibrant px-8 py-4 border-r border-vibrant uppercase col-span-3">
                             Product
                         </div>
@@ -181,8 +181,8 @@ export default function Cart() {
                         </div>
                     </div>
                     {products.map((product, i) => {
-                        return <div className="border-b border-vibrant grid grid-cols-6 w-full" key={`product_${i}`}>
-                            <div className="border-r border-vibrant py-12 px-12 col-span-3">
+                        return <div className="border-b border-vibrant grid grid-cols-1 md:grid-cols-6 w-full" key={`product_${i}`}>
+                            <div className="border-r border-vibrant p-6 md:p-12 col-span-3 border-b md:border-b-0">
                                 <h3 className="font-display text-3xl text-vibrant mb-4 uppercase">{product.title}</h3>
                                 {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                                 <div className="w-full flex space-x-2 items-center">
@@ -214,35 +214,35 @@ export default function Cart() {
                     })}
                 </div>
                 <div className="flex border-t border-b border-vibrant">
-                    <div className="grid grid-cols-6 w-full">
-                        <label className="font-display uppercase flex items-center text-vibrant bg-white text-xl hover:bg-gray-100 w-full border-r border-vibrant h-full justify-center col-span-1">ADD A MESSAGE</label>
-                        <textarea className="p-8 w-full h-full col-span-3 border-r border-vibrant" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
+                    <div className="grid grid-cols-1 md:grid-cols-6 w-full">
+                        <label className="font-display uppercase flex items-center text-vibrant bg-cream text-xl hover:bg-gray-100 w-full border-r border-vibrant h-full md:justify-center col-span-1 p-4 md:p-0">ADD A MESSAGE</label>
+                        <textarea className="p-8 w-full h-full col-span-3 border-r border-vibrant border-b md:border-b-0 bg-cream" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
                         <div className="col-span-2">
                             <div className="flex items-center border-b border-vibrant w-full">
-                                <div className="font-display uppercase flex items-center text-vibrant bg-white text-xl flex-1 py-4 border-r border-vibrant justify-center">Subtotal</div>
+                                <div className="font-display uppercase flex items-center text-vibrant bg-cream text-xl flex-1 py-4 border-r border-vibrant justify-center">Subtotal</div>
                                 <div className="font-body text-xl text-vibrant flex-1 py-4 px-4">{total.currencyFormat}{total.totalPrice}</div>
                             </div>
                             <div className="font-body uppercase text-vibrant text-center text-xl flex justify-center items-center w-full py-4">{deliveryType === "delivery" && "SHIPPING CALCULATED AT CHECKOUT"}</div>
                         </div>
                     </div>
                 </div>
-                <section className="flex border-b border-t border-vibrant">
+                <section className="flex flex-col md:flex-row border-b border-t border-vibrant">
                     <button className={deliveryType === "collect" ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => assignDeliveryType("collect")}>Shop pick up</button>
                     <button className={deliveryType === "delivery" ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => assignDeliveryType("delivery")}>Shop delivery</button>
                 </section>
                 {deliveryType === "collect" && <section>
-                    <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
-                        <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
+                    <div className="flex flex-col md:flex-row border-t border-vibrant flex w-full border-b border-vibrant">
+                        <div className="flex space-x-4 border-r border-b md:border-b-0 border-vibrant p-8 w-full items-center">
                             <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
                             <div>
-                                <h3 className="font-display uppercase text-vibrant text-2xl font-body">BUTTERBOY MANLY</h3>
-                                <span className="text-vibrant text-2xl font-body">74-78 The Corso<br />Manly, 2095</span>
+                                <h3 className="font-display uppercase text-vibrant text-xl md:text-2xl font-body">BUTTERBOY MANLY</h3>
+                                <span className="text-vibrant text-xl md:text-2xl font-body">74-78 The Corso<br />Manly, 2095</span>
                             </div>
                         </div>
                         <div className="flex w-full flex-col">
                             <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
-                                <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-8">
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-xl md:text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
+                                <button className="font-display uppercase text-vibrant bg-mauve py-6 text-xl md:text-3xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-8">
                                     <img src="/calendar.svg" className='w-12' />
                                 </button>
                             </div>
@@ -263,8 +263,8 @@ export default function Cart() {
                         </div>
                         <div className="flex w-full flex-col">
                             {hasCookes.length > 0 ? <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
-                            </div>: <div className="border-b border-vibrant flex w-full"><div className="font-display uppercase text-vibrant bg-white py-4 text-3xl hover:bg-gray-100 h-32 w-full">&nbsp;</div></div>}
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
+                            </div>: <div className="border-b border-vibrant flex w-full"><div className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full">&nbsp;</div></div>}
                             <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && hasCookes.length > 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode && hasCookes.length > 0}>Check out</button></Link>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ import * as config from '../config'
 
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { PaymentIntent } from '@stripe/stripe-js'
-const inputClasses = "h-11 border border-gray-300 px-3 rounded";
+const inputClasses = "h-12 border border-vibrant px-4 bg-cream font-body text-vibrant outline-0 w-full";
 
 const ElementsForm: FC<{
   paymentIntent?: PaymentIntent | null
@@ -27,11 +27,12 @@ const ElementsForm: FC<{
     customDonation: 100,
     cardholderName: 'MR L Healey',
   })
-  const [paymentType, setPaymentType] = useState('')
-  const [payment, setPayment] = useState({ status: 'initial' })
-  const [errorMessage, setErrorMessage] = useState('')
-  const stripe = useStripe()
-  const elements = useElements()
+  const [paymentType, setPaymentType] = useState('');
+  const [payment, setPayment] = useState({ status: 'initial' });
+  const [errorMessage, setErrorMessage] = useState('');
+  const stripe = useStripe();
+  const elements = useElements();
+  const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-t border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -113,9 +114,9 @@ const ElementsForm: FC<{
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <StripeTestCards />
-        <fieldset className="space-y-4">
+        <fieldset className="p-4 space-y-4">
           {paymentType === 'card' ? (
             <input
               placeholder="Cardholder name"
@@ -136,17 +137,17 @@ const ElementsForm: FC<{
           </div>
         </fieldset>
         <button
-          className="bg-vibrant px-5 py-3 text-white font-body rounded text-lg hover:bg-red-500 capitalize"
+          className={buttonClasses}
           type="submit"
           disabled={
             !['initial', 'succeeded', 'error'].includes(payment.status) ||
             !stripe
           }
         >
-          {payment && payment.status !== "initial" ? payment.status : `Complete order ${defaultAmout}`}
+          {payment && payment.status !== "initial" ? payment.status : `Complete order`}
         </button>
         <Link href="/cart">
-          <button className='font-body px-5 py-3 text-lg rounded text-gray-600 hover:bg-black hover:bg-opacity-10'>Return to cart</button>
+          <button className="hover:bg-white w-full px-5 py-3 uppercase font-display text-vibrant border-b border-vibrant text-lg hover:bg-gray-200 inline-flex h-16 items-center">Back to cart</button>
         </Link>
       </form>
       {/* <PaymentStatus status={payment.status} /> */}

@@ -112,7 +112,7 @@ export default function SingleProduct({ product, cookies }) {
                     </>
                 }
                 {product?.details?.type === "merch" && <div className='space-y-12 flex flex-col justify-center py-12'>
-                    <img src={urlFor(product.thumbnail)} className="m-auto" style={{ width: "30%" }} />
+                    <img src={urlFor(product.thumbnail)} className="m-auto w-1/2 md:w-1/3" />
                     {product?.details?.sizing === "t-shirt" ? <><div className='w-full flex justify-center'>
                         <button className={`p-2 text-2xl font-body ${selectedSize === "xs" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("xs")}>XS</button>
                         <button className={`p-2 text-2xl font-body ${selectedSize === "s" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("s")}>S</button>
@@ -137,8 +137,8 @@ export default function SingleProduct({ product, cookies }) {
         return (
             <Page title={product.title} heading={product.title}>
                 <div className="space-y-12 flex flex-col justify-center w-full items-center py-12">
-                    {product.thumbnail && <img src={urlFor(product.thumbnail)} className="m-auto" style={{ width: "30%" }} />}
-                    <h2 className="text-2xl font-body text-vibrant max-w-2xl text-center">We just launched our new store and are still gettting to grips with our operation, this product isn't available for purchase just yet. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link> or a <Link href="/product/cookie-cake"><a className='inline text-vibrant font-body underline'>cookie cake</a></Link> though.</h2>
+                    {product.thumbnail && <img src={urlFor(product.thumbnail)} className="m-auto w-1/2 md:w-1/3" />}
+                    <h2 className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center">We just launched our new store and are still gettting to grips with our operation, this product isn't available for purchase just yet. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link> or a <Link href="/product/cookie-cake"><a className='inline text-vibrant font-body underline'>cookie cake</a></Link> though.</h2>
                 </div>
             </Page>
         )
