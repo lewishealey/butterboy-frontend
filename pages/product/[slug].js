@@ -74,7 +74,7 @@ export default function SingleProduct({ product, cookies }) {
             title: product?.title,
             price: product?.price,
             cookies: addedCookies,
-            image: urlFor(product.thumbnail),
+            image: urlFor(product.thumbnail).url(),
             type: product?.details?.type,
             quantity: 1,
             size: selectedSize ? selectedSize : product.details.sizing

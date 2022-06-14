@@ -11,11 +11,11 @@ export default function Confirmed({ slug }) {
     const [status, setStatus] = useState("loading");
 
     useEffect(() => {
-        // const profile = {
-        //     "emails": [
-        //         "fififw@lewi.sh"
-        //     ]
-        // }
+        const profile = {
+            "emails": [
+                "fififw@lewi.sh"
+            ]
+        }
 
         fetch("/api/get-order", {
             method: "POST",

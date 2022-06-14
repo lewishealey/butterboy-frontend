@@ -181,6 +181,7 @@ export default function Cart() {
                         </div>
                     </div>
                     {products.map((product, i) => {
+                        console.log(product)
                         return <div className="border-b border-vibrant grid grid-cols-1 md:grid-cols-6 w-full" key={`product_${i}`}>
                             <div className="border-r border-vibrant p-6 md:p-12 col-span-3 border-b md:border-b-0">
                                 <h3 className="font-display text-3xl text-vibrant mb-4 uppercase">{product.title}</h3>

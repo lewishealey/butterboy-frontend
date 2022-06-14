@@ -56,6 +56,7 @@ export default function Checkout() {
   const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage } = useCart();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null)
   const format = "dddd, MMMM Do YYYY"; 
+  const timeFormat = "HH:mm:ss";
   const [shipping, setShipping] = useState(null);
   const [finalAmount, setFinalAmount] = useState(total.totalPrice);
   const [discount, setDiscount] = useState(null);
@@ -79,7 +80,6 @@ export default function Checkout() {
     shipping: {
       ...defaultCustomerInfo
     },
-    delivery: shipping,
     items: products,
     stripe_id: null,
     pick_up_time: pickupTime,
@@ -101,6 +101,8 @@ export default function Checkout() {
   const breadcrumbClasses = "hover:underline";
   const [requestError, setRequestError] = useState(null);
   const [stage, setStage] = useState(1);
+
+  console.log(products)
 
   const handleAddress = (name, value, type) => {
     const newState = {
@@ -129,7 +131,11 @@ export default function Checkout() {
       stripe_secret: paymentResolve.client_secret,
       order_number: val,
       date_created: moment().format(format).toString(),
-      completed: false
+      time_created: moment().format(timeFormat).toString(),
+      completed: false,
+      shipped: false,
+      ready: false,
+      delivery: shipping,
     };
 
     fetch("api/create-order", {
@@ -243,9 +249,9 @@ export default function Checkout() {
                     </button></Link>}
                   </div>
                 </fieldset>}
-                {deliveryType == "delivery" && <fieldset className='flex flex-col space-y-4'>
-                  <label className='font-heading text-vibrant text-xl'>{!shipping ? "Select a s" : "S"}hipping method</label>
-                  <div className="border border-gray-300 bg-white rounded w-full">
+                {deliveryType == "delivery" && <fieldset className='flex flex-col'>
+                  <SectionLabel>{!shipping ? "Select a s" : "S"}hipping method</SectionLabel>
+                  <div className="border border-gray-300 bg-cream rounded w-full">
                     <button className={`flex justify-between px-4 py-2 w-full items-start text-left hover:bg-gray-100 
                     ${shipping && shipping.type === "standard" && "border-2 border-blue-500"}`} 
                     onClick={() => {
@@ -261,10 +267,10 @@ export default function Checkout() {
                         </div>
                         <span className="text-sm text-gray-500">3-8 business days, via Sendle</span>
                       </div>
-                      <div className="hover:underline text-sm text-gray-500 pt-1">$10.00</div>
+                      <div className="hover:underline text-sm text-vibrant pt-1 font-body">$10.00</div>
                     </button>
                     <button 
-                      className={`flex justify-between px-4 py-2 w-full border-t items-center text-left hover:bg-gray-100 
+                      className={`flex justify-between px-4 py-2 w-full border-t border-vibrant items-center text-left hover:bg-gray-100 
                       ${shipping && shipping.type === "express" && "border-2 border-blue-500"}`} 
                       onClick={() => {
                         setShipping({
@@ -275,11 +281,11 @@ export default function Checkout() {
                     }}>
                       <div className="flex flex-col">
                         <div className="flex space-x-3 items-center">
-                          <Dot checked={shipping && shipping.type === "express"} /><span className="text-vibrant">Express</span>
+                          <Dot checked={shipping && shipping.type === "express"} /><span className="text-vibrant font-body">Express</span>
                         </div>
-                        <span className="text-sm text-gray-500">2-4 business days, via Auspost</span>
+                        <span className="text-sm text-gray-500 font-body text-lg">2-4 business days, via Auspost</span>
                       </div>
-                      <div className="hover:underline text-sm text-gray-500">$25.00</div>
+                      <div className="hover:underline text-sm text-vibrant font-body">$25.00</div>
                     </button>
                   </div>
                 </fieldset>}
@@ -365,11 +371,11 @@ export default function Checkout() {
         </div>
         <div className='w-full md:w-2/5'>
           <div className="top-0 sticky">
-            {products && products.map((product, i) =>
-              <div className="flex w-full border-b border-vibrant px-6 h-20 pr-12" key={`product_${i}`}>
+            {products && products.map((product, i) => {
+              return <div className="flex w-full border-b border-vibrant px-6 h-20 pr-12" key={`product_${i}`}>
                 <div className="w-full flex space-x-2 items-center justify-between">
                   <div className="flex items-center space-x-6">
-                    <div className="relative h-12 w-12 bg-white rounded-lg">
+                    <div className="relative h-12 w-12 bg-cream rounded-lg">
                       <div className="h-12 w-12 overflow-hidden">
                         <img src={product.image as any} />
                       </div>
@@ -380,7 +386,7 @@ export default function Checkout() {
                   <span className="font-body text-xl text-vibrant">${product.price}</span>
                 </div>
               </div>
-            )}
+              })}
             <div className="flex">
               <input type="text" placeholder="Gift card or discount code" className={inputClasses + " w-full"}/>
               <button className="bg-cream border-l border-vibrant px-4 inline-flex h-14 border-b items-center uppercase font-display text-vibrant h-full">Apply</button>
