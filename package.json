@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formspark/use-formspark": "^0.1.39",
     "@heroicons/react": "^1.0.6",
     "@mooncake-dev/react-day-time-picker": "^1.0.5",
     "@sanity/block-content-to-react": "^3.0.0",

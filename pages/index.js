@@ -35,12 +35,14 @@ export default function Home({ products, reviews, logos }) {
             <img src="mark_red.svg" className="square" style={{ width: "12%" }} />
           </div>
         </div>
-        <div className="absolute w-full"><img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" /></div>
-        <div className="relative">
+        <div className="absolute w-full">
+          <img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" />
+        </div>
+        <div className="relative m-auto w-full md:w-3/5">
           <Image src="/banner.png" layout="responsive" width={400} height={250} />
         </div>
       </div>
-      <div className="p-6 pb-0 pt-0 md:p-12 pb-0">
+      <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto">
         <video
           className="md:w-full h-full object-cover z-auto rounded-xl border-2 border-vibrant"
           autoPlay
