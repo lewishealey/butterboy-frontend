@@ -35,7 +35,7 @@ const useCartProducts = () => {
   };
 
   const clearCart = () => {
-    setProducts(null);
+    setProducts([]);
     updateCartTotal(null);
   }
 

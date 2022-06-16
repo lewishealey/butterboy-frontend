@@ -32,6 +32,7 @@ const ElementsForm: FC<{
   const [errorMessage, setErrorMessage] = useState('');
   const stripe = useStripe();
   const elements = useElements();
+  const [checkoutButton, setCheckoutButton] = useState("Complete order");
   const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-t border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
 
   const PaymentStatus = ({ status }: { status: string }) => {
@@ -72,7 +73,7 @@ const ElementsForm: FC<{
     if (!e.currentTarget.reportValidity()) return
     if (!elements) return
     setPayment({ status: 'processing' })
-
+    setCheckoutButton("Loading...")
     // Create a PaymentIntent with the specified amount.
     const response = await fetchPostJSON('/api/payment_intents', {
       amount: defaultAmout,
@@ -144,7 +145,7 @@ const ElementsForm: FC<{
             !stripe
           }
         >
-          {payment && payment.status !== "initial" ? payment.status : `Complete order`}
+          {checkoutButton}
         </button>
         <Link href="/cart">
           <button className="hover:bg-white w-full px-5 py-3 uppercase font-display text-vibrant border-b border-vibrant text-lg hover:bg-gray-200 inline-flex h-16 items-center">Back to cart</button>

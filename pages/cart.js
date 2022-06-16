@@ -56,6 +56,8 @@ export default function Cart() {
         return isValid;
     }
 
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const timezone = "en-AU";
 
     //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
     const allowedPostcodes = ["2000","2007","2008","2008","2009","2010","2011","2015","2016","2017","2021","2060","2061","2062","2063","2064","2065","2066","2067","2068","2069","2086","2087","2088","2089","2090","2092","2093","2094","2095","2096","2097","2099","2100"];

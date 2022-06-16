@@ -40,6 +40,12 @@ export default function SingleProduct({ product, cookies }) {
     const [selectedSize, setSelectedSize] = useState(null);
     const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
 
+    function renderCookieString(cookies) {
+        let cook = [];
+        cookies.forEach(c => cook.push(`${c.quantity} X ${c.title}`));
+        return cook.join(", ")
+    }
+
     function addCookieToCart(cookie, math) {
 
         let newCookie = cookiesObject.find((c) => c._id === cookie._id);
@@ -69,21 +75,29 @@ export default function SingleProduct({ product, cookies }) {
 
     function handleCart() {
         const addedCookies = cookiesObject.filter(c => c.quantity > 0);
+
+        let changedCookies = []
+        addedCookies && addedCookies.forEach(c => changedCookies.push({
+            ...c, 
+            thumbnail: urlFor(c.thumbnail).url()
+        }))
+
         const productItem = {
             id: product?._id,
             title: product?.title,
             price: product?.price,
-            cookies: addedCookies,
+            cookies: changedCookies,
+            cookiesString: renderCookieString(changedCookies),
             image: urlFor(product.thumbnail).url(),
             type: product?.details?.type,
             quantity: 1,
             size: selectedSize ? selectedSize : product.details.sizing
         }
+
         addProduct({ ...productItem, quantity: 1 });
         router.push("/cart")
     }
 
-    console.log(product)
 
     if(product.available) {
         return (
@@ -97,7 +111,7 @@ export default function SingleProduct({ product, cookies }) {
                                     <div className='flex border border-white'>
                                         <button className={buttonClasses} onClick={() => addCookieToCart(cookie, -1)}>-</button>
                                         <span className={buttonClasses}>{cookie.quantity ? cookie.quantity : 0}</span>
-                                        <button className={buttonClasses} onClick={() => addCookieToCart(cookie, +1)} disabled={count === product.maxCookies}>+</button>
+                                        <button className={buttonClasses} onClick={() => addCookieToCart(cookie, +1)} disabled={count === product.details.maxCookies}>+</button>
                                     </div>
                                 </div>;
                             })}

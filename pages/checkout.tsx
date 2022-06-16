@@ -60,7 +60,7 @@ export default function Checkout() {
   const [shipping, setShipping] = useState(null);
   const [finalAmount, setFinalAmount] = useState(total.totalPrice);
   const [discount, setDiscount] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
 
   // fetch when final stage of checkout, not before
   useEffect(() => {

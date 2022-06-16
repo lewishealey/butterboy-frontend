@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { urlFor } from "helpers/sanity";
 import { useEffect, useState } from "react";
+import { useCart } from 'contexts/cart-context';
 import moment from 'moment';
 import Page from "components/Page";
 import Link from 'next/link'
@@ -9,14 +10,15 @@ export default function Confirmed({ slug }) {
     const format = "dddd, MMMM Do YYYY";
     const [order, setOrder] = useState(null);
     const [status, setStatus] = useState("loading");
+    const { clearCart } = useCart();
 
     useEffect(() => {
+        clearCart();
         const profile = {
             "emails": [
                 "fififw@lewi.sh"
             ]
         }
-
         fetch("/api/get-order", {
             method: "POST",
             headers: {
@@ -60,11 +62,11 @@ export default function Confirmed({ slug }) {
     return (
         <Page title="Confirmed!" heading="Confirmed!">
 
-            <div className='flex min-h-screen mt-20 grid grid-cols-1 md:grid-cols-2'>
-                <div className='bg-cream px-16 flex justify-center'>
+            <div className='flex min-h-screen grid grid-cols-1 md:grid-cols-2'>
+                <div className='bg-cream p-8 md:p-16 flex justify-center'>
                     <div className='flex flex-col w-full space-y-4 max-w-xl'>
                         <h2 className="text-2xl font-body">We'll send you a confirmation email with all the details you need.</h2>
-                        <div className="grid grid-cols-2 w-full border-b border-gray-300 pb-4 gap-6 pt-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 w-full border-b border-gray-300 pb-4 gap-6 pt-4">
                             <div className="space-y-2">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Order number</h4>
                                 <p className="font-body text-xl">{order.order_number}</p>
@@ -88,7 +90,7 @@ export default function Confirmed({ slug }) {
                                 <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                         </div>}
-                        <section className="grid grid-cols-2 gap-20">
+                        <section className="grid grid-cols-1 md:grid-cols-2 gap-20">
                         {order.deliveryType === "delivery" &&
                             <div className="font-body text-xl">
                                 <h4 className="text-vibrant mb-2">Shipping address</h4>
@@ -110,8 +112,8 @@ export default function Confirmed({ slug }) {
                         </section>
                     </div>
                 </div>
-                <div className='bg-white'>
-                    <div className="p-12 space-y-6 pt-24">
+                <div className='bg-cream border-l border-vibrant'>
+                    <div className="p-6 md:p-12 space-y-6 pt-6 md:pt-24">
                         {order.items.map((product, i) =>
                             <div className="flex w-full" key={`product_${i}`}>
                                 <div className="w-full flex space-x-2 items-center justify-between">

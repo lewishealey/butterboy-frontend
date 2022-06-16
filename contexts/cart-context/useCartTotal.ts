@@ -5,7 +5,7 @@ const useCartTotal = () => {
   const { total, setTotal } = useCartContext();
 
   const updateCartTotal = (products: ICartProduct[]) => {
-    const productQuantity = products.reduce(
+    const productQuantity = products && products.reduce(
       (sum: number, product: ICartProduct) => {
         sum += product.quantity;
         return sum;
@@ -13,7 +13,7 @@ const useCartTotal = () => {
       0
     );
 
-    const totalPrice = products.reduce((sum: number, product: ICartProduct) => {
+    const totalPrice = products && products.reduce((sum: number, product: ICartProduct) => {
       sum += product.price * product.quantity;
       return sum;
     }, 0);

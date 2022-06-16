@@ -23,7 +23,7 @@ export default function Shop({ products, cookies }) {
             title="Shop cookies"
             heading="Shop cookies">
 
-            <section className="grid grid-cols-2 mt-24 border-t border-vibrant mb-12">
+            <section className="grid grid-cols-2">
                 {jsxProducts}
             </section>
 

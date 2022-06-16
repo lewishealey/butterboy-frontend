@@ -24,7 +24,7 @@ const Footer = () => {
         <>
             <footer className='flex flex-col md:flex-row space-y-4 justify-between w-full p-6 md:p-12'>
                 <div className='space-y-2'>
-                    <Link href="jobs"><h2 className='text-vibrant uppercase text-2xl font-display'>JOIN THE TEAM</h2></Link>
+                    <Link href="jobs"><h2 className='text-vibrant uppercase text-2xl font-display cursor-pointer '>JOIN THE TEAM</h2></Link>
                 </div>
                 <div className='flex flex-col space-y-2 justify-start text-left md:text-right md:justify-end'>
                     <Link href="/"><a className={navClasses}>Home</a></Link>
