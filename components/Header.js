@@ -17,9 +17,13 @@ const Header = () => {
                 <NavLink href="/jobs">Jobs</NavLink>
                 <NavLink href="/cart">Cart ({products.length})</NavLink>
             </nav>
-            <button className='bg-vibrant p-2 flex md:hidden'>
-                <MenuIcon className="h-7 w-7 text-white" />
-            </button>
+            <div className='flex md:hidden border-b border-vibrant w-full justify-between items-center pl-2'>
+                <img src="mark_red.svg" className="square" style={{ width: "10%" }} />
+                <div className='flex items-center'>
+                    <div className='text-mauve uppercase p-3 border-r border-l border-vibrant font-display text-xl'>Order</div>
+                    <div className='p-2'><MenuIcon className="h-7 w-7 text-vibrant" /></div>
+                </div>
+            </div>
         </div>
     )
 }

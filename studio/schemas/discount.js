@@ -24,6 +24,11 @@ export default {
             title: 'Amount',
             type: 'number',
         },
+        {
+            name: 'live',
+            title: 'Live on the site',
+            type: 'boolean',
+        },
     ],
     preview: {
         select: {

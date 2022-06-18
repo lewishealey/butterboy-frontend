@@ -17,7 +17,7 @@ const Address = () => {
                         <figure className='space-y-2'>
                             <h3 className='font-display uppercase text-3xl md:text-6xl text-mauve border-b border-vibrant p-6'>BAKING HOURS</h3>
                             <div className='p-6 space-y-2'>
-                                <p className='font-body text-vibrant text-xl'>Weekdays 9am-4:30pm <br />Weekends 9am-3pm</p>
+                                <p className='font-body text-vibrant text-xl'>Everyday 9:00am - 6:00pm</p>
                                 <p className='font-body text-vibrant text-xl'>Order before 8pm for next day pick up <br />We need 12hrs to process your order.</p>
                             </div>
                         </figure>

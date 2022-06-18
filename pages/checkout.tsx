@@ -7,8 +7,7 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon, LockClosedIcon } from '@heroicons/react/solid';
 import axios from 'axios';
 import Page from "components/Page"
-import { urlFor } from "helpers/sanity";
-import * as config from 'config'
+import client from 'utils/sanity';
 import { Elements } from '@stripe/react-stripe-js'
 import getStripe from '../utils/getstripejs'
 import { fetchPostJSON } from 'utils/api-helpers'
@@ -18,6 +17,7 @@ import { PaymentIntent } from '@stripe/stripe-js'
 import moment from 'moment';
 import Dot from 'components/Dot';
 import SectionLabel from 'components/SectionLabel';
+import { getDeliveryDate } from 'utils/utils'
 
 interface EmailType {
   date: string;
@@ -52,7 +52,7 @@ const blankCustomerInfo = {
   errors: null
 }
 
-export default function Checkout() {
+export default function Checkout({ settings }) {
   const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage } = useCart();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null)
   const format = "dddd, MMMM Do YYYY"; 
@@ -97,12 +97,10 @@ export default function Checkout() {
 
   const [input, setInput] = useState(initialState);
   const inputClasses = "h-14 border-b border-vibrant px-8 bg-cream font-body text-vibrant outline-0";
-  const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
+  const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-t border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
   const breadcrumbClasses = "hover:underline";
   const [requestError, setRequestError] = useState(null);
   const [stage, setStage] = useState(1);
-
-  console.log(products)
 
   const handleAddress = (name, value, type) => {
     const newState = {
@@ -132,6 +130,7 @@ export default function Checkout() {
       order_number: val,
       date_created: moment().format(format).toString(),
       time_created: moment().format(timeFormat).toString(),
+      delivery_date: moment(getDeliveryDate(settings)).format("YYYY-MM-DD"),
       completed: false,
       shipped: false,
       ready: false,
@@ -167,8 +166,9 @@ export default function Checkout() {
         router.push("/confirmed/" + id);
       }
     });
-
   };
+
+  const hasCookes = products.filter((x: any) => x.type === "box");
 
   return (
     <Page 
@@ -193,12 +193,17 @@ export default function Checkout() {
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
                 <div className="flex flex-col">
-                  <button
+                  {(hasCookes && deliveryType === "delivery") ? <button
+                    className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
+                    onClick={() => setStage(3)}
+                  >
+                    Proceed to payment
+                  </button> : <button
                     className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={() => setStage(2)}
                   >
                     Proceed to {deliveryType == "collect" ? "collection summary" : "delivery options"}
-                  </button>
+                  </button>}
                   <Link href="/cart">
                     <button
                     className="hover:bg-white px-5 py-3 uppercase font-display border-b border-vibrant text-vibrant border-b text-lg hover:bg-gray-200 inline-flex"
@@ -229,6 +234,12 @@ export default function Checkout() {
                     </div>
                     <div className="hover:underline text-base font-body text-vibrant">Change</div>
                   </button>}
+                  <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
+                    <div className="flex space-x-8">
+                      <span className="text-vibrant font-body">Delivery</span>
+                      <span className="text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
+                    </div>
+                  </div>
                 </div>
               </fieldset>
               }
@@ -249,7 +260,7 @@ export default function Checkout() {
                     </button></Link>}
                   </div>
                 </fieldset>}
-                {deliveryType == "delivery" && <fieldset className='flex flex-col'>
+                {(deliveryType == "delivery" && !hasCookes) && <fieldset className='flex flex-col'>
                   <SectionLabel>{!shipping ? "Select a s" : "S"}hipping method</SectionLabel>
                   <div className="border border-gray-300 bg-cream rounded w-full">
                     <button className={`flex justify-between px-4 py-2 w-full items-start text-left hover:bg-gray-100 
@@ -263,11 +274,11 @@ export default function Checkout() {
                     }}>
                       <div className="flex flex-col">
                         <div className="flex space-x-3 items-center">
-                          <Dot checked={shipping && shipping.type === "standard"} /><span className="text-vibrant">Standard</span>
+                          <Dot checked={shipping && shipping.type === "standard"} /><span className="text-vibrant text-lg font-body">Standard</span>
                         </div>
-                        <span className="text-sm text-gray-500">3-8 business days, via Sendle</span>
+                        <span className="text-sm text-gray-500 font-body">3-8 business days, via Sendle</span>
                       </div>
-                      <div className="hover:underline text-sm text-vibrant pt-1 font-body">$10.00</div>
+                      <div className="hover:underline text-lg text-vibrant pt-1 font-body">$10.00</div>
                     </button>
                     <button 
                       className={`flex justify-between px-4 py-2 w-full border-t border-vibrant items-center text-left hover:bg-gray-100 
@@ -281,17 +292,17 @@ export default function Checkout() {
                     }}>
                       <div className="flex flex-col">
                         <div className="flex space-x-3 items-center">
-                          <Dot checked={shipping && shipping.type === "express"} /><span className="text-vibrant font-body">Express</span>
+                          <Dot checked={shipping && shipping.type === "express"} /><span className="text-vibrant text-lg font-body">Express</span>
                         </div>
-                        <span className="text-sm text-gray-500 font-body text-lg">2-4 business days, via Auspost</span>
+                        <span className="text-sm text-gray-500 font-body text-lg font-body">2-4 business days, via Auspost</span>
                       </div>
-                      <div className="hover:underline text-sm text-vibrant font-body">$25.00</div>
+                      <div className="hover:underline text-lg text-vibrant font-body">$25.00</div>
                     </button>
                   </div>
                 </fieldset>}
                 {stage === 2 && <div>
-                  {deliveryType === "delivery" &&<button
-                    className={buttonClasses}
+                  {deliveryType === "delivery" && <button
+                    className={buttonClasses + ` ${!shipping && ' bg-gray-200 text-gray-500 cursor-not-allowed hover:bg-gray-200 hover:text-gray-500'}`}
                     onClick={() => setStage(3)}
                     disabled={!shipping}
                   >
@@ -318,10 +329,10 @@ export default function Checkout() {
                     </button>
                     <button className={`flex justify-between px-4 py-2 w-full items-center hover:bg-gray-100 border-b border-vibrant h-14`} onClick={() => { const newState = { ...input, billing: blankCustomerInfo, sameAsShipping: false }; setInput(newState); }}>
                       <div className="flex space-x-3 items-center">
-                        <Dot checked={!input.sameAsShipping} /><span className="text-vibrant">Use a different billing address</span>
+                        <Dot checked={!input.sameAsShipping} /><span className="text-vibrant font-body">Use a different billing address</span>
                       </div>
                     </button>
-                    {!input.sameAsShipping && <fieldset className='flex flex-col space-y-4 p-4'>
+                    {!input.sameAsShipping && <fieldset className='flex flex-col'>
                       <AddressBox data={input.billing} onChange={handleAddress} type="billing" />
                     </fieldset>}
                   </div>
@@ -415,4 +426,18 @@ export default function Checkout() {
       </div>
     </Page>
   )
+}
+
+export async function getStaticProps() {
+
+  const settings = await client.fetch(`
+      *[_type == "settings"]
+  `);
+
+  return {
+      props: {
+          settings
+      },
+      revalidate: 10, // In seconds
+  };
 }

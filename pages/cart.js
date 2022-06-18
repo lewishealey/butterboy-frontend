@@ -3,6 +3,7 @@ import Timer from "../components/Timer"
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCart } from 'contexts/cart-context';
+import client from 'utils/sanity';
 import Marquee from "react-fast-marquee";
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/solid';
 import { useState } from "react";
@@ -34,7 +35,7 @@ const customStyles = {
     },
 };
 
-export default function Cart() {
+export default function Cart({ settings }) {
     const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime, assignDeliveryPostcode, deliveryPostcode, assignOrderMessage, orderMessage } = useCart();
     const [postcodeModal, setPostcodeModal] = useState(false);
     const [date, setDate] = useState(null);
@@ -42,19 +43,6 @@ export default function Cart() {
     const [postcode, setPostcode] = useState("");
     const [message, setMessage] = useState("");
     const format = "dddd, MMMM Do YYYY";
-
-    function timeSlotValidator(slotTime) {
-        const eveningTime = new Date(
-            slotTime.getFullYear(),
-            slotTime.getMonth(),
-            slotTime.getDate(),
-            9,
-            0,
-            0
-        );
-        const isValid = slotTime.getTime() > eveningTime.getTime();
-        return isValid;
-    }
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const timezone = "en-AU";
@@ -105,6 +93,7 @@ export default function Cart() {
         }
     }
 
+    const hasCookes = products.filter(x => x.type === "box");
     const Container = styled.div`
         margin: 1em auto;
         width: 100%;
@@ -129,8 +118,6 @@ export default function Cart() {
             </div>
         </Page>
     }
-
-    const hasCookes = products.filter(x => x.type === "box")
 
     return (
         <Page
@@ -166,7 +153,8 @@ export default function Cart() {
 
             <div className="flex flex-col justify-center space-y-8 py-12">
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
-                <Timer initialMinute={60} initialSeconds={40} message={deliveryType === "collect" ? "until next-day collection cut off!" : "until Tuesday delivery cut off!"} />
+                {(hasCookes && deliveryType === "delivery") && <RenderDeliveryNotice settings={settings[1]} />}
+                {deliveryType === "collect" && <RenderCollectionNotice settings={settings[1]} />}
                 <div>
                     <div className="border-t border-b border-vibrant grid-cols-6 w-full hidden md:grid">
                         <div className="font-display text-2xl text-vibrant px-8 py-4 border-r border-vibrant uppercase col-span-3">
@@ -183,7 +171,6 @@ export default function Cart() {
                         </div>
                     </div>
                     {products.map((product, i) => {
-                        console.log(product)
                         return <div className="border-b border-vibrant grid grid-cols-1 md:grid-cols-6 w-full" key={`product_${i}`}>
                             <div className="border-r border-vibrant p-6 md:p-12 col-span-3 border-b md:border-b-0">
                                 <h3 className="font-display text-3xl text-vibrant mb-4 uppercase">{product.title}</h3>
@@ -278,4 +265,68 @@ export default function Cart() {
             </div>
         </Page>
     )
+}
+export async function getStaticProps() {
+
+    const settings = await client.fetch(`
+        *[_type == "settings"]
+    `);
+
+    return {
+        props: {
+            settings
+        },
+        revalidate: 10, // In seconds
+    };
+}
+
+const RenderCollectionNotice = () => {
+    const bannerStyles = "font-body text-vibrant py-2 w-full text-xl text-center border-b border-t border-vibrant";
+    return <div className={bannerStyles}>Order before 8pm for next day pickup</div>
+}
+
+
+const RenderDeliveryNotice = ({ settings }) => {
+    var date = moment().format("MM-DD-YYYY");
+    var time = "09:00";
+    var now = moment();
+    var today = moment(date + ' ' + time);
+    const nowPlus1 = moment(today).add(1, 'days');
+    const nowPlus2 = moment(today).add(2, 'days');
+    const nowPlus3 = moment(today).add(3, 'days');
+    const nowPlus4 = moment(today).add(4, 'days');
+
+    let deliveryDayNums = [];
+    
+    settings.deliveryDays.forEach(delivery =>
+        deliveryDayNums.push(parseInt(delivery.value))
+    )
+    const bannerStyles = "font-body text-vibrant py-2 w-full text-xl text-center border-b border-t border-vibrant";
+
+    if(nowPlus1.diff(now, 'hours') >= settings.notice) {
+        // Check to see if that day is a delivery day
+        if(deliveryDayNums.includes(nowPlus1.day())) {
+            return <div className={bannerStyles}>📦 Order in the next {nowPlus1.diff(now, 'hours') - settings.notice} hours to qualify for {nowPlus1.format('dddd')} delivery</div>
+        }
+    }
+
+    if(nowPlus2.diff(now, 'hours') >= settings.notice) {
+        // Check to see if that day is a delivery day
+        if(deliveryDayNums.includes(nowPlus2.day())) {
+            return <div className={bannerStyles}>📦 Order in the next {nowPlus2.diff(now, 'hours') - settings.notice} hours to qualify for {nowPlus2.format('dddd')} delivery</div>
+        }
+    }
+
+    if(nowPlus3.diff(now, 'hours') >= settings.notice) {
+        if(deliveryDayNums.includes(nowPlus3.day())) {
+            return <div className={bannerStyles}>📦 Order in the next {nowPlus3.diff(now, 'hours') - settings.notice} hours to qualify for {nowPlus3.format('dddd')} delivery</div>
+        }
+    }
+
+    if(nowPlus4.diff(now, 'hours') >= settings.notice) {
+        if(deliveryDayNums.includes(nowPlus4.day())) {
+            return <div className={bannerStyles}>📦 Order in the next {nowPlus4.diff(now, 'hours') - settings.notice} hours to qualify for {nowPlus4.format('dddd')} delivery</div>
+        }
+    }
+
 }

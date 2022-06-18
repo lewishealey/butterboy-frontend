@@ -21,7 +21,7 @@ export default function (req, res) {
         }, // Customer
         // {
         //   address: {
-        //     email: data.repEmail ? data.repEmail : adminEmail,
+        //     email: data.repEmail ? data.repEpmail : adminEmail,
         //   },
         //   substitution_data: {
         //     subject: data.adminSubject,

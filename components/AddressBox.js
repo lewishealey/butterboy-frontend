@@ -22,7 +22,7 @@ const AddressBox = ({ data, phone = false, type, onChange, postcode = null }) =>
                 <input className={inputClasses  + " border-r"} placeholder="State" name="state" onChange={handleOnChange} defaultValue={input.state} />
                 {postcode ? <input className={inputClasses} placeholder="Postcode" name="postcode" defaultValue={postcode} disabled /> : <input className={inputClasses} placeholder="Postcode" name="postcode" onChange={handleOnChange} defaultValue={input.postcode} />}
             </div>
-            {postcode ? <input className={inputClasses  + " cursor-not-allowed"} defaultValue={input.country} name="country" disabled={postcode} /> : <input className={inputClasses  + " cursor-not-allowed"} onChange={handleOnChange} defaultValue={input.country} name="country" disabled={postcode} />}
+            {postcode ? <input className={inputClasses  + " cursor-not-allowed"} defaultValue={input.country} name="country" placeholder="Country" disabled={postcode} /> : <input className={inputClasses} onChange={handleOnChange} defaultValue={input.country} placeholder="Country" name="country" />}
             {phone && <input className={inputClasses} placeholder="Phone (optional)" name="phone" onChange={handleOnChange} defaultValue={input.phone} />}
         </>
     )

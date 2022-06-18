@@ -31,15 +31,18 @@ export default function Home({ products, reviews, logos }) {
 
       <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
-          <div className="max-w-7xl m-auto">
+          <div className="max-w-7xl m-auto hidden md:flex">
             <img src="mark_red.svg" className="square" style={{ width: "12%" }} />
           </div>
         </div>
         <div className="absolute w-full">
           <img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" />
         </div>
-        <div className="relative m-auto w-full md:w-3/5">
+        <div className="relative m-auto w-full md:w-3/5 hidden md:block">
           <Image src="/banner.png" layout="responsive" width={400} height={250} />
+        </div>
+        <div className="relative m-auto w-full md:w-3/5 block md:hidden pt-12">
+          <Image src="/matcha-mobile.png" layout="responsive" width={400} height={400} />
         </div>
       </div>
       <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto">
@@ -67,9 +70,9 @@ export default function Home({ products, reviews, logos }) {
         THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES - THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES
       </Marquee>
 
-      <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16">Shop cookies</h2>
+      <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-t border-vibrant">Shop cookies</h2>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 border-t border-vibrant">
+      <section className="grid grid-cols-2 border-t border-vibrant gap-y-2 md:gap-0">
         {jsxBoxes}
       </section>
       <section className="px-4 md:px-0">
