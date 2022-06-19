@@ -133,9 +133,9 @@ export default function Confirmed({ slug }) {
                                 <div className="font-body text-xl">Subtotal</div>
                                 <div className="font-body text-xl">${order.subtotal.totalPrice.toFixed(2)}</div>
                             </div>
-                            {(order.deliveryType === "delivery" && order.shipping) && <div className="flex w-full justify-between">
-                                <div className="font-body text-xl">Shipping ({order.shipping.type})</div>
-                                {(order.shipping && order.shipping.price) && <div className="font-body text-xl">${(order.shipping.price).toFixed(2)}</div>}
+                            {(order.deliveryType === "delivery" && order.delivery) && <div className="flex w-full justify-between">
+                                <div className="font-body text-xl">Shipping ({order.delivery.type})</div>
+                                {(order.delivery && order.delivery.price) && <div className="font-body text-xl">${(order.delivery.price).toFixed(2)}</div>}
                             </div>}
                         </div>
                         <div className="flex flex-col justify-between space-y-2">

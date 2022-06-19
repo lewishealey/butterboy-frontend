@@ -151,7 +151,7 @@ export default function Cart({ settings }) {
                 </Container>
             </Modal>
 
-            <div className="flex flex-col justify-center space-y-8 py-12">
+            <div className="flex flex-col justify-center space-y-8 py-8">
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
                 {(hasCookes && deliveryType === "delivery") && <RenderDeliveryNotice settings={settings[1]} />}
                 {deliveryType === "collect" && <RenderCollectionNotice settings={settings[1]} />}

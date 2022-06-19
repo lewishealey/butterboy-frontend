@@ -52,24 +52,16 @@ const blankCustomerInfo = {
   errors: null
 }
 
-export default function Checkout({ settings }) {
+export default function Checkout({ settings, discounts }) {
   const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage } = useCart();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null)
-  const format = "dddd, MMMM Do YYYY"; 
+  const format = "dddd, MMMM Do YYYY";
   const timeFormat = "HH:mm:ss";
   const [shipping, setShipping] = useState(null);
+  const [discountCode, setDiscountCode] = useState("");
   const [finalAmount, setFinalAmount] = useState(total.totalPrice);
   const [discount, setDiscount] = useState(null);
   const router = useRouter();
-
-  // fetch when final stage of checkout, not before
-  useEffect(() => {
-    fetchPostJSON('/api/payment_intents', {
-      amount: total.totalPrice ? total.totalPrice : 10,
-    }).then((data) => {
-      setPaymentIntent(data)
-    })
-  }, [setPaymentIntent])
 
   const initialState = {
     email: 'hello@lewi.sh',
@@ -88,9 +80,7 @@ export default function Checkout({ settings }) {
     sameAsShipping: true,
     newsletter: false,
     orderMessage: orderMessage,
-    discount: discount,
     subtotal: total,
-    total: finalAmount,
     paymentMethod: "stripe",
     payment_method_title: "Credit card",
   };
@@ -118,13 +108,65 @@ export default function Checkout({ settings }) {
     setInput(newState);
   };
 
-  const handleShipping = (type) => {
-    setShipping(type);
+  const changeDiscount = (event) => {
+    const { target } = event || {};
+    setDiscountCode(target.value.toUpperCase());
+  };
+
+  const handlePayment = () => {
+    fetchPostJSON('/api/payment_intents', {
+      amount: finalAmount,
+    }).then((data) => {
+      console.log(data)
+      setStage(3);
+      setPaymentIntent(data);
+    });
+  }
+
+  const handleShipping = (type, price) => {
+    setShipping({ type, price });
+    if(discount) {
+      if (discount.type === "percent") {
+        setFinalAmount(total.totalPrice * (discount.amount / 100)) + price;
+      } else {
+        setFinalAmount(total.totalPrice - discount.amount + price);
+      }
+    } else {
+      setFinalAmount(total.totalPrice + price);
+    }
+  }
+
+  const applyDiscount = () => {
+    const hasDiscount = discounts.find(d => d.title.toLowerCase() === discountCode.toLowerCase())
+    if (hasDiscount) {
+      if (discount) {
+        alert("You can only apply the discount once!")
+      } else {
+        if (hasDiscount.type === "percent") {
+          setFinalAmount(finalAmount - (total.totalPrice * (hasDiscount.amount / 100)));
+          setDiscount({ ...hasDiscount, difference: (total.totalPrice * (hasDiscount.amount / 100)).toFixed(2) });
+        } else {
+          setFinalAmount(finalAmount - hasDiscount.amount);
+          setDiscount({ ...hasDiscount, difference: (hasDiscount.amount).toFixed(2) });
+        }
+      }
+    }
+  };
+
+  const clearDiscount = () => {
+    setDiscount(null);
+    setDiscountCode("");
+    if (shipping) {
+      setFinalAmount(total.totalPrice + shipping.price);
+    } else {
+      setFinalAmount(total.totalPrice);
+    }
   };
 
   async function handleCheckout(paymentResolve) {
     var val = Math.floor(1000 + Math.random() * 9000);
-    const newInput = { ...input, 
+    const newInput = {
+      ...input,
       stripe_id: paymentResolve.id,
       stripe_secret: paymentResolve.client_secret,
       order_number: val,
@@ -135,6 +177,7 @@ export default function Checkout({ settings }) {
       shipped: false,
       ready: false,
       delivery: shipping,
+      discount: discount,
     };
 
     fetch("api/create-order", {
@@ -161,17 +204,17 @@ export default function Checkout({ settings }) {
       body: JSON.stringify(emailData)
     }).then(response => response.json())
       .then((res) => {
-      console.log("Email sent")
-      if(id) {
-        router.push("/confirmed/" + id);
-      }
-    });
+        console.log("Email sent")
+        if (id) {
+          router.push("/confirmed/" + id);
+        }
+      });
   };
 
   const hasCookes = products.filter((x: any) => x.type === "box");
 
   return (
-    <Page 
+    <Page
       title="Checkout"
       heading="Checkout">
 
@@ -181,7 +224,7 @@ export default function Checkout({ settings }) {
             {stage === 1 &&
               <>
                 <fieldset className='flex flex-col'>
-                <SectionLabel>Contact information</SectionLabel>
+                  <SectionLabel>Contact information</SectionLabel>
                   <input className={inputClasses} placeholder="Email" name="email" defaultValue={input.email} />
                   <div className="flex space-x-2 items-center border-b border-vibrant py-4 px-8 cursor-pointer">
                     <input type="checkbox" className="h-4 w-4 rounded border border-vibrant cursor-pointer" name="newsletter" id="newsletter" defaultChecked={input.newsletter} onChange={handleSignup} />
@@ -193,9 +236,9 @@ export default function Checkout({ settings }) {
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
                 <div className="flex flex-col">
-                  {(hasCookes && deliveryType === "delivery") ? <button
+                  {(!hasCookes && deliveryType === "delivery") ? <button
                     className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
-                    onClick={() => setStage(3)}
+                    onClick={handlePayment}
                   >
                     Proceed to payment
                   </button> : <button
@@ -206,15 +249,15 @@ export default function Checkout({ settings }) {
                   </button>}
                   <Link href="/cart">
                     <button
-                    className="hover:bg-white px-5 py-3 uppercase font-display border-b border-vibrant text-vibrant border-b text-lg hover:bg-gray-200 inline-flex"
-                  >
-                    Back to cart
-                  </button>
+                      className="hover:bg-white px-5 py-3 uppercase font-display border-b border-vibrant text-vibrant border-b text-lg hover:bg-gray-200 inline-flex"
+                    >
+                      Back to cart
+                    </button>
                   </Link>
                 </div>
               </>}
 
-              {stage > 1 && 
+            {stage > 1 &&
               <fieldset className='flex flex-col'>
                 <SectionLabel>Information</SectionLabel>
                 <div className="w-full">
@@ -234,15 +277,16 @@ export default function Checkout({ settings }) {
                     </div>
                     <div className="hover:underline text-base font-body text-vibrant">Change</div>
                   </button>}
-                  <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
-                    <div className="flex space-x-8">
-                      <span className="text-vibrant font-body">Delivery</span>
-                      <span className="text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
-                    </div>
-                  </div>
+                  {(deliveryType === "delivery" && hasCookes.length > 0) &&
+                    <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
+                      <div className="flex space-x-8">
+                        <span className="text-vibrant font-body">Delivery</span>
+                        <span className="text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
+                      </div>
+                    </div>}
                 </div>
               </fieldset>
-              }
+            }
 
             {stage >= 2 &&
               <>
@@ -260,18 +304,14 @@ export default function Checkout({ settings }) {
                     </button></Link>}
                   </div>
                 </fieldset>}
-                {(deliveryType == "delivery" && !hasCookes) && <fieldset className='flex flex-col'>
+                {(deliveryType == "delivery" && hasCookes.length === 0) && <fieldset className='flex flex-col'>
                   <SectionLabel>{!shipping ? "Select a s" : "S"}hipping method</SectionLabel>
                   <div className="border border-gray-300 bg-cream rounded w-full">
                     <button className={`flex justify-between px-4 py-2 w-full items-start text-left hover:bg-gray-100 
-                    ${shipping && shipping.type === "standard" && "border-2 border-blue-500"}`} 
-                    onClick={() => {
-                      setShipping({
-                          type: "standard",
-                          price: 10
-                      });
-                      setFinalAmount(total.totalPrice + 10);
-                    }}>
+                    ${shipping && shipping.type === "standard" && "border-2 border-blue-500"}`}
+                      onClick={() => {
+                        handleShipping("standard", 10)
+                      }}>
                       <div className="flex flex-col">
                         <div className="flex space-x-3 items-center">
                           <Dot checked={shipping && shipping.type === "standard"} /><span className="text-vibrant text-lg font-body">Standard</span>
@@ -280,16 +320,12 @@ export default function Checkout({ settings }) {
                       </div>
                       <div className="hover:underline text-lg text-vibrant pt-1 font-body">$10.00</div>
                     </button>
-                    <button 
+                    <button
                       className={`flex justify-between px-4 py-2 w-full border-t border-vibrant items-center text-left hover:bg-gray-100 
-                      ${shipping && shipping.type === "express" && "border-2 border-blue-500"}`} 
+                      ${shipping && shipping.type === "express" && "border-2 border-blue-500"}`}
                       onClick={() => {
-                        setShipping({
-                          type: "express",
-                          price: 25
-                        });
-                        setFinalAmount(total.totalPrice + 25);
-                    }}>
+                        handleShipping("express", 25)
+                      }}>
                       <div className="flex flex-col">
                         <div className="flex space-x-3 items-center">
                           <Dot checked={shipping && shipping.type === "express"} /><span className="text-vibrant text-lg font-body">Express</span>
@@ -303,14 +339,14 @@ export default function Checkout({ settings }) {
                 {stage === 2 && <div>
                   {deliveryType === "delivery" && <button
                     className={buttonClasses + ` ${!shipping && ' bg-gray-200 text-gray-500 cursor-not-allowed hover:bg-gray-200 hover:text-gray-500'}`}
-                    onClick={() => setStage(3)}
+                    onClick={handlePayment}
                     disabled={!shipping}
                   >
                     Proceed to payment
                   </button>}
                   {deliveryType === "collect" && <button
                     className={buttonClasses}
-                    onClick={() => setStage(3)}
+                    onClick={handlePayment}
                   >
                     Proceed to payment
                   </button>}
@@ -369,7 +405,7 @@ export default function Checkout({ settings }) {
                             clientSecret: paymentIntent.client_secret,
                           }}
                         >
-                          <ElementsForm paymentIntent={paymentIntent} onPaymentResolve={handleCheckout} data={input}/>
+                          <ElementsForm paymentIntent={paymentIntent} onPaymentResolve={handleCheckout} data={input} />
                         </Elements>
                       ) : (
                         <p>Loading...</p>
@@ -397,16 +433,22 @@ export default function Checkout({ settings }) {
                   <span className="font-body text-xl text-vibrant">${product.price}</span>
                 </div>
               </div>
-              })}
-            <div className="flex">
-              <input type="text" placeholder="Gift card or discount code" className={inputClasses + " w-full"}/>
-              <button className="bg-cream border-l border-vibrant px-4 inline-flex h-14 border-b items-center uppercase font-display text-vibrant h-full">Apply</button>
-            </div>
+            })}
+            {stage < 3 &&
+              <div className="flex">
+                <input type="text" placeholder="Gift card or discount code" className={inputClasses + " w-full"} onChange={changeDiscount} value={discountCode} />
+                <button className="bg-cream border-l border-vibrant px-4 inline-flex h-14 border-b items-center uppercase font-display text-vibrant h-full" onClick={applyDiscount}>Apply</button>
+              </div>}
             <div className="flex flex-col justify-between py-6 border-b border-vibrant space-y-2 px-8">
               <div className="flex w-full justify-between">
                 <div className="font-body text-xl text-vibrant">Subtotal</div>
                 <div className="font-body text-xl font-body text-vibrant">${total.totalPrice.toFixed(2)}</div>
               </div>
+              {discount &&
+                <div className="flex w-full justify-between">
+                  <div className="font-body text-xl text-vibrant">Discount ({discount.title}) {stage < 3 ? <button onClick={clearDiscount} className="underline">Clear</button> : <button onClick={() => setStage(2)} className="underline">Change</button>}</div>
+                  <div className="font-body text-xl font-body text-vibrant">-${discount.difference}</div>
+                </div>}
               {(deliveryType === "delivery" && shipping) && <div className="flex w-full justify-between">
                 <div className="font-body text-xl text-vibrant">Shipping ({shipping.type})</div>
                 {shipping.price && <div className="font-body text-xl text-vibrant">${shipping.price.toFixed(2)}</div>}
@@ -434,10 +476,15 @@ export async function getStaticProps() {
       *[_type == "settings"]
   `);
 
+  const discounts = await client.fetch(`
+      *[_type == "discount" && live == true]
+  `);
+
   return {
-      props: {
-          settings
-      },
-      revalidate: 10, // In seconds
+    props: {
+      settings,
+      discounts
+    },
+    revalidate: 10, // In seconds
   };
 }

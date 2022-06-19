@@ -30,7 +30,7 @@ const Product = ({ product }) => {
                         {product.thumbnail &&  <img src={urlFor(product.thumbnail)} className={`h-full ${product.hover && "group-hover:opacity-0"} ${padding} ${rotate}`} layout="fill"/>}
                 </div>
                 <div className="border-t border-vibrant flex flex-col md:flex-row">
-                    <span className="uppercase font-body text-xl md:text-3xl text-vibrant border-t md:border-r border-vibrant p-3 md:p-6 md:p-12 order-1 md:order-0 text-center">
+                    <span className="uppercase font-body text-xl md:text-3xl text-vibrant border-t md:border-r md:border-t-0 border-vibrant p-3 md:p-6 md:p-12 order-1 md:order-0 text-center">
                         ${product.price}
                     </span>
                     <h4 className="uppercase font-body text-xl md:text-3xl text-vibrant p-3 md:p-6 md:p-12 w-full text-center order-0 md:order-1">{product.title}</h4>

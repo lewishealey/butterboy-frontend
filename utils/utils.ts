@@ -26,28 +26,24 @@ export function getDate(date) {
   
       if(nowPlus1.diff(now, 'hours') >= settings.notice) {
           if(deliveryDayNums.includes(nowPlus1.day())) {
-            console.log(nowPlus1)
               return nowPlus1;
           }
       }
   
       if(nowPlus2.diff(now, 'hours') >= settings.notice) {
           if(deliveryDayNums.includes(nowPlus2.day())) {
-            console.log(nowPlus2)
             return nowPlus2;
           }
       }
   
       if(nowPlus3.diff(now, 'hours') >= settings.notice) {
           if(deliveryDayNums.includes(nowPlus3.day())) {
-            console.log(nowPlus3)
             return nowPlus3;
           }
       }
   
       if(nowPlus4.diff(now, 'hours') >= settings.notice) {
           if(deliveryDayNums.includes(nowPlus4.day())) {
-            console.log(nowPlus4)
             return nowPlus4;
           }
       }
