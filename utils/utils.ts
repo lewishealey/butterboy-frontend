@@ -19,7 +19,7 @@ export function getDate(date) {
       const nowPlus4 = moment(today).add(4, 'days');
   
       let deliveryDayNums = [];
-      const settings = object[1];
+      const settings = object[0];
       settings.deliveryDays.forEach(delivery =>
           deliveryDayNums.push(parseInt(delivery.value))
       )

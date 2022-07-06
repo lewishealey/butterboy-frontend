@@ -138,7 +138,7 @@ export default function Confirmed({ slug }) {
                                 {(order.delivery && order.delivery.price) && <div className="font-body text-xl">${(order.delivery.price).toFixed(2)}</div>}
                             </div>}
                         </div>
-                        <div className="flex flex-col justify-between space-y-2">
+                        {order.total && <div className="flex flex-col justify-between space-y-2">
                             <div className="flex w-full justify-between">
                                 <div className="font-body text-xl text-gray-500">Total</div>
                                 <div className="font-body text-2xl space-x-2 items-center flex">
@@ -146,7 +146,7 @@ export default function Confirmed({ slug }) {
                                     <span className="text-3xl">${order.total.toFixed(2)}</span>
                                 </div>
                             </div>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>

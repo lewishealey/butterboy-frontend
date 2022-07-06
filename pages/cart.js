@@ -31,7 +31,8 @@ const customStyles = {
         width: '40%',
         background: "#ffffff",
         padding: "0",
-        overflowX: "auto"
+        overflow: "none",
+        maxHeight: "75%"
     },
 };
 
@@ -145,16 +146,16 @@ export default function Cart({ settings }) {
                 contentLabel="Enter date"
             >
                 <Container>
-                    <div className="w-full h-full p-12 space-y-8">
-                        <PickDateTime onSchedule={handleSchedule} />
+                    <div className="w-full h-full p-12 pt-4 space-y-8">
+                        <PickDateTime onSchedule={handleSchedule} settings={settings} />
                     </div>
                 </Container>
             </Modal>
 
             <div className="flex flex-col justify-center space-y-8 py-8">
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
-                {(hasCookes && deliveryType === "delivery") && <RenderDeliveryNotice settings={settings[1]} />}
-                {deliveryType === "collect" && <RenderCollectionNotice settings={settings[1]} />}
+                {(hasCookes && deliveryType === "cookie-delivery") && <RenderDeliveryNotice settings={settings[0]} />}
+                {deliveryType === "collect" && <RenderCollectionNotice settings={settings[0]} />}
                 <div>
                     <div className="border-t border-b border-vibrant grid-cols-6 w-full hidden md:grid">
                         <div className="font-display text-2xl text-vibrant px-8 py-4 border-r border-vibrant uppercase col-span-3">
@@ -218,7 +219,7 @@ export default function Cart({ settings }) {
                 </div>
                 <section className="flex flex-col md:flex-row border-b border-t border-vibrant">
                     <button className={deliveryType === "collect" ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => assignDeliveryType("collect")}>Shop pick up</button>
-                    <button className={deliveryType === "delivery" ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => assignDeliveryType("delivery")}>Shop delivery</button>
+                    <button className={(deliveryType === "cookie-delivery" || deliveryType === "merch-delivery") ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => hasCookes.length > 0 ? assignDeliveryType("cookie-delivery") : assignDeliveryType("merch-delivery")}>Shop delivery</button>
                 </section>
                 {deliveryType === "collect" && <section>
                     <div className="flex flex-col md:flex-row border-t border-vibrant flex w-full border-b border-vibrant">
@@ -240,7 +241,7 @@ export default function Cart({ settings }) {
                         </div>
                     </div>
                 </section>}
-                {deliveryType === "delivery" && <section>
+                {deliveryType === "cookie-delivery" && <section>
                     <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
                         <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
                             <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
@@ -252,16 +253,33 @@ export default function Cart({ settings }) {
                             </div>
                         </div>
                         <div className="flex w-full flex-col">
-                            {hasCookes.length > 0 ? <div className="border-b border-vibrant flex w-full">
+                             <div className="border-b border-vibrant flex w-full">
                                 <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
-                            </div>: <div className="border-b border-vibrant flex w-full"><div className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full">&nbsp;</div></div>}
-                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && hasCookes.length > 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode && hasCookes.length > 0}>Check out</button></Link>
+                            </div>
+                            <Link href="/checkout">
+                                <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>
+                            </Link>
                         </div>
                     </div>
                 </section>}
-                {/* <Marquee className="bg-vibrant text-white font-body text-3xl py-6 z-10" gradient={false}>
-                    BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY - BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY - BUTTERBOY'S FIRST RETAIL STORE OPENS LATE MAY
-                </Marquee> */}
+                {deliveryType === "merch-delivery" && <section>
+                    <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
+                        <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
+                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
+                            <div className="flex flex-col space-y-2">
+                                <h3 className="font-display uppercase text-vibrant text-2xl font-body">Important delivery info</h3>
+                                <span className="text-vibrant text-2xl font-body">Delivery is only available within 15km radius of the store</span>
+                                <span className="text-vibrant text-2xl font-body">74-78 The Corso Manly, 2095</span>
+                                <span className="text-vibrant text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
+                            </div>
+                        </div>
+                        <div className="flex w-full flex-col">
+                            <Link href="/checkout">
+                                <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve`} >Check out</button>
+                            </Link>
+                        </div>
+                    </div>
+                </section>}
             </div>
         </Page>
     )

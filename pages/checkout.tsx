@@ -171,13 +171,15 @@ export default function Checkout({ settings, discounts }) {
       stripe_secret: paymentResolve.client_secret,
       order_number: val,
       date_created: moment().format(format).toString(),
+      date_created_unix: moment().unix(),
       time_created: moment().format(timeFormat).toString(),
-      delivery_date: moment(getDeliveryDate(settings)).format("YYYY-MM-DD"),
+      delivery_date: deliveryType === "cookie-delivery" ? moment(getDeliveryDate(settings)).format("YYYY-MM-DD") : false,
       completed: false,
       shipped: false,
       ready: false,
-      delivery: shipping,
+      delivery: deliveryType === "merch-delivery" ? shipping : false,
       discount: discount,
+      total: finalAmount,
     };
 
     fetch("api/create-order", {
@@ -236,7 +238,7 @@ export default function Checkout({ settings, discounts }) {
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
                 <div className="flex flex-col">
-                  {(!hasCookes && deliveryType === "delivery") ? <button
+                  {deliveryType === "cookie-delivery" ? <button
                     className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={handlePayment}
                   >
@@ -277,7 +279,7 @@ export default function Checkout({ settings, discounts }) {
                     </div>
                     <div className="hover:underline text-base font-body text-vibrant">Change</div>
                   </button>}
-                  {(deliveryType === "delivery" && hasCookes.length > 0) &&
+                  {deliveryType === "cookie-delivery" &&
                     <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
                       <div className="flex space-x-8">
                         <span className="text-vibrant font-body">Delivery</span>
@@ -304,7 +306,7 @@ export default function Checkout({ settings, discounts }) {
                     </button></Link>}
                   </div>
                 </fieldset>}
-                {(deliveryType == "delivery" && hasCookes.length === 0) && <fieldset className='flex flex-col'>
+                {deliveryType == "merch-delivery" && <fieldset className='flex flex-col'>
                   <SectionLabel>{!shipping ? "Select a s" : "S"}hipping method</SectionLabel>
                   <div className="border border-gray-300 bg-cream rounded w-full">
                     <button className={`flex justify-between px-4 py-2 w-full items-start text-left hover:bg-gray-100 
@@ -337,7 +339,7 @@ export default function Checkout({ settings, discounts }) {
                   </div>
                 </fieldset>}
                 {stage === 2 && <div>
-                  {deliveryType === "delivery" && <button
+                  {(deliveryType === "cookie-delivery" || deliveryType === "merch-delivery") && <button
                     className={buttonClasses + ` ${!shipping && ' bg-gray-200 text-gray-500 cursor-not-allowed hover:bg-gray-200 hover:text-gray-500'}`}
                     onClick={handlePayment}
                     disabled={!shipping}
