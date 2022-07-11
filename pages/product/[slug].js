@@ -178,7 +178,7 @@ export async function getStaticProps(context) {
       *[_type == "product" && slug.current == $slug][0]
     `, { slug })
     const cookies = await client.fetch(`
-        *[_type == "cookie" && type == "cookie"]
+        *[_type == "cookie" && type == "cookie"] | order(title)
     `);
     return {
         props: {

@@ -39,7 +39,7 @@ export default function Shop({ products, cookies }) {
 
 export async function getStaticProps({ params }) {
     const cookies = await client.fetch(`
-        *[_type == "cookie" && type == "cookie"]
+        *[_type == "cookie" && type == "cookie"] | order(title)
     `);
 
     const products = await client.fetch(`

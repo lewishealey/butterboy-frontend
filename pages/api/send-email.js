@@ -9,7 +9,7 @@ export default function (req, res) {
     .send({
       metadata: data,
       content: {
-        template_id: "butterboy",
+        template_id: "order-confirmed",
         subject: `Order #${data.order_number} Confirmed` //data.subject,
       },
       recipients: [
