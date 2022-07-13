@@ -274,7 +274,7 @@ export default function Cart({ settings }) {
                         </div>
                         <div className="flex w-full flex-col">
                              <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} on ${deliveryDay}` : "ENTER YOUR POSTCODE"}</button>
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full px-4" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} on ${deliveryDay}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
                             <Link href="/checkout">
                                 <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>

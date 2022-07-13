@@ -17,7 +17,6 @@ import { PaymentIntent } from '@stripe/stripe-js'
 import moment from 'moment';
 import Dot from 'components/Dot';
 import SectionLabel from 'components/SectionLabel';
-import { getDeliveryDate } from 'utils/utils'
 
 interface EmailType {
   date: string;
@@ -53,7 +52,7 @@ const blankCustomerInfo = {
 }
 
 export default function Checkout({ settings, discounts }) {
-  const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage } = useCart();
+  const { products, deliveryType, pickupDate, pickupTime, total, deliveryPostcode, clearCart, orderMessage, deliveryDay } = useCart();
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null)
   const format = "dddd, MMMM Do YYYY";
   const timeFormat = "HH:mm:ss";
@@ -77,6 +76,7 @@ export default function Checkout({ settings, discounts }) {
     pick_up_time: pickupTime,
     pick_up_date: pickupDate,
     deliveryType: deliveryType,
+    deliveryDay: deliveryDay,
     sameAsShipping: true,
     newsletter: false,
     orderMessage: orderMessage,
@@ -181,13 +181,12 @@ export default function Checkout({ settings, discounts }) {
       date_created: moment().format(format).toString(),
       date_created_unix: moment().unix(),
       time_created: moment().format(timeFormat).toString(),
-      delivery_date: deliveryType === "cookie-delivery" ? moment(getDeliveryDate(settings)).format("YYYY-MM-DD") : false,
       completed: false,
       shipped: false,
       ready: false,
-      delivery: deliveryType === "merch-delivery" ? shipping : false,
+      delivery: deliveryType !== "collect" ? shipping : false,
       discount: discount,
-      total: finalAmount,
+      total: finalAmount
     };
 
     fetch("api/create-order", {
@@ -262,7 +261,7 @@ export default function Checkout({ settings, discounts }) {
                         <div className="flex space-x-3 items-center">
                           <span className="text-vibrant text-lg font-body">Local delivery</span>
                         </div>
-                        <span className="text-md text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
+                        <span className="text-md text-vibrant font-body">{deliveryDay}</span>
                       </div>
                       <div className="hover:underline text-lg text-vibrant pt-1 font-body">$10.00</div>
                     </button>
@@ -314,7 +313,7 @@ export default function Checkout({ settings, discounts }) {
                     <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
                       <div className="flex space-x-8">
                         <span className="text-vibrant font-body">Delivery</span>
-                        <span className="text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
+                        <span className="text-vibrant font-body">{deliveryDay}</span>
                       </div>
                     </div>}
                 </div>
