@@ -12,6 +12,8 @@ const useCartProducts = () => {
     setPickupDate, 
     pickupTime, 
     setPickupTime, 
+    deliveryDay, 
+    setDeliveryDay,
     deliveryPostcode, 
     setDeliveryPostcode,
     orderMessage,
@@ -84,6 +86,10 @@ const useCartProducts = () => {
     setDeliveryPostcode(postcode);
   };
 
+  const assignDeliveryDay = (day: any) => {
+    setDeliveryDay(day);
+  };
+
   const assignOrderMessage = (message: string) => {
     setOrderMessage(message);
   };
@@ -121,6 +127,8 @@ const useCartProducts = () => {
     pickupTime,
     assignDeliveryPostcode,
     deliveryPostcode,
+    assignDeliveryDay,
+    deliveryDay,
     assignOrderMessage,
     orderMessage
   };

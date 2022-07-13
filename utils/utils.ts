@@ -8,6 +8,35 @@ export function getDate(date) {
     });
   }
 
+
+  export function getDeliveryDates(object) {
+    var date = moment().format("MM-DD-YYYY");
+    var time = "09:00";
+    var now = moment();
+    var today = moment(date + ' ' + time);
+    let dates = [];
+
+    let deliveryDayNums = [];
+    const settings = object[0];
+    settings.deliveryDays.forEach(delivery =>
+        deliveryDayNums.push(parseInt(delivery.value))
+    )
+
+    {[...Array(settings.deliveryRange)].map((elementInArray, index) => {
+      let yourDate = moment(today).add(index + 1, 'days');
+      const formatedDate = yourDate.toISOString().split('T')[0];
+      if(yourDate.diff(now, 'hours') >= settings.notice) {
+          if(deliveryDayNums.includes(yourDate.day())) {
+            dates.push(yourDate);
+          }
+      }
+    }
+  )}
+
+  return dates;
+
+}
+
   export function getDeliveryDate(object) {
       var date = moment().format("MM-DD-YYYY");
       var time = "09:00";

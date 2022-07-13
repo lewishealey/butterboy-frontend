@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import Modal from 'react-modal';
 import { useEffect, useState } from "react";
 import { getSlugs, getProduct, getCookies } from 'utils/wordpress';
+import Select from 'react-select'
 import Page from "components/Page";
 import Cookie from 'components/Cookie';
 import AddToBox from 'components/AddToBox';
@@ -15,21 +16,27 @@ import { urlFor } from "helpers/sanity";
 Modal.setAppElement('#__next');
 
 const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        width: '80%',
-        height: "80%",
-        maxHeight: "80%",
-        background: "#DCC9E8",
-        padding: "0",
-        overflowX: "auto"
-    },
-};
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: '1px solid #E50001',
+      color: '#E50001',
+      backgroundColor: state.isSelected ? "#f1f1f1" : "#FFFFFF",
+      "&:hover": {
+        backgroundColor: "#f1f1f1"
+      },
+      fontFamily: "bikoregular, Arial, sans-serif",
+      padding: 20,
+    }),
+    control: (provided) => ({
+        ...provided,
+        border: '1px solid #E50001',
+        height: 60,
+        fontSize: 18,
+        color: '#E50001',
+        fontFamily: "bikoregular, Arial, sans-serif",
+    }),
+  }
+  
 
 export default function SingleProduct({ product, cookies }) {
 
@@ -38,6 +45,7 @@ export default function SingleProduct({ product, cookies }) {
     const { addProduct } = useCart();
     const [count, setCount] = useState(0);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedType, setSelectedType] = useState(null);
     const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
 
     function renderCookieString(cookies) {
@@ -91,17 +99,34 @@ export default function SingleProduct({ product, cookies }) {
             image: urlFor(product.thumbnail).url(),
             type: product?.details?.type,
             quantity: 1,
-            size: selectedSize ? selectedSize : product.details.sizing
+            size: selectedSize ? selectedSize : product.details.sizing,
+            selectedOption: selectedType ? selectedType : null
         }
 
         addProduct({ ...productItem, quantity: 1 });
         router.push("/cart")
     }
 
+    const options = [];
+    product.cookies && product.cookies.forEach(c => {
+        options.push({
+            label: c.title,
+            value: c.title
+        })
+    });
 
     if(product.available) {
         return (
             <Page title={product.title} heading={product.title}>
+                {product?.details?.type === "other" && <div className='space-y-12 flex flex-col justify-center py-12'>
+                    <img src={urlFor(product.thumbnail)} className="m-auto w-1/2 md:w-1/3" />
+                    <div className="max-w-xl m-auto w-full"><Select options={options} onChange={(type) => setSelectedType(type)} styles={customStyles}/></div>
+                    <div className='w-full flex justify-center'>
+                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${product.price}</span>
+                        <button className={`font-display px-8 py-4 text-3xl ${selectedType ? "hover:bg-red-700 bg-vibrant text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} onClick={handleCart} disabled={options && selectedType && selectedType.length === 0}>Add to cart</button>
+                    </div>
+                </div>
+                }
                 {product?.details?.type === "box" &&
                     <>
                         <div className='grid grid-cols-4 p-24 gap-20 pt-24'>
@@ -175,7 +200,12 @@ export async function getStaticProps(context) {
     // It's important to default the slug so that it doesn't return "undefined"
     const { slug = "" } = context.params
     const product = await client.fetch(`
-      *[_type == "product" && slug.current == $slug][0]
+      *[_type == "product" && slug.current == $slug][0] {
+        ...,
+        cookies[]->{
+            ...
+        }
+      }
     `, { slug })
     const cookies = await client.fetch(`
         *[_type == "cookie" && type == "cookie"] | order(title)

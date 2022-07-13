@@ -13,6 +13,8 @@ export interface ICartContext {
   pickupTime: string;
   setPickupTime(type: any): void;
   deliveryPostcode: string;
+  deliveryDay: any;
+  setDeliveryDay(type: any): void;
   setDeliveryPostcode(type: any): void;
   orderMessage: string;
   setOrderMessage(type: any): void;
@@ -45,6 +47,7 @@ const CartProvider: FC = (props) => {
   const [pickupDate, setPickupDate] = useState(null);
   const [pickupTime, setPickupTime] = useState(null);
   const [deliveryPostcode, setDeliveryPostcode] = useState(null);
+  const [deliveryDay, setDeliveryDay] = useState(null);
   const [orderMessage, setOrderMessage] = useState(null);
 
   const CartContextValue: ICartContext = {
@@ -58,6 +61,8 @@ const CartProvider: FC = (props) => {
     setPickupTime,
     deliveryPostcode,
     setDeliveryPostcode,
+    deliveryDay,
+    setDeliveryDay,
     orderMessage,
     setOrderMessage,
     total,

@@ -48,15 +48,15 @@ export default function Confirmed({ slug }) {
 
     }, [])
 
-    if(status == "loading") {
+    if (status == "loading") {
         return <Page
-        title="Loading..."
-        heading="Loading...">
-        {/* <div className="py-8 space-y-4">
+            title="Loading..."
+            heading="Loading...">
+            {/* <div className="py-8 space-y-4">
             <h2 className="font-body text-2xl text-center text-vibrant">No order of that ID</h2>
             <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
         </div> */}
-    </Page>
+        </Page>
     }
 
     return (
@@ -65,7 +65,7 @@ export default function Confirmed({ slug }) {
             <div className='flex min-h-screen grid grid-cols-1 md:grid-cols-2'>
                 <div className='bg-cream p-8 md:p-16 flex justify-center'>
                     <div className='flex flex-col w-full space-y-4 max-w-xl'>
-                        <h2 className="text-2xl font-body">We'll send you a confirmation email with all the details you need.</h2>
+                        <h2 className="text-xl font-body">We'll send you a confirmation email with all the details you need.</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 w-full border-b border-gray-300 pb-4 gap-6 pt-4">
                             <div className="space-y-2">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Order number</h4>
@@ -84,22 +84,22 @@ export default function Confirmed({ slug }) {
                             <div className="space-y-2 border-b border-gray-300 pb-4">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Collection details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
-                        </div>}
+                            </div>}
                         {order.deliveryType === "delivery" &&
                             <div className="space-y-2 border-b border-gray-300 pb-4">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
-                        </div>}
+                            </div>}
                         <section className="grid grid-cols-1 md:grid-cols-2 gap-20">
-                        {order.deliveryType === "delivery" &&
-                            <div className="font-body text-xl">
-                                <h4 className="text-vibrant mb-2">Shipping address</h4>
-                                <p>{order.shipping.address1}</p>
-                                <p>{order.shipping.address2}</p>
-                                <p>{order.shipping.suburb}</p>
-                                <p>{order.shipping.postcode}</p>
-                                <p>{order.shipping.country}</p>
-                            </div>
+                            {order.deliveryType === "delivery" &&
+                                <div className="font-body text-xl">
+                                    <h4 className="text-vibrant mb-2">Shipping address</h4>
+                                    <p>{order.shipping.address1}</p>
+                                    <p>{order.shipping.address2}</p>
+                                    <p>{order.shipping.suburb}</p>
+                                    <p>{order.shipping.postcode}</p>
+                                    <p>{order.shipping.country}</p>
+                                </div>
                             }
                             <div className="font-body text-xl">
                                 <h4 className="text-vibrant mb-2">Billing address</h4>
@@ -117,15 +117,20 @@ export default function Confirmed({ slug }) {
                         {order.items.map((product, i) =>
                             <div className="flex w-full" key={`product_${i}`}>
                                 <div className="w-full flex space-x-2 items-center justify-between">
-                                    <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-8">
                                         <div className="relative h-12 w-12 bg-cream rounded-lg">
                                             <div className="h-12 w-12 overflow-hidden"><img src={product.image} /></div>
                                             <div className="h-5 w-5 bg-vibrant rounded-full text-xs text-center flex items-center text-white justify-center absolute -top-2 -right-2">{product.quantity}</div>
                                         </div>
-                                        <h3 className="font-body text-xl text-gray-800">{product.title}</h3>
+                                        <div>
+                                            <h3 className="font-body text-xl text-gray-800">{product.title}</h3>
+                                            {product.cookiesString && <p className='font-body text-gray-600'>{product.cookiesString}</p>}
+                                            {product.selectedOption && <p className='font-body text-gray-600'>{product.selectedOption.label}</p>}
+                                        </div>
                                     </div>
                                     <span className="font-body text-xl text-gray-800">${product.price}</span>
                                 </div>
+                                {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                             </div>
                         )}
                         <div className="flex flex-col justify-between py-6 border-t border-b space-y-2">
@@ -140,7 +145,7 @@ export default function Confirmed({ slug }) {
                         </div>
                         {order.total && <div className="flex flex-col justify-between space-y-2">
                             <div className="flex w-full justify-between">
-                                <div className="font-body text-xl text-gray-500">Total</div>
+                                <div className="font-body text-xl">Total</div>
                                 <div className="font-body text-2xl space-x-2 items-center flex">
                                     <span className="text-base text-gray-500">AUD</span>
                                     <span className="text-3xl">${order.total.toFixed(2)}</span>

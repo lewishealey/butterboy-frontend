@@ -102,6 +102,14 @@ export default function Checkout({ settings, discounts }) {
     setInput(newState);
   };
 
+  const handlePhone = (value) => {
+    const newState = {
+      ...input,
+      phone: value
+    };
+    setInput(newState);
+  };
+
   const handleSignup = (event) => {
     const { target } = event || {};
     const newState = { ...input, newsletter: target.value };
@@ -213,7 +221,11 @@ export default function Checkout({ settings, discounts }) {
       });
   };
 
-  const hasCookes = products.filter((x: any) => x.type === "box");
+  useEffect(() => {
+    if(deliveryType === "cookie-delivery") {
+      handleShipping("local", 10);
+    }
+  }, []);
 
   return (
     <Page
@@ -228,6 +240,7 @@ export default function Checkout({ settings, discounts }) {
                 <fieldset className='flex flex-col'>
                   <SectionLabel>Contact information</SectionLabel>
                   <input className={inputClasses} placeholder="Email" name="email" defaultValue={input.email} />
+                  <input className={inputClasses} placeholder="Phone (required for deliveries)" name="phone" onChange={(e) => handlePhone(e.target.value)} defaultValue={input.phone} />
                   <div className="flex space-x-2 items-center border-b border-vibrant py-4 px-8 cursor-pointer">
                     <input type="checkbox" className="h-4 w-4 rounded border border-vibrant cursor-pointer" name="newsletter" id="newsletter" defaultChecked={input.newsletter} onChange={handleSignup} />
                     <label className="font-body text-vibrant cursor-pointer" htmlFor="newsletter">Email me with news, updates and offers</label>
@@ -237,21 +250,39 @@ export default function Checkout({ settings, discounts }) {
                   <SectionLabel>Shipping address</SectionLabel>
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
+                {deliveryType == "cookie-delivery" && <fieldset className='flex flex-col border-b border-vibrant'>
+                  <SectionLabel>Shipping</SectionLabel>
+                  <div className="border border-gray-300 bg-cream rounded w-full">
+                    <button className={`flex justify-between px-8 py-4 w-full items-start text-left hover:bg-gray-100 
+                    ${shipping && shipping.type === "standard" && "border-2 border-blue-500"}`}
+                      onClick={() => {
+                        handleShipping("standard", 10)
+                      }}>
+                      <div className="flex flex-col">
+                        <div className="flex space-x-3 items-center">
+                          <span className="text-vibrant text-lg font-body">Local delivery</span>
+                        </div>
+                        <span className="text-md text-vibrant font-body">{moment(getDeliveryDate(settings)).format("dddd, MMMM Do YYYY")}</span>
+                      </div>
+                      <div className="hover:underline text-lg text-vibrant pt-1 font-body">$10.00</div>
+                    </button>
+                  </div>
+                </fieldset>}
                 <div className="flex flex-col">
                   {deliveryType === "cookie-delivery" ? <button
-                    className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
+                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={handlePayment}
                   >
                     Proceed to payment
                   </button> : <button
-                    className="bg-mauve font-display px-5 py-3 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
+                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={() => setStage(2)}
                   >
                     Proceed to {deliveryType == "collect" ? "collection summary" : "delivery options"}
                   </button>}
                   <Link href="/cart">
                     <button
-                      className="hover:bg-white px-5 py-3 uppercase font-display border-b border-vibrant text-vibrant border-b text-lg hover:bg-gray-200 inline-flex"
+                      className="hover:bg-white px-5 py-4 uppercase font-display text-vibrant border-b text-xl hover:bg-gray-200 inline-flex"
                     >
                       Back to cart
                     </button>
@@ -451,7 +482,7 @@ export default function Checkout({ settings, discounts }) {
                   <div className="font-body text-xl text-vibrant">Discount ({discount.title}) {stage < 3 ? <button onClick={clearDiscount} className="underline">Clear</button> : <button onClick={() => setStage(2)} className="underline">Change</button>}</div>
                   <div className="font-body text-xl font-body text-vibrant">-${discount.difference}</div>
                 </div>}
-              {(deliveryType === "delivery" && shipping) && <div className="flex w-full justify-between">
+              {shipping && <div className="flex w-full justify-between">
                 <div className="font-body text-xl text-vibrant">Shipping ({shipping.type})</div>
                 {shipping.price && <div className="font-body text-xl text-vibrant">${shipping.price.toFixed(2)}</div>}
               </div>}

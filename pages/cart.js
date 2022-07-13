@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { urlFor } from "helpers/sanity";
 import PickDateTime from "components/PickDateTime"
 import product from "../studio/schemas/product";
+import { getDeliveryDate, getDeliveryDates } from 'utils/utils'
 
 Modal.setAppElement('#__next');
 
@@ -36,13 +37,16 @@ const customStyles = {
     },
 };
 
+const buttonClasses = "border border-gray-400 rounded bg-white hover:bg-mauve px-4 py-2 w-full";
+
 export default function Cart({ settings }) {
-    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime, assignDeliveryPostcode, deliveryPostcode, assignOrderMessage, orderMessage } = useCart();
+    const { products, total, increaseProductQuantity, decreaseProductQuantity, removeProduct, deliveryType, assignDeliveryType, pickupDate, assignPickupDate, pickupTime, assignPickupTime, assignDeliveryPostcode, deliveryPostcode, assignDeliveryDay, deliveryDay, assignOrderMessage, orderMessage } = useCart();
     const [postcodeModal, setPostcodeModal] = useState(false);
     const [date, setDate] = useState(null);
     const [dateModal, setDateModal] = useState(false);
     const [postcode, setPostcode] = useState("");
     const [message, setMessage] = useState("");
+    const [selectDeliveryDay, setSelectDeliveryDay] = useState("");
     const format = "dddd, MMMM Do YYYY";
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -74,6 +78,10 @@ export default function Cart({ settings }) {
         setDate(date);
     }
 
+    function onSelectDeliveryDay() {
+        setSelectDeliveryDay(true);
+    }
+
     function handleSchedule(date, time) {
         assignPickupDate(date);
         assignPickupTime(time);
@@ -94,7 +102,7 @@ export default function Cart({ settings }) {
         }
     }
 
-    const hasCookes = products.filter(x => x.type === "box");
+    const hasCookes = products.filter(x => x.type === "box" || x.type === "other");
     const Container = styled.div`
         margin: 1em auto;
         width: 100%;
@@ -131,12 +139,23 @@ export default function Cart({ settings }) {
                 style={customStyles}
                 contentLabel="Enter postcode"
             >
-                <div className="w-full h-full p-12 space-y-4">
-                    <h2 className="font-display text-5xl text-center text-vibrant uppercase">Enter postcode</h2>
+                {!selectDeliveryDay && <div className="w-full h-full p-12 space-y-4">
+                    <h2 className="font-display text-3xl text-center text-vibrant uppercase">Enter postcode</h2>
                     <input className="border border-vibrant h-20 px-6 py-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} autoFocus />
                     {message === false && <div className="space-y-4"><p className="font-body text-xl">Postcode not available for delivery, sorry :(</p><button className="font-display uppercase text-vibrant bg-gray-100 py-4 text-2xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Close</button></div>}
-                    {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-8 text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Proceed</button>}
-                </div>
+                    {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={onSelectDeliveryDay}>Next</button>}
+                </div>}
+                {selectDeliveryDay && <div className="w-full h-full p-12 space-y-4">
+                    <h2 className="font-display text-3xl text-center text-vibrant uppercase">Select a delivery date</h2>
+                    <ul className="flex flex-col space-y-2 font-body text-xl w-full">
+                        {getDeliveryDates(settings).map(d => {
+                            return <button className={buttonClasses} onClick={() => {
+                                assignDeliveryDay(moment(d).format("dddd, MMMM Do YYYY"));
+                                closePostcodeModal();
+                            }}>{moment(d).format("dddd, MMMM Do YYYY")}</button>
+                        })}
+                    </ul>
+                </div>}
             </Modal>
 
             <Modal
@@ -186,6 +205,7 @@ export default function Cart({ settings }) {
                                             </div>
                                         )}
                                     </div>}
+                                    {product.selectedOption && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">{product.selectedOption.label}</div>}
                                 </div>
                             </div>
                             <div className="font-body text-2xl text-vibrant px-8 py-4 text-center border-r border-vibrant flex items-center justify-center">
@@ -254,7 +274,7 @@ export default function Cart({ settings }) {
                         </div>
                         <div className="flex w-full flex-col">
                              <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode}` : "ENTER YOUR POSTCODE"}</button>
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} on ${deliveryDay}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
                             <Link href="/checkout">
                                 <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>

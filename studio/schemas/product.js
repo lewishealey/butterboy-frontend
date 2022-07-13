@@ -48,6 +48,19 @@ export default {
       },
     },
     {
+      title: 'Cookies',
+      name: 'cookies',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [
+            { type: 'cookie' },
+          ]
+        }
+      ]
+    },
+    {
       name: 'details',
       type: 'object',
       title: 'Details',
