@@ -149,7 +149,7 @@ export default function Cart({ settings }) {
                     <h2 className="font-display text-3xl text-center text-vibrant uppercase">Select a delivery date</h2>
                     <ul className="flex flex-col space-y-2 font-body text-xl w-full">
                         {getDeliveryDates(settings).map(d => {
-                            return <button className={buttonClasses} onClick={() => {
+                            return <button className={buttonClasses} key={d} onClick={() => {
                                 assignDeliveryDay(moment(d).format("dddd, MMMM Do YYYY"));
                                 closePostcodeModal();
                             }}>{moment(d).format("dddd, MMMM Do YYYY")}</button>
