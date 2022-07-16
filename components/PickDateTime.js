@@ -36,7 +36,7 @@ Date.prototype.addDays = function(days) {
             </ul>}
             {date && !time && <h2 className="font-display text-4xl text-center text-vibrant uppercase">Select time</h2>}
             {date && !time && <ul className="flex flex-col space-y-2 font-body text-xl w-full">
-                {settings[0].timeSlots.map(slot =>  <button key={slot} className={buttonClasses} onClick={() => setTime("09:00AM")}>{slot}</button>)}
+                {settings[0].timeSlots.map(slot =>  <button key={slot} className={buttonClasses} onClick={() => setTime(slot)}>{slot}</button>)}
             </ul>}
             {date && time && <div className="space-y-4">
                 <h2 className="font-display text-4xl text-center text-vibrant uppercase">Collection</h2>

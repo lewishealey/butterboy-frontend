@@ -88,8 +88,6 @@ export default function Checkout({ settings, discounts }) {
   const [input, setInput] = useState(initialState);
   const inputClasses = "h-14 border-b border-vibrant px-8 bg-cream font-body text-vibrant outline-0";
   const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-t border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
-  const breadcrumbClasses = "hover:underline";
-  const [requestError, setRequestError] = useState(null);
   const [stage, setStage] = useState(1);
 
   const handleAddress = (name, value, type) => {
@@ -108,6 +106,26 @@ export default function Checkout({ settings, discounts }) {
       phone: value
     };
     setInput(newState);
+  };
+
+  const getSortDate = () => {
+    const sortFormat = "YYYY-MM-DD";
+
+    // Assign collection date
+    if(pickupDate) {
+      return moment(pickupDate).format(sortFormat).toString();
+    }
+
+    // Assign collection date
+    if(deliveryDay) {
+      return moment(deliveryDay).format(sortFormat).toString();
+    }
+    
+    if(!deliveryDay && !pickupDate) {
+      // If normal order
+      return moment().format(sortFormat).toString();
+    }
+
   };
 
   const handleSignup = (event) => {
@@ -178,6 +196,7 @@ export default function Checkout({ settings, discounts }) {
       stripe_id: paymentResolve.id,
       stripe_secret: paymentResolve.client_secret,
       order_number: val,
+      sort_date: getSortDate(),
       date_created: moment().format(format).toString(),
       date_created_unix: moment().unix(),
       time_created: moment().format(timeFormat).toString(),
@@ -221,7 +240,7 @@ export default function Checkout({ settings, discounts }) {
   };
 
   useEffect(() => {
-    if(deliveryType === "cookie-delivery") {
+    if(deliveryType === "local-delivery") {
       handleShipping("local", 10);
     }
   }, []);
@@ -249,7 +268,7 @@ export default function Checkout({ settings, discounts }) {
                   <SectionLabel>Shipping address</SectionLabel>
                   <AddressBox data={input.shipping} phone onChange={handleAddress} type="shipping" postcode={deliveryPostcode} />
                 </fieldset>
-                {deliveryType == "cookie-delivery" && <fieldset className='flex flex-col border-b border-vibrant'>
+                {deliveryType == "local-delivery" && <fieldset className='flex flex-col border-b border-vibrant'>
                   <SectionLabel>Shipping</SectionLabel>
                   <div className="border border-gray-300 bg-cream rounded w-full">
                     <button className={`flex justify-between px-8 py-4 w-full items-start text-left hover:bg-gray-100 
@@ -268,7 +287,7 @@ export default function Checkout({ settings, discounts }) {
                   </div>
                 </fieldset>}
                 <div className="flex flex-col">
-                  {deliveryType === "cookie-delivery" ? <button
+                  {deliveryType === "local-delivery" ? <button
                     className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={handlePayment}
                   >
@@ -309,7 +328,7 @@ export default function Checkout({ settings, discounts }) {
                     </div>
                     <div className="hover:underline text-base font-body text-vibrant">Change</div>
                   </button>}
-                  {deliveryType === "cookie-delivery" &&
+                  {deliveryType === "local-delivery" &&
                     <div className="flex justify-between px-4 py-2 w-full border-b border-vibrant h-14 items-center">
                       <div className="flex space-x-8">
                         <span className="text-vibrant font-body">Delivery</span>
@@ -369,7 +388,7 @@ export default function Checkout({ settings, discounts }) {
                   </div>
                 </fieldset>}
                 {stage === 2 && <div>
-                  {(deliveryType === "cookie-delivery" || deliveryType === "merch-delivery") && <button
+                  {(deliveryType === "local-delivery" || deliveryType === "merch-delivery") && <button
                     className={buttonClasses + ` ${!shipping && ' bg-gray-200 text-gray-500 cursor-not-allowed hover:bg-gray-200 hover:text-gray-500'}`}
                     onClick={handlePayment}
                     disabled={!shipping}

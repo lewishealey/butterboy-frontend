@@ -85,7 +85,7 @@ export default function Confirmed({ slug }) {
                                 <h4 className="font-body font-bold text-xl text-vibrant">Collection details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                             </div>}
-                        {order.deliveryType === "cookie-delivery" &&
+                        {order.deliveryType === "local-delivery" &&
                         <div className="space-y-2 border-b border-gray-300 pb-4">
                             <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
                             <p className="font-body text-lg">{order.deliveryDay}</p>
@@ -131,11 +131,11 @@ export default function Confirmed({ slug }) {
                                             <h3 className="font-body text-xl text-gray-800">{product.title}</h3>
                                             {product.cookiesString && <p className='font-body text-gray-600'>{product.cookiesString}</p>}
                                             {product.selectedOption && <p className='font-body text-gray-600'>{product.selectedOption.label}</p>}
+                                            {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                                         </div>
                                     </div>
                                     <span className="font-body text-xl text-gray-800">${product.price}</span>
                                 </div>
-                                {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                             </div>
                         )}
                         <div className="flex flex-col justify-between py-6 border-t border-b space-y-2">

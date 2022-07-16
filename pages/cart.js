@@ -173,7 +173,7 @@ export default function Cart({ settings }) {
 
             <div className="flex flex-col justify-center space-y-8 py-8">
                 <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
-                {(hasCookes && deliveryType === "cookie-delivery") && <RenderDeliveryNotice settings={settings[0]} />}
+                {(hasCookes && deliveryType === "local-delivery") && <RenderDeliveryNotice settings={settings[0]} />}
                 {deliveryType === "collect" && <RenderCollectionNotice settings={settings[0]} />}
                 <div>
                     <div className="border-t border-b border-vibrant grid-cols-6 w-full hidden md:grid">
@@ -239,7 +239,7 @@ export default function Cart({ settings }) {
                 </div>
                 <section className="flex flex-col md:flex-row border-b border-t border-vibrant">
                     <button className={deliveryType === "collect" ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => assignDeliveryType("collect")}>Shop pick up</button>
-                    <button className={(deliveryType === "cookie-delivery" || deliveryType === "merch-delivery") ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => hasCookes.length > 0 ? assignDeliveryType("cookie-delivery") : assignDeliveryType("merch-delivery")}>Shop delivery</button>
+                    <button className={(deliveryType === "local-delivery" || deliveryType === "merch-delivery") ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => hasCookes.length > 0 ? assignDeliveryType("local-delivery") : assignDeliveryType("merch-delivery")}>Shop delivery</button>
                 </section>
                 {deliveryType === "collect" && <section>
                     <div className="flex flex-col md:flex-row border-t border-vibrant flex w-full border-b border-vibrant">
@@ -261,7 +261,7 @@ export default function Cart({ settings }) {
                         </div>
                     </div>
                 </section>}
-                {deliveryType === "cookie-delivery" && <section>
+                {deliveryType === "local-delivery" && <section>
                     <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
                         <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
                             <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
