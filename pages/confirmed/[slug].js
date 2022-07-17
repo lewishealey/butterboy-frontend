@@ -41,7 +41,7 @@ export default function Confirmed({ slug }) {
             },
             body: JSON.stringify(profile)
         }).then((res) => {
-            //console.log(res);
+            console.log(res);
         }).catch(rejected => {
             console.log(rejected);
         });
@@ -85,16 +85,21 @@ export default function Confirmed({ slug }) {
                                 <h4 className="font-body font-bold text-xl text-vibrant">Collection details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                             </div>}
-                        {order.deliveryType === "local-delivery" &&
+                        {order.deliveryType === "merch-delivery" &&
                         <div className="space-y-2 border-b border-gray-300 pb-4">
                             <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
                             <p className="font-body text-lg">{order.deliveryDay}</p>
                         </div>}
-                        {order.deliveryType === "delivery" &&
+                        {order.deliveryType === "local-delivery" &&
                             <div className="space-y-2 border-b border-gray-300 pb-4">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                             </div>}
+                        {order.orderMessage &&
+                        <div className="space-y-2 border-b border-gray-300 pb-4">
+                            <h4 className="font-body font-bold text-xl text-vibrant">Message</h4>
+                            <p className="font-body text-lg">{order.orderMessage}</p>
+                        </div>}
                         <section className="grid grid-cols-1 md:grid-cols-2 gap-20">
                             {order.deliveryType === "delivery" &&
                                 <div className="font-body text-xl">

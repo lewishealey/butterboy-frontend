@@ -17,7 +17,7 @@ export default function Merch({ products }) {
             title="Merch"
             heading="Merch">
 
-            <section className="grid grid-cols-2 mb-12">
+            <section className="grid grid-cols-2 mb-12 border-l border-vibrant">
                 {jsxProducts}
             </section>
         </Page>

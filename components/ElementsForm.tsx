@@ -148,7 +148,7 @@ const ElementsForm: FC<{
           {checkoutButton}
         </button>
         <Link href="/cart">
-          <button className="hover:bg-white w-full px-5 py-3 uppercase font-display text-vibrant border-b border-vibrant text-lg hover:bg-gray-200 inline-flex h-16 items-center">Back to cart</button>
+          <button className="hover:bg-white w-full px-5 py-3 uppercase font-display text-vibrant text-lg hover:bg-gray-200 inline-flex h-16 items-center">Back to cart</button>
         </Link>
       </form>
       {/* <PaymentStatus status={payment.status} /> */}

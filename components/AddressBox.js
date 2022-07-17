@@ -16,13 +16,15 @@ const AddressBox = ({ data, phone = false, type, onChange, postcode = null }) =>
                 <input className={inputClasses} placeholder="Last name" name="lastName" onChange={handleOnChange} defaultValue={input.lastName} />
             </div>
             <input className={inputClasses} placeholder="Address" name="address1" onChange={handleOnChange} defaultValue={input.address1} />
-            <input className={inputClasses} placeholder="Apartment, suite, etc (optional)" name="address2" onChange={handleOnChange} defaultValue={input.address2} />
+            <div className='flex'>
+                <input className={inputClasses + " border-r"} placeholder="Suburb" name="suburb" onChange={handleOnChange} defaultValue={input.suburb} />
+                <input className={inputClasses + " border-r"} placeholder="City" name="city" onChange={handleOnChange} defaultValue={input.city} />
+            </div>
             <div className="flex">
-                <input className={inputClasses  + " border-r"} placeholder="Suburb" name="suburb" onChange={handleOnChange} defaultValue={input.suburb} />
-                <input className={inputClasses  + " border-r"} placeholder="State" name="state" onChange={handleOnChange} defaultValue={input.state} />
+                <input className={inputClasses + " border-r"} placeholder="State" name="state" onChange={handleOnChange} defaultValue={input.state} />
                 {postcode ? <input className={inputClasses} placeholder="Postcode" name="postcode" defaultValue={postcode} disabled /> : <input className={inputClasses} placeholder="Postcode" name="postcode" onChange={handleOnChange} defaultValue={input.postcode} />}
             </div>
-            {postcode ? <input className={inputClasses  + " cursor-not-allowed"} defaultValue={input.country} name="country" placeholder="Country" disabled={postcode} /> : <input className={inputClasses} onChange={handleOnChange} defaultValue={input.country} placeholder="Country" name="country" />}
+            {postcode ? <input className={inputClasses + " cursor-not-allowed"} defaultValue={input.country} name="country" placeholder="Country" disabled={postcode} /> : <input className={inputClasses} onChange={handleOnChange} defaultValue={input.country} placeholder="Country" name="country" />}
         </>
     )
 }

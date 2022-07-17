@@ -17,7 +17,7 @@ module.exports = {
         vibrant: "#E50001",
         mauve: "#DCC9E8",
         cream: "#f9f0e5"
-        
+
       }
     },
   },

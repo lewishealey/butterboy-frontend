@@ -66,10 +66,10 @@ export default function Checkout({ settings, discounts }) {
     email: 'hello@lewi.sh',
     phone: '0466154186',
     billing: {
-      ...defaultCustomerInfo
+      ...blankCustomerInfo
     },
     shipping: {
-      ...defaultCustomerInfo
+      ...blankCustomerInfo
     },
     items: products,
     stripe_id: null,
@@ -146,6 +146,10 @@ export default function Checkout({ settings, discounts }) {
       console.log(data)
       setStage(3);
       setPaymentIntent(data);
+      setInput({
+        ...input,
+        billing: input.shipping
+      });
     });
   }
 
@@ -195,7 +199,7 @@ export default function Checkout({ settings, discounts }) {
       ...input,
       stripe_id: paymentResolve.id,
       stripe_secret: paymentResolve.client_secret,
-      order_number: val,
+      order_number: "BB-" + val,
       sort_date: getSortDate(),
       date_created: moment().format(format).toString(),
       date_created_unix: moment().unix(),
@@ -245,12 +249,14 @@ export default function Checkout({ settings, discounts }) {
     }
   }, []);
 
+  console.log(input);
+
   return (
     <Page
       title="Checkout"
       heading="Checkout">
 
-      <div className='flex min-h-screen border-b border-vibrant flex-col md:flex-row'>
+      <div className='flex min-h-screen border-b border-vibrant flex-col md:flex-row border-l border-r'>
         <div className='w-full md:w-3/5 bg-cream flex justify-center border-r border-vibrant'>
           <div className='flex flex-col w-full'>
             {stage === 1 &&
@@ -300,7 +306,7 @@ export default function Checkout({ settings, discounts }) {
                   </button>}
                   <Link href="/cart">
                     <button
-                      className="hover:bg-white px-5 py-4 uppercase font-display text-vibrant border-b text-xl hover:bg-gray-200 inline-flex"
+                      className="hover:bg-white px-5 py-4 uppercase font-display text-vibrant text-xl hover:bg-gray-200 inline-flex"
                     >
                       Back to cart
                     </button>
@@ -479,7 +485,7 @@ export default function Checkout({ settings, discounts }) {
                       </div>
                       <div className="h-5 w-5 bg-vibrant rounded-full text-xs text-center flex items-center text-white justify-center absolute -top-2 -right-2">{product.quantity}</div>
                     </div>
-                    <h3 className="text-xl text-vibrant uppercase font-display">{product.title}</h3>
+                    <h3 className="text-base md:text-xl text-vibrant uppercase font-display">{product.title}</h3>
                   </div>
                   <span className="font-body text-xl text-vibrant">${product.price}</span>
                 </div>
@@ -510,7 +516,7 @@ export default function Checkout({ settings, discounts }) {
                 <div className="font-body text-xl text-vibrant">Total</div>
                 <div className="font-body text-2xl space-x-2 items-center flex">
                   <span className="text-base text-vibrant">AUD</span>
-                  <span className="text-3xl text-vibrant">${finalAmount.toFixed(2)}</span>
+                  <span className="text-2xl md:text-3xl text-vibrant">${finalAmount.toFixed(2)}</span>
                 </div>
               </div>
             </div>

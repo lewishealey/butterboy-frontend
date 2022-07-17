@@ -48,6 +48,8 @@ const CheckoutForm = () => {
     setLoading(false)
   }
 
+  const env = process.env.NODE_ENV
+
   return (
     <form onSubmit={handleSubmit}>
       <CustomDonationInput
@@ -60,7 +62,7 @@ const CheckoutForm = () => {
         currency={config.CURRENCY}
         onChange={handleInputChange}
       />
-      <StripeTestCards />
+      {env == "development" && <StripeTestCards />}
       <button
         className="checkout-style-background"
         type="submit"

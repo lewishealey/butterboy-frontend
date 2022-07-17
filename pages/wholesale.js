@@ -1,8 +1,33 @@
+import { useEffect, useState } from "react";
 import Page from "components/Page";
+import { useFormspark } from "@formspark/use-formspark";
+const FORMSPARK_FORM_ID = "650VxMLv";
+import { useRouter } from 'next/router'
 
 export default function Wholesale() {
+    const inputClasses = "h-14 border w-full px-4 font-body text-vibrant border-vibrant bg-cream uppercase";
+    const router = useRouter();
+    const [submit, submitting] = useFormspark({
+        formId: FORMSPARK_FORM_ID,
+    });
 
-const inputClasses = "h-12 border rounded w-full px-4 border-gray-300";
+    const [input, setInput] = useState({});
+
+    const handleOnChange = (event) => {
+        const { target } = event || {};
+        const newState = {
+            ...input,
+            [target.name]: target.value
+          };
+        setInput(newState);
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        await submit({ input });
+        router.push("/thanks")
+    };
+
 
     return (
         <Page
@@ -14,47 +39,55 @@ const inputClasses = "h-12 border rounded w-full px-4 border-gray-300";
             >
                 <form
                     className="space-y-3"
-                    action="https://submit-form.com/650VxMLv"
+                    onSubmit={onSubmit}
                 >
                     <input
                         type="text"
-                        placeholder="Name"
+                        placeholder="Contact name"
                         name="name"
                         className={inputClasses}
+                        onChange={handleOnChange}
                         required
                     />
-                    <input
-                        type="text"
-                        placeholder="Address"
-                        name="address"
-                        className={inputClasses}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Phone number"
-                        name="phone"
-                        className={inputClasses}
-                        required
-                    />
+                    <div className="flex space-x-2">
+                        <input
+                            type="text"
+                            placeholder="Cafe name"
+                            name="cafe_name"
+                            className={inputClasses}
+                            onChange={handleOnChange}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Cafe location"
+                            name="cafe_location"
+                            className={inputClasses}
+                            onChange={handleOnChange}
+                        />
+                    </div>
                     <input
                         type="text"
                         placeholder="Email address"
                         name="email"
                         className={inputClasses}
+                        onChange={handleOnChange}
                         required
                     />
                     <input
-                        type="hidden"
-                        name="_redirect"
-                        value="https://sephorapressday.com.au/thanks"
+                        type="number"
+                        placeholder="Estimate of cookies you would like"
+                        name="cookie_estimate"
+                        className={inputClasses}
+                        onChange={handleOnChange}
+                        required
                     />
-                    <input
-                        type="submit"
-                        value="Submit"
+                    <button
                         name="email"
-                        className="font-display uppercase text-white bg-vibrant py-6 text-3xl w-full"
-                    />
+                        className="font-display uppercase text-white bg-vibrant py-4 text-xl md:text-2xl w-full"
+                        disabled={submitting}
+                    >
+                        {submitting ? "Sending..." : "Submit"}
+                    </button>
                 </form>
             </div>
         </Page>

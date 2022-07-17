@@ -10,9 +10,6 @@ import imageUrlBuilder from "@sanity/image-url"
 
 const builder = imageUrlBuilder(client)
 
-
-// https://academind.com/tutorials/nextjs-wordpress-headless-cms#setting-up-wordpress-on-a-subdomain
-
 export default function Home({ products, reviews, logos }) {
 
   //Loop of products
@@ -44,8 +41,9 @@ export default function Home({ products, reviews, logos }) {
         <div className="relative m-auto w-full md:w-3/5 block md:hidden pt-12">
           <Image src="/matcha-mobile.png" layout="responsive" width={400} height={400} />
         </div>
+        <img src="order-by.png" className="absolute bottom-0 h-24 right-8 bottom-8 block md:hidden" />
       </div>
-      <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto">
+      <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto hidden md:block">
         <video
           className="md:w-full h-full object-cover z-auto rounded-xl border-2 border-vibrant"
           autoPlay
@@ -66,18 +64,24 @@ export default function Home({ products, reviews, logos }) {
         </video>
       </div>
 
-      <Marquee className="text-vibrant font-body text-xl md:text-3xl py-6" gradient={false}>
-        THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES - THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES
-      </Marquee>
+      <div className="hidden md:block">
+        <Marquee className="text-vibrant font-body text-xl md:text-3xl py-6" gradient={false}>
+          THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES - THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES
+        </Marquee>
+      </div>
 
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-t border-vibrant">Shop cookies</h2>
 
-      <section className="grid grid-cols-2 border-t border-vibrant gap-y-2 md:gap-0">
+      <section className="grid grid-cols-2 border-t border-vibrant border-l">
         {jsxBoxes}
       </section>
-      <section className="px-4 md:px-0">
+
+      <section className="py-12 flex md:hidden">
+        <img src="emblem.png" className="m-auto" style={{ width: "70%" }} />
+      </section>
+
+      <section className="hidden md:block">
         <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-b border-vibrant">How to heat</h2>
-        
         <div className="max-w-5xl m-auto flex text-center font-body text-vibrant text-xl py-12 flex-col space-y-6">
           <p>Here is your step-by-step guide on how-to-heat-up your cookie, to perfect that warm, gooey, crunchy cookie, so when your in-laws come around you can pretend that you actually bake... and bake well.</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-base">
@@ -156,7 +160,9 @@ export default function Home({ products, reviews, logos }) {
           </div>
         </div>
       </section>
-      <Address />
+      <section className="hidden md:block">
+        <Address />
+      </section>
       <section className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover" style={{ backgroundImage: "url('chocolate.jpeg')" }}>
         {reviews && reviews.map(review => <div className="text-white font-body text-3xl text-center w-full" key={review.id}>
           "{review.text}"

@@ -29,7 +29,7 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        width: '40%',
+        minWidth: '40%',
         background: "#ffffff",
         padding: "0",
         overflow: "none",
@@ -55,8 +55,8 @@ export default function Cart({ settings }) {
     //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
     const allowedPostcodes = ["2000","2007","2008","2008","2009","2010","2011","2015","2016","2017","2021","2060","2061","2062","2063","2064","2065","2066","2067","2068","2069","2086","2087","2088","2089","2090","2092","2093","2094","2095","2096","2097","2099","2100"];
 
-    const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-4xl md:text-6xl py-6 md:py-12 uppercase";
-    const inActiveDeliveryClasses = "flex-1 text-center bg-cream text-mauve font-display text-4xl md:text-6xl py-6 md:py-12 uppercase";
+    const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-2xl md:text-6xl py-4 md:py-12 uppercase";
+    const inActiveDeliveryClasses = "flex-1 text-center bg-cream text-mauve font-display text-2xl md:text-6xl py-4 md:py-12 uppercase";
 
     function openDateModal() {
         setDateModal(true);
@@ -123,7 +123,7 @@ export default function Cart({ settings }) {
             heading="Your Cart">
             <div className="py-8 space-y-4">
                 <h2 className="font-body text-2xl text-center text-vibrant">Please add some items to your cart</h2>
-                <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
+                <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-lg md:text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
             </div>
         </Page>
     }
@@ -139,11 +139,11 @@ export default function Cart({ settings }) {
                 style={customStyles}
                 contentLabel="Enter postcode"
             >
-                {!selectDeliveryDay && <div className="w-full h-full p-12 space-y-4">
+                {!selectDeliveryDay && <div className="w-full h-full p-6 md:p-12 space-y-4">
                     <h2 className="font-display text-3xl text-center text-vibrant uppercase">Enter postcode</h2>
                     <input className="border border-vibrant h-20 px-6 py-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} autoFocus />
                     {message === false && <div className="space-y-4"><p className="font-body text-xl">Postcode not available for delivery, sorry :(</p><button className="font-display uppercase text-vibrant bg-gray-100 py-4 text-2xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Close</button></div>}
-                    {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={onSelectDeliveryDay}>Next</button>}
+                    {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-4 md:py-6 text-2xl md:text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={onSelectDeliveryDay}>Next</button>}
                 </div>}
                 {selectDeliveryDay && <div className="w-full h-full p-12 space-y-4">
                     <h2 className="font-display text-3xl text-center text-vibrant uppercase">Select a delivery date</h2>
@@ -171,8 +171,8 @@ export default function Cart({ settings }) {
                 </Container>
             </Modal>
 
-            <div className="flex flex-col justify-center space-y-8 py-8">
-                <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-xl text-center w-full flex justify-center">Continue Shopping</a></Link>
+            <div className="flex flex-col justify-center space-y-0 md:space-y-8 py-4 md:py-8 md:pb-0 border-l border-r border-vibrant">
+                <Link href="/shop-cookies"><a className="underline uppercase text-vibrant font-body text-lg md:text-xl text-center w-full flex justify-center pb-4 md:pb-0">Continue Shopping</a></Link>
                 {(hasCookes && deliveryType === "local-delivery") && <RenderDeliveryNotice settings={settings[0]} />}
                 {deliveryType === "collect" && <RenderCollectionNotice settings={settings[0]} />}
                 <div>
@@ -192,11 +192,10 @@ export default function Cart({ settings }) {
                     </div>
                     {products.map((product, i) => {
                         return <div className="border-b border-vibrant grid grid-cols-1 md:grid-cols-6 w-full" key={`product_${i}`}>
-                            <div className="border-r border-vibrant p-6 md:p-12 col-span-3 border-b md:border-b-0">
-                                <h3 className="font-display text-3xl text-vibrant mb-4 uppercase">{product.title}</h3>
+                            <div className="border-r border-vibrant pb-8 p-4 md:p-6 md:p-12 col-span-3 border-b md:border-b-0">
+                                <h3 className="font-display text-2xl text-xl text-vibrant mb-4 uppercase">{product.title}</h3>
                                 {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                                 <div className="w-full flex space-x-2 items-center">
-                                    {/* <img src={thumbnail} width={170} height={150} /> */}
                                     {product.cookies && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">
                                         {product.cookies.map(cookie =>
                                             <div className="flex space-x-4 items-center" key={cookie._id}>
@@ -208,10 +207,10 @@ export default function Cart({ settings }) {
                                     {product.selectedOption && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">{product.selectedOption.label}</div>}
                                 </div>
                             </div>
-                            <div className="font-body text-2xl text-vibrant px-8 py-4 text-center border-r border-vibrant flex items-center justify-center">
+                            <div className="font-body text-2xl text-vibrant px-8 py-2 md:py-4 text-center border-r border-vibrant items-center justify-center hidden md:flex">
                                 ${product.price}
                             </div>
-                            <div className="font-body text-2xl text-vibrant px-8 py-4 text-center border-r border-vibrant flex items-center justify-center">
+                            <div className="font-body text-2xl text-vibrant px-8 py-2 md:py-4 text-center border-r border-vibrant flex items-center justify-center">
                                 {product.quantity}
                                 <div className="flex flex-col px-4">
                                     <button onClick={() => increaseProductQuantity(product)}><ChevronUpIcon className="h-5 w-5 text-vibrant" /></button>
@@ -224,10 +223,10 @@ export default function Cart({ settings }) {
                         </div>
                     })}
                 </div>
-                <div className="flex border-t border-b border-vibrant">
+                <div className="flex md:border-t border-b border-vibrant">
                     <div className="grid grid-cols-1 md:grid-cols-6 w-full">
                         <label className="font-display uppercase flex items-center text-vibrant bg-cream text-xl hover:bg-gray-100 w-full border-r border-vibrant h-full md:justify-center col-span-1 p-4 md:p-0">ADD A MESSAGE</label>
-                        <textarea className="p-8 w-full h-full col-span-3 border-r border-vibrant border-b md:border-b-0 bg-cream" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
+                        <textarea className="p-4 md:p-8 w-full h-full col-span-3 border-r border-vibrant border-b md:border-b-0 bg-cream" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
                         <div className="col-span-2">
                             <div className="flex items-center border-b border-vibrant w-full">
                                 <div className="font-display uppercase flex items-center text-vibrant bg-cream text-xl flex-1 py-4 border-r border-vibrant justify-center">Subtotal</div>
@@ -242,9 +241,9 @@ export default function Cart({ settings }) {
                     <button className={(deliveryType === "local-delivery" || deliveryType === "merch-delivery") ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => hasCookes.length > 0 ? assignDeliveryType("local-delivery") : assignDeliveryType("merch-delivery")}>Shop delivery</button>
                 </section>
                 {deliveryType === "collect" && <section>
-                    <div className="flex flex-col md:flex-row border-t border-vibrant flex w-full border-b border-vibrant">
+                    <div className="flex flex-col md:flex-row border-t border-vibrant w-full border-b border-vibrant">
                         <div className="flex space-x-4 border-r border-b md:border-b-0 border-vibrant p-8 w-full items-center">
-                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
+                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">&nbsp;</span>
                             <div>
                                 <h3 className="font-display uppercase text-vibrant text-xl md:text-2xl font-body">BUTTERBOY MANLY</h3>
                                 <span className="text-vibrant text-xl md:text-2xl font-body">74-78 The Corso<br />Manly, 2095</span>
@@ -262,22 +261,22 @@ export default function Cart({ settings }) {
                     </div>
                 </section>}
                 {deliveryType === "local-delivery" && <section>
-                    <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
-                        <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
-                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
+                    <div className="flex border-t border-vibrant flex-col md:flex-row w-full border-b border-vibrant">
+                        <div className="flex space-x-4 border-r border-vibrant p-4 md:p-8 w-full items-center order-1 md:order-0">
+                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">&nbsp;</span>
                             <div className="flex flex-col space-y-2">
-                                <h3 className="font-display uppercase text-vibrant text-2xl font-body">Important delivery info</h3>
-                                <span className="text-vibrant text-2xl font-body">Delivery is only available within 15km radius of the store</span>
-                                <span className="text-vibrant text-2xl font-body">74-78 The Corso Manly, 2095</span>
-                                <span className="text-vibrant text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
+                                <h3 className="font-display uppercase text-vibrant text-base md:text-2xl font-body">Important delivery info</h3>
+                                <span className="text-vibrant text-base md:text-2xl font-body">Delivery is only available within 15km radius of the store</span>
+                                <span className="text-vibrant text-base md:text-2xl font-body">74-78 The Corso Manly, 2095</span>
+                                <span className="text-vibrant text-base md:text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
                             </div>
                         </div>
-                        <div className="flex w-full flex-col">
+                        <div className="flex w-full flex-col order-0 md:order-1">
                              <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-3xl hover:bg-gray-100 h-32 w-full px-4" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} on ${deliveryDay}` : "ENTER YOUR POSTCODE"}</button>
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-base md:text-3xl hover:bg-gray-100 md:h-32 w-full px-4 border-t border-vibrant" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} - ${deliveryDay ? deliveryDay : ""}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
                             <Link href="/checkout">
-                                <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>
+                                <button className={`font-display uppercase text-vibrant bg-mauve py-6 md:py-8 text-2xl md:text-3xl border-b border-vibrant md:border-0 ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>
                             </Link>
                         </div>
                     </div>
@@ -285,7 +284,7 @@ export default function Cart({ settings }) {
                 {deliveryType === "merch-delivery" && <section>
                     <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
                         <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
-                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 ">&nbsp;</span>
+                            <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">&nbsp;</span>
                             <div className="flex flex-col space-y-2">
                                 <h3 className="font-display uppercase text-vibrant text-2xl font-body">Important delivery info</h3>
                                 <span className="text-vibrant text-2xl font-body">Delivery is only available within 15km radius of the store</span>
@@ -294,8 +293,11 @@ export default function Cart({ settings }) {
                             </div>
                         </div>
                         <div className="flex w-full flex-col">
+                        <div className="border-b border-vibrant flex w-full">
+                                <div className="font-display uppercase text-vibrant bg-cream py-4 text-base md:text-3xl md:h-32 w-full px-4 border-t border-vibrant"></div>
+                            </div>
                             <Link href="/checkout">
-                                <button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve`} >Check out</button>
+                                <button className={`font-display uppercase py-8 text-3xl bg-vibrant text-white bg-vibrant hover:text-mauve`} >Check out</button>
                             </Link>
                         </div>
                     </div>

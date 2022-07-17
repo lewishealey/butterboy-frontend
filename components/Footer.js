@@ -4,7 +4,7 @@ import Image from 'next/image'
 import useMightyMouse from "react-hook-mighty-mouse";
 
 const Footer = () => {
-    const navClasses = "text-vibrant text-xl font-body";
+    const navClasses = "text-vibrant text-xl font-body underline uppercase";
 
     const {
         selectedElement: {
@@ -22,11 +22,11 @@ const Footer = () => {
 
     return (
         <>
-            <footer className='flex flex-col md:flex-row space-y-4 justify-between w-full p-6 md:p-12'>
-                <div className='space-y-2'>
-                    <Link href="jobs"><h2 className='text-vibrant uppercase text-2xl font-display cursor-pointer '>JOIN THE TEAM</h2></Link>
+            <footer className='flex flex-col md:flex-row space-y-4 justify-between w-full p-6 pb-12 md:p-12 container m-auto'>
+                <div className="py-12 flex md:hidden">
+                    <img src="face.png" className="m-auto" style={{ width: "50%" }} />
                 </div>
-                <div className='flex flex-col space-y-2 justify-start text-left md:text-right md:justify-end'>
+                <div className='flex flex-col space-y-2 justify-center text-center md:text-right md:justify-end w-full'>
                     <Link href="/"><a className={navClasses}>Home</a></Link>
                     <Link href="/shop-cookies"><a className={navClasses}>Cookies</a></Link>
                     <Link href="/merch"><a className={navClasses}>Merch</a></Link>
@@ -34,7 +34,7 @@ const Footer = () => {
                     <Link href="/location"><a className={navClasses}>Location</a></Link>
                 </div>
             </footer>
-            <div className="relative">
+            <div className="relative hidden md:block">
                 <div id="left-eye" className="absolute z-20" style={{ bottom: "5%", left: "41%", width: "8%", height: "17%", transform: rotateLeftEye }}>
                     <div className="h-4 md:h-8 w-4 md:w-8 bg-cream rounded-full absolute right-0" />
                 </div>
