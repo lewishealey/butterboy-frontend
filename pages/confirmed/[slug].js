@@ -29,6 +29,22 @@ export default function Confirmed({ slug }) {
         }).then(response => response.json()).then((res) => {
             setStatus("loaded");
             setOrder(res);
+
+            // Send email
+            fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(res)
+            }).then(response => response.json())
+                .then((res) => {
+                    console.log("Email sent");
+                }).catch(rejected => {
+                    console.log(rejected);
+                });
+
         }).catch(rejected => {
             console.log(rejected);
         });
@@ -91,10 +107,10 @@ export default function Confirmed({ slug }) {
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                             </div>}
                         {order.orderMessage &&
-                        <div className="space-y-2 border-b border-gray-300 pb-4">
-                            <h4 className="font-body font-bold text-xl text-vibrant">Message</h4>
-                            <p className="font-body text-lg">{order.orderMessage}</p>
-                        </div>}
+                            <div className="space-y-2 border-b border-gray-300 pb-4">
+                                <h4 className="font-body font-bold text-xl text-vibrant">Message</h4>
+                                <p className="font-body text-lg">{order.orderMessage}</p>
+                            </div>}
                         <section className="grid grid-cols-1 md:grid-cols-2 gap-20">
                             {order.deliveryType === "delivery" &&
                                 <div className="font-body text-xl">
