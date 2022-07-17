@@ -15,8 +15,8 @@ export default function (req, res) {
       recipients: [
         {
           address: {
-            email: "hello@lewi.sh", //data.userEmail
-            name: "Lewis Healey" //`${data.fName} ${data.lName}`,
+            email: data.email, //data.userEmail
+            name: `${data.shipping.fName} ${data.shipping.lName}` //`${data.fName} ${data.lName}`,
           },
         }, // Customer
         // {
