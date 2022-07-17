@@ -3,7 +3,8 @@ const client = new SparkPost(process.env.SPARKPOST_KEY);
 
 export default function (req, res) {
   const data = req.body;
-
+  res.status(200).json(true);
+  
   // client.transmissions
   //   .send({
   //     metadata: data,
