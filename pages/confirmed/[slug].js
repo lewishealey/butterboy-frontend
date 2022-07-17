@@ -85,11 +85,6 @@ export default function Confirmed({ slug }) {
                                 <h4 className="font-body font-bold text-xl text-vibrant">Collection details</h4>
                                 <p className="font-body text-lg">{order.pick_up_date} {order.pick_up_time}</p>
                             </div>}
-                        {order.deliveryType === "merch-delivery" &&
-                        <div className="space-y-2 border-b border-gray-300 pb-4">
-                            <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
-                            <p className="font-body text-lg">{order.deliveryDay}</p>
-                        </div>}
                         {order.deliveryType === "local-delivery" &&
                             <div className="space-y-2 border-b border-gray-300 pb-4">
                                 <h4 className="font-body font-bold text-xl text-vibrant">Delivery details</h4>
