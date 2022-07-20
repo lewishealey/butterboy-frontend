@@ -39,11 +39,17 @@ const customStyles = {
   
 
 export default function SingleProduct({ product, cookies }) {
+    if (!product) {
+        return null;
+    }
 
     const router = useRouter();
     const [cookiesObject, setCookiesObject] = useState(cookies);
     const { addProduct } = useCart();
     const [count, setCount] = useState(0);
+    const [maxCookies, setMaxCookies] = useState(6);
+    const [price, setPrice] = useState(product.price);
+    const [title, setTitle] = useState(product.title);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
     const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
@@ -77,8 +83,13 @@ export default function SingleProduct({ product, cookies }) {
         setCookiesObject(updatedCookies);
     }
 
-    if (!product) {
-        return null;
+    function handleChange(event) {
+        const quantity = event.target.value / 6;
+        const totalPrice = quantity * product.price;
+        const newTitle = product.title.replace("6", event.target.value);
+        setTitle(newTitle);
+        setPrice(totalPrice);
+        setMaxCookies(event.target.value);
     }
 
     function handleCart() {
@@ -92,8 +103,8 @@ export default function SingleProduct({ product, cookies }) {
 
         const productItem = {
             id: product?._id,
-            title: product?.title,
-            price: product?.price,
+            title: title,
+            price: price,
             cookies: changedCookies,
             cookiesString: renderCookieString(changedCookies),
             image: urlFor(product.thumbnail).url(),
@@ -117,12 +128,12 @@ export default function SingleProduct({ product, cookies }) {
 
     if(product.available) {
         return (
-            <Page title={product.title} heading={product.title}>
+            <Page title={title} heading={title}>
                 {product?.details?.type === "other" && <div className='space-y-12 flex flex-col justify-center py-12'>
                     <img src={urlFor(product.thumbnail).width(800)} className="m-auto w-1/2 md:w-1/4" />
                     <div className="max-w-xl m-auto w-full"><Select options={options} onChange={(type) => setSelectedType(type)} styles={customStyles}/></div>
                     <div className='w-full flex justify-center'>
-                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${product.price}</span>
+                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
                         <button className={`font-display px-8 py-4 text-3xl ${selectedType ? "hover:bg-red-700 bg-vibrant text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} onClick={handleCart} disabled={options && selectedType && selectedType.length === 0}>Add to cart</button>
                     </div>
                 </div>
@@ -136,16 +147,17 @@ export default function SingleProduct({ product, cookies }) {
                                     <div className='flex border border-white bg-white'>
                                         <button className={buttonClasses} onClick={() => addCookieToCart(cookie, -1)}>-</button>
                                         <span className={buttonClasses}>{cookie.quantity ? cookie.quantity : 0}</span>
-                                        <button className={buttonClasses} onClick={() => addCookieToCart(cookie, +1)} disabled={count === product.details.maxCookies}>+</button>
+                                        <button className={buttonClasses} onClick={() => addCookieToCart(cookie, +1)} disabled={count === maxCookies}>+</button>
                                     </div>
                                 </div>;
                             })}
                         </div>
                         <div className='sticky space-y-4 md:space-y-0 flex-col md:flex-row bottom-0 md:bottom-12 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-4 md:px-12 items-center z-20'>
-                            <h2 className='text-white text-3xl'>{count}/{product.details.maxCookies} added to box</h2>
+                            <h2 className='text-white text-3xl'>{count}/{maxCookies} added to box</h2>
                             <div className="flex">
-                                <span className="font-display text-white px-8 py-4 text-2xl">${product.price}</span>
-                                <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${count < product.details.maxCookies ? 'opacity-50' : ''}`} disabled={count < product.details.maxCookies} onClick={handleCart}>Add to cart</button>
+                                <input type="number" step={6} defaultValue={maxCookies} className="px-2 text-2xl w-20 text-center" onKeyDown={handleChange} onChange={handleChange} value={maxCookies} />
+                                <span className="font-display text-white px-8 py-4 text-2xl">${price}</span>
+                                <button className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${count < maxCookies ? 'opacity-50' : ''}`} disabled={count < maxCookies} onClick={handleCart}>Add to cart</button>
                             </div>
                         </div>
                     </>

@@ -32,6 +32,11 @@ export default {
       type: 'boolean',
     },
     {
+      name: 'live',
+      title: 'Live on site',
+      type: 'boolean',
+    },
+    {
       name: 'thumbnail',
       title: 'Thumbnail',
       type: 'image',
@@ -90,12 +95,6 @@ export default {
             }
           ],
           hidden: ({ parent, value }) => parent?.type !== "box" && parent?.type !== "other"
-        },
-        {
-          name: 'maxCookies',
-          title: 'Max cookies',
-          type: 'number',
-          hidden: ({ parent, value }) => parent?.type !== "box"
         },
         {
           name: "sizing",
