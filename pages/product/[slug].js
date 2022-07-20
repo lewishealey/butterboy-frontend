@@ -17,15 +17,15 @@ Modal.setAppElement('#__next');
 
 const customStyles = {
     option: (provided, state) => ({
-      ...provided,
-      borderBottom: '1px solid #E50001',
-      color: '#E50001',
-      backgroundColor: state.isSelected ? "#f1f1f1" : "#FFFFFF",
-      "&:hover": {
-        backgroundColor: "#f1f1f1"
-      },
-      fontFamily: "bikoregular, Arial, sans-serif",
-      padding: 20,
+        ...provided,
+        borderBottom: '1px solid #E50001',
+        color: '#E50001',
+        backgroundColor: state.isSelected ? "#f1f1f1" : "#FFFFFF",
+        "&:hover": {
+            backgroundColor: "#f1f1f1"
+        },
+        fontFamily: "bikoregular, Arial, sans-serif",
+        padding: 20,
     }),
     control: (provided) => ({
         ...provided,
@@ -35,21 +35,18 @@ const customStyles = {
         color: '#E50001',
         fontFamily: "bikoregular, Arial, sans-serif",
     }),
-  }
-  
+}
+
 
 export default function SingleProduct({ product, cookies }) {
-    if (!product) {
-        return null;
-    }
 
     const router = useRouter();
     const [cookiesObject, setCookiesObject] = useState(cookies);
     const { addProduct } = useCart();
     const [count, setCount] = useState(0);
     const [maxCookies, setMaxCookies] = useState(6);
-    const [price, setPrice] = useState(product.price);
-    const [title, setTitle] = useState(product.title);
+    const [price, setPrice] = useState(product?.price);
+    const [title, setTitle] = useState(product?.title);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
     const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
@@ -97,7 +94,7 @@ export default function SingleProduct({ product, cookies }) {
 
         let changedCookies = []
         addedCookies && addedCookies.forEach(c => changedCookies.push({
-            ...c, 
+            ...c,
             thumbnail: urlFor(c.thumbnail).url()
         }))
 
@@ -118,6 +115,10 @@ export default function SingleProduct({ product, cookies }) {
         router.push("/cart")
     }
 
+    if (!product) {
+        return null;
+    }
+
     const options = [];
     product.cookies && product.cookies.forEach(c => {
         options.push({
@@ -126,12 +127,12 @@ export default function SingleProduct({ product, cookies }) {
         })
     });
 
-    if(product.available) {
+    if (product.available) {
         return (
             <Page title={title} heading={title}>
                 {product?.details?.type === "other" && <div className='space-y-12 flex flex-col justify-center py-12'>
                     <img src={urlFor(product.thumbnail).width(800)} className="m-auto w-1/2 md:w-1/4" />
-                    <div className="max-w-xl m-auto w-full"><Select options={options} onChange={(type) => setSelectedType(type)} styles={customStyles}/></div>
+                    <div className="max-w-xl m-auto w-full"><Select options={options} onChange={(type) => setSelectedType(type)} styles={customStyles} /></div>
                     <div className='w-full flex justify-center'>
                         <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
                         <button className={`font-display px-8 py-4 text-3xl ${selectedType ? "hover:bg-red-700 bg-vibrant text-white" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} onClick={handleCart} disabled={options && selectedType && selectedType.length === 0}>Add to cart</button>
@@ -172,13 +173,13 @@ export default function SingleProduct({ product, cookies }) {
                         <button className={`p-2 text-2xl font-body ${selectedSize === "xl" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("xl")}>XL</button>
                         <button className={`p-2 text-2xl font-body ${selectedSize === "xxl" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("xxl")}>XXL</button>
                     </div>
-                    <div className='w-full flex justify-center'>
-                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${product.price}</span>
-                        <button className={`font-display text-white px-8 py-4 text-3xl ${selectedSize ? "bg-vibrant hover:bg-red-700" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} disabled={!selectedSize} onClick={handleCart}>Add to cart</button>
-                    </div>
+                        <div className='w-full flex justify-center'>
+                            <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
+                            <button className={`font-display text-white px-8 py-4 text-3xl ${selectedSize ? "bg-vibrant hover:bg-red-700" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} disabled={!selectedSize} onClick={handleCart}>Add to cart</button>
+                        </div>
                     </> : <div className='w-full flex justify-center'>
-                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${product.price}</span>
-                        <button className={`font-display bg-vibrant text-white px-8 py-4 text-3xl hover:bg-red-700`} onClick={handleCart}>Add to cart</button>
+                        <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
+                        <button className={`font-display bg-vibrant text-white px-8 py-4 text-3xl hover:bg-red-700`} onClick={() => handleCart}>Add to cart</button>
                     </div>}
                 </div>
                 }
