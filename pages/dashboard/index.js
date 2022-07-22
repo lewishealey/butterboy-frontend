@@ -205,7 +205,7 @@ export default function Dashboard({ orders }) {
                   {product.cookies && <div className="space-y-2">
                     {product.cookies.map(cookie =>
                       <div key={cookie._id} className="flex space-x-2">
-                        <img src={urlFor(cookie.thumbnail) as any} className="w-8 h-8" />
+                        <img src={urlFor(cookie.thumbnail)} className="w-8 h-8" />
                         <span className="text-xl font-body">{cookie.quantity} X {cookie.title}</span>
                       </div>
                     )}

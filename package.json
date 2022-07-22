@@ -36,8 +36,7 @@
     "react-select": "^5.4.0",
     "sparkpost": "^2.1.4",
     "stripe": "^9.1.0",
-    "styled-components": "^5.3.5",
-    "typescript": "^4.7.4"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/node": "^18.0.6",

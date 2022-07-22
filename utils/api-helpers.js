@@ -1,4 +1,4 @@
-export async function fetchGetJSON(url: string) {
+export async function fetchGetJSON(url) {
   try {
     const data = await fetch(url).then((res) => res.json())
     return data
@@ -10,7 +10,7 @@ export async function fetchGetJSON(url: string) {
   }
 }
 
-export async function fetchPostJSON(url: string, data?: {}) {
+export async function fetchPostJSON(url, data) {
   try {
     // Default options are marked with *
     const response = await fetch(url, {
