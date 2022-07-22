@@ -18,6 +18,11 @@ import moment from 'moment';
 import Dot from 'components/Dot';
 import SectionLabel from 'components/SectionLabel';
 
+interface EmailType {
+  date: string;
+  prettyDate: string;
+}
+
 const defaultCustomerInfo = {
   firstName: 'Lewis',
   lastName: 'Healey',
@@ -222,7 +227,7 @@ export default function Checkout({ settings, discounts }) {
 
   const sendEmail = (data, id) => {
     const emailData = data;
-    fetch('/api/send', {
+    fetch('/api/send-email', {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -476,7 +481,7 @@ export default function Checkout({ settings, discounts }) {
                   <div className="flex items-center space-x-6">
                     <div className="relative h-12 w-12 bg-cream rounded-lg">
                       <div className="h-12 w-12 overflow-hidden">
-                        <img src={product.image} />
+                        <img src={product.image as any} />
                       </div>
                       <div className="h-5 w-5 bg-vibrant rounded-full text-xs text-center flex items-center text-white justify-center absolute -top-2 -right-2">{product.quantity}</div>
                     </div>
