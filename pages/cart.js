@@ -1,9 +1,9 @@
-import Page from "components/Page"
+import Page from "../components/Page"
 import Timer from "../components/Timer"
 import Link from 'next/link'
 import Image from 'next/image'
-import { useCart } from 'contexts/cart-context';
-import client from 'utils/sanity';
+import { useCart } from '../contexts/cart-context';
+import client from '../utils/sanity';
 import Marquee from "react-fast-marquee";
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/solid';
 import { useState } from "react";
@@ -11,10 +11,10 @@ import Modal from 'react-modal';
 import moment from 'moment';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import styled from 'styled-components';
-import { urlFor } from "helpers/sanity";
-import PickDateTime from "components/PickDateTime"
+import { urlFor } from "../helpers/sanity";
+import PickDateTime from "../components/PickDateTime"
 import product from "../studio/schemas/product";
-import { getDeliveryDate, getDeliveryDates } from 'utils/utils'
+import { getDeliveryDate, getDeliveryDates } from '../utils/utils'
 
 Modal.setAppElement('#__next');
 

@@ -1,11 +1,9 @@
-import Page from "components/Page"
+import Page from "../components/Page"
 import Marquee from "react-fast-marquee";
-import { getBoxes, getOther } from 'utils/wordpress';
-import client from 'utils/sanity';
+import client from '../utils/sanity';
 import Image from 'next/image'
-import Cookie from 'components/Cookie';
-import Product from 'components/Product';
-import Address from 'components/Address';
+import Product from '../components/Product';
+import Address from '../components/Address';
 import imageUrlBuilder from "@sanity/image-url"
 
 const builder = imageUrlBuilder(client)

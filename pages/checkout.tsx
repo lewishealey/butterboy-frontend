@@ -1,22 +1,22 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useCart } from 'contexts/cart-context';
+import { useCart } from '../contexts/cart-context';
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { ChevronRightIcon, LockClosedIcon } from '@heroicons/react/solid';
 import axios from 'axios';
-import Page from "components/Page"
-import client from 'utils/sanity';
+import Page from "../components/Page"
+import client from '../utils/sanity';
 import { Elements } from '@stripe/react-stripe-js'
 import getStripe from '../utils/getstripejs'
-import { fetchPostJSON } from 'utils/api-helpers'
+import { fetchPostJSON } from '../utils/api-helpers'
 import ElementsForm from '../components/ElementsForm'
 import AddressBox from '../components/AddressBox'
 import { PaymentIntent } from '@stripe/stripe-js'
 import moment from 'moment';
-import Dot from 'components/Dot';
-import SectionLabel from 'components/SectionLabel';
+import Dot from '../components/Dot';
+import SectionLabel from '../components/SectionLabel';
 
 interface EmailType {
   date: string;

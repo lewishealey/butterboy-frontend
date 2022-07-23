@@ -1,8 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import imageUrlBuilder from "@sanity/image-url"
-import client from 'utils/sanity'
+import client from '../utils/sanity'
 
 const Product = ({ product }) => {
     if (!product) {
