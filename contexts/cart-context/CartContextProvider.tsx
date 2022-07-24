@@ -1,5 +1,5 @@
 import { createContext, useContext, FC, useState } from 'react';
-import { ICartProduct, ICartTotal } from 'models';
+import { ICartProduct, ICartTotal } from '../../models';
 
 export interface ICartContext {
   products: ICartProduct[];
