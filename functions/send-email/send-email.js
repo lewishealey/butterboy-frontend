@@ -7,13 +7,13 @@ exports.handler = function(event, context, callback) {
     .send({
       content: {
         template_id: "order-confirmed",
-        subject: `Order #${data.order_number} Confirmed` //data.subject,
+        subject: `Order #0000 Confirmed` //data.subject,
       },
       recipients: [
         {
           address: {
-            email: data.email, //data.userEmail
-            name: `${data.shipping.fName} ${data.shipping.lName}` //`${data.fName} ${data.lName}`,
+            email: "hello@lewi.sh", //data.userEmail
+            name: `Lewis Healey` //`${data.fName} ${data.lName}`,
           },
         }
       ]
