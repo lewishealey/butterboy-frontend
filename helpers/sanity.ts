@@ -1,4 +1,4 @@
-import client from 'utils/sanity'
+import client from '../utils/sanity'
 import imageUrlBuilder from "@sanity/image-url"
 
 export function urlFor(source) {

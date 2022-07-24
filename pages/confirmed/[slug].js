@@ -1,10 +1,6 @@
-import Head from 'next/head'
-import { urlFor } from "helpers/sanity";
 import { useEffect, useState } from "react";
 import { useCart } from 'contexts/cart-context';
-import moment from 'moment';
 import Page from "components/Page";
-import Link from 'next/link'
 
 export default function Confirmed({ slug }) {
     const format = "dddd, MMMM Do YYYY";
