@@ -27,7 +27,7 @@ export default function Confirmed({ slug }) {
             setOrder(res);
 
             // Send email
-            fetch('/api/send-email', {
+            fetch('/functions/send-email', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
