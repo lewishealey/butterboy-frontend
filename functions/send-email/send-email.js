@@ -1,21 +1,43 @@
 const SparkPost = require('sparkpost');
 const client = new SparkPost(process.env.SPARKPOST_KEY);
 
-exports.handler = function(event, context, callback) {
-  console.log(event);
+const sendEmail = async (data) => {
+  console.log('Sending the email');
   client.transmissions
     .send({
+      metadata: data,
       content: {
         template_id: "order-confirmed",
-        subject: `Order #0000 Confirmed` //data.subject,
+        subject: `Order #${data.order_number} Confirmed` //data.subject,
       },
       recipients: [
         {
           address: {
             email: "hello@lewi.sh", //data.userEmail
-            name: `Lewis Healey` //`${data.fName} ${data.lName}`,
+            name: `${data.shipping.fName} ${data.shipping.lName}` //`${data.fName} ${data.lName}`,
           },
         }
       ]
   });
-}
+};
+
+exports.handler = async (event, context) => {
+  try {
+    const data = JSON.parse(event.body);
+
+    await sendEmail(data);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Let's become serverless conductors!!!",
+      }),
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Failed sending email' }),
+    };
+  }
+};
