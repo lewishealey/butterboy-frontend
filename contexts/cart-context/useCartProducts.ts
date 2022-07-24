@@ -1,6 +1,6 @@
 import { useCartContext } from './CartContextProvider';
 import useCartTotal from './useCartTotal';
-import { ICartProduct } from 'models';
+import { ICartProduct } from '../../models';
 
 const useCartProducts = () => {
   const { 

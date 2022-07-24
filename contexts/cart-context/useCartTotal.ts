@@ -1,5 +1,5 @@
 import { useCartContext } from './CartContextProvider';
-import { ICartProduct } from 'models';
+import { ICartProduct } from '../../models';
 
 const useCartTotal = () => {
   const { total, setTotal } = useCartContext();
