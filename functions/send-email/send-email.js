@@ -14,7 +14,6 @@ exports.handler = function(event, context, callback) {
         {
           address: {
             email: data.email, //data.userEmail
-            name: `${data.shipping.fName} ${data.shipping.lName}` //`${data.fName} ${data.lName}`,
           },
         }
       ]
