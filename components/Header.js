@@ -11,7 +11,7 @@ const Header = () => {
                 <NavLink href="/shop-cookies">Cookies</NavLink>
                 <NavLink href="/merch">Merch</NavLink>
                 <NavLink href="/wholesale">Wholesale</NavLink>
-                {/* <pNavLink href="/location">Location</NavLink> */}
+                <NavLink href="/location">Location</NavLink>
                 <NavLink href="/jobs">Jobs</NavLink>
                 <NavLink href="/cart">Cart ({products.length})</NavLink>
             </nav>

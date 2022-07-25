@@ -5,6 +5,11 @@ export default {
       __experimental_actions: ['update','publish','create'],
     fields: [
       {
+        name: "location",
+        title: "Location",
+        type: "string",
+      },
+      {
         name: 'deliveryDays',
         title: 'Delivery days',
         description: 'This defines the days you want to allow delivery for',
