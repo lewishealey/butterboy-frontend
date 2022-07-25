@@ -17,6 +17,7 @@
     "@sanity/base": "^2.30.1",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/core": "^2.30.2",
+    "@sanity/dashboard": "^2.30.1",
     "@sanity/default-layout": "^2.30.1",
     "@sanity/default-login": "^2.30.1",
     "@sanity/desk-tool": "^2.30.1",
@@ -27,6 +28,7 @@
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0",
+    "sanity-plugin-dashboard-widget-netlify": "^1.2.1",
     "sanity-plugin-tags": "^1.5.0",
     "sparkpost": "^2.1.4",
     "styled-components": "^5.2.0"
