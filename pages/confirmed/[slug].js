@@ -26,7 +26,7 @@ export default function Confirmed({ slug }) {
         setOrder(res);
 
         // Send email
-        fetch("/.netlify/functions/send-email", {
+        fetch("/api/send", {
           method: "POST",
           headers: {
             Accept: "application/json, text/plain, */*",
