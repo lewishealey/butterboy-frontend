@@ -10,7 +10,7 @@ export default function Confirmed({ slug }) {
 
   useEffect(() => {
     clearCart();
-    console.log(slug);
+    
     fetch("/api/get-order", {
       method: "POST",
       headers: {
@@ -24,23 +24,6 @@ export default function Confirmed({ slug }) {
         console.log("res", res);
         setStatus("loaded");
         setOrder(res);
-
-        // Send email
-        fetch("/api/send", {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(res),
-        })
-          .then((response) => response.json())
-          .then((res) => {
-            console.log("Email sent");
-          })
-          .catch((rejected) => {
-            console.error(rejected);
-          });
       })
       .catch((rejected) => {
         console.error(rejected);
