@@ -227,7 +227,7 @@ export default function Checkout({ settings, discounts }) {
 
   const sendEmail = (data, id) => {
     const emailData = data;
-    fetch('/api/send-email', {
+    fetch('/api/send', {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',

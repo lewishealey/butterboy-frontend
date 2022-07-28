@@ -33,7 +33,7 @@ export default function Home({ products, reviews, logos }) {
         <div className="absolute w-full">
           <img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" />
         </div>
-        <div className="relative m-auto w-full md:w-3/5 hidden md:block">
+        <div className="relative m-auto w-full md:w-4/5 hidden md:block md:mb-8">
           <Image src="/banner.png" layout="responsive" width={400} height={250} />
         </div>
         <div className="relative m-auto w-full md:w-3/5 block md:hidden pt-12">
@@ -161,7 +161,7 @@ export default function Home({ products, reviews, logos }) {
       <section className="hidden md:block">
         <Address />
       </section>
-      <section className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover" style={{ backgroundImage: "url('chocolate.jpeg')" }}>
+      <section className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover" style={{ backgroundImage: "url('chocolate.jpg')" }}>
         {reviews && reviews.map(review => <div className="text-white font-body text-3xl text-center w-full" key={review.id}>
           "{review.text}"
         </div>)}

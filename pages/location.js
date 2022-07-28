@@ -4,12 +4,11 @@ import client from "utils/sanity";
 
 export default function Location({ location }) {
   const locationData = location[0];
-  console.log(locationData);
   return (
     <Page title="Location" heading="Location">
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 relative border-l md:border-b border-vibrant border-r">
-          <Image src="/map.jpg" layout="responsive" width={968} height={1209} />
+          <Image src="/map.svg" layout="responsive" width={968} height={1209} />
         </div>
         <div className="w-full md:w-1/2 md:border-r md:border-b border-vibrant">
           <h2 className="flex text-5xl uppercase text-mauve font-display w-full justify-center py-6 border-b border-vibrant">
