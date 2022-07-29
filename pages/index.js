@@ -192,7 +192,7 @@ export default function Home({ products, reviews, logos }) {
 
 export async function getStaticProps() {
   const products = await client.fetch(`
-    *[_type == "product" && details.type == "box" || details.type == "other"] | order(order asc)
+    *[_type == "product" && live && details.type == "box" || details.type == "other"] | order(order asc)
   `);
   const reviews = await client.fetch(`
     *[_type == "review"] | order(text asc)

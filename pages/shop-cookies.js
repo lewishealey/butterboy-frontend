@@ -15,7 +15,7 @@ export default function Shop({ products, cookies }) {
     // Loop of products
     const jsxProducts = products && products.map((product) => {
         //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
-        return product.live && <Product product={product} key={product.id} />;
+        return <Product product={product} key={product.id} />;
     });
 
     return (
@@ -43,7 +43,7 @@ export async function getStaticProps({ params }) {
     `);
 
     const products = await client.fetch(`
-        *[_type == "product" && details.type == "box" || details.type == "other"] | order(order)
+        *[_type == "product" && live && details.type == "box" || details.type == "other"] | order(order)
     `);
 
     return {

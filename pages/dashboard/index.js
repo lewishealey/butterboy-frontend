@@ -1,33 +1,33 @@
 import Page from "components/Page";
-import client from 'utils/sanity';
-import { useState, useEffect } from 'react'
+import client from "utils/sanity";
+import { useState, useEffect } from "react";
 import { connectToDatabase } from "utils/mongodb";
-import imageUrlBuilder from '@sanity/image-url';
-import moment from 'moment';
-import Modal from 'react-modal';
+import imageUrlBuilder from "@sanity/image-url";
+import moment from "moment";
+import Modal from "react-modal";
 const builder = imageUrlBuilder(client);
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
-Modal.setAppElement('#__next');
+Modal.setAppElement("#__next");
 
 const customStyles = {
   background: {
     zIndex: "1000",
   },
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: '40%',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "40%",
     background: "#F8F0E5",
     padding: "0",
     overflow: "none",
-    maxHeight: "75%"
+    maxHeight: "75%",
   },
 };
 
@@ -52,31 +52,35 @@ export default function Dashboard({ orders }) {
   const [orderId, setOrderId] = useState(null);
   const [trackingId, setTrackingId] = useState("");
   const router = useRouter();
-  const [sortedDate, setSortedDate] = useState(moment().format(sortFormat).toString());
+  const [sortedDate, setSortedDate] = useState(
+    moment().format(sortFormat).toString()
+  );
 
   const refreshData = () => {
     router.replace(router.asPath);
-  }
+  };
 
   function sendDispatch(id, tracking) {
     const data = {
       id,
-      tracking
-    }
+      tracking,
+    };
     fetch("/api/dispatch-order", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    }).then((res) => {
-      if (res.status < 300) {
-        refreshData();
-      }
-    }).catch(rejected => {
-      console.error(rejected);
-    });
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.status < 300) {
+          refreshData();
+        }
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
   }
 
   function filterOrderByDeliveryType(type) {
@@ -85,23 +89,26 @@ export default function Dashboard({ orders }) {
     if (type === "all") {
       setOrderData(orders);
     } else {
-      setOrderData(orders.filter(x => x.deliveryType === type));
+      setOrderData(orders.filter((x) => x.deliveryType === type));
     }
   }
 
   function getTypeColour(type) {
-    switch(type) {
+    switch (type) {
       case "collect":
-        return "bg-red-600"
+        return "bg-red-600";
       case "local-delivery":
-        return "bg-blue-600"
+        return "bg-blue-600";
       case "merch-delivery":
-        return "bg-green-600"
+        return "bg-green-600";
     }
   }
 
   function onTrackingChange(e) {
-    const stripped = e.target.value.replace("https://track.sendle.com/tracking?ref=", "")
+    const stripped = e.target.value.replace(
+      "https://track.sendle.com/tracking?ref=",
+      ""
+    );
     setTrackingId(stripped);
   }
 
@@ -110,26 +117,30 @@ export default function Dashboard({ orders }) {
   }
 
   function urlFor(source) {
-    return builder.image(source)
+    return builder.image(source);
   }
 
-  const buttonClasses = "font-display text-xl uppercase text-gray-600 hover:text-gray-800";
+  const buttonClasses =
+    "font-display text-xl uppercase text-gray-600 hover:text-gray-800";
   const activeButtonClasses = "font-display text-xl uppercase text-vibrant";
-  const inputClasses = "h-14 border border-vibrant px-8 bg-cream font-body text-vibrant w-full";
+  const inputClasses =
+    "h-14 border border-vibrant px-8 bg-cream font-body text-vibrant w-full";
 
   useEffect(() => {
-    if(sortedDate) {
-      setOrderData(orders.filter(x => sortedDate === moment(x.sort_date).format(sortFormat).toString()));
+    if (sortedDate) {
+      setOrderData(
+        orders.filter(
+          (x) =>
+            sortedDate === moment(x.sort_date).format(sortFormat).toString()
+        )
+      );
     } else {
       setOrderData(orders);
     }
   }, [sortedDate]);
-  
-  return (
-    <Page
-      title="Orders"
-      heading="Orders" isAdmin>
 
+  return (
+    <Page title="Orders" heading="Orders" isAdmin>
       <Modal
         isOpen={orderId ? true : false}
         onRequestClose={removeTracking}
@@ -139,86 +150,228 @@ export default function Dashboard({ orders }) {
         <Container>
           <div className="w-full h-full p-12 pt-4 space-y-8">
             <form className="space-y-8">
-              <label className="font-display text-3xl text-center text-vibrant uppercase">Tracking info</label>
+              <label className="font-display text-3xl text-center text-vibrant uppercase">
+                Tracking info
+              </label>
               <fieldset className="space-y-2 flex justify-start flex-col">
-                <input placeholder="Add Sendle tracking ID" onChange={onTrackingChange} className={inputClasses} required />
-                <small className="text-xs text-left">Should look something like <strong>SKVKBTZ</strong></small>
+                <input
+                  placeholder="Add Sendle tracking ID"
+                  onChange={onTrackingChange}
+                  className={inputClasses}
+                  required
+                />
+                <small className="text-xs text-left">
+                  Should look something like <strong>SKVKBTZ</strong>
+                </small>
               </fieldset>
-              <button className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={(e) => {
-                sendDispatch(orderId, trackingId);
-                e.preventDefault();
-                }}>Send to customer</button>
+              <button
+                className="font-display uppercase text-vibrant bg-mauve py-6 text-3xl hover:bg-vibrant hover:text-mauve w-full"
+                onClick={(e) => {
+                  sendDispatch(orderId, trackingId);
+                  e.preventDefault();
+                }}
+              >
+                Send to customer
+              </button>
             </form>
           </div>
         </Container>
       </Modal>
       <div className="max-w-7xl m-auto w-full space-y-4 py-8">
         <nav className="flex space-x-4">
-          <button className={filter === "all" ? activeButtonClasses : buttonClasses} onClick={() => filterOrderByDeliveryType("all")}>All</button>
-          <button className={filter === "collect" ? activeButtonClasses : buttonClasses} onClick={() => filterOrderByDeliveryType("collect")}>Collection</button>
-          <button className={filter === "local-delivery" ? activeButtonClasses : buttonClasses} onClick={() => filterOrderByDeliveryType("local-delivery")}>Local delivery</button>
-          <button className={filter === "merch-delivery" ? activeButtonClasses : buttonClasses} onClick={() => filterOrderByDeliveryType("merch-delivery")}>Merch delivery</button>
+          <button
+            className={filter === "all" ? activeButtonClasses : buttonClasses}
+            onClick={() => filterOrderByDeliveryType("all")}
+          >
+            All
+          </button>
+          <button
+            className={
+              filter === "collect" ? activeButtonClasses : buttonClasses
+            }
+            onClick={() => filterOrderByDeliveryType("collect")}
+          >
+            Collection
+          </button>
+          <button
+            className={
+              filter === "local-delivery" ? activeButtonClasses : buttonClasses
+            }
+            onClick={() => filterOrderByDeliveryType("local-delivery")}
+          >
+            Local delivery
+          </button>
+          <button
+            className={
+              filter === "merch-delivery" ? activeButtonClasses : buttonClasses
+            }
+            onClick={() => filterOrderByDeliveryType("merch-delivery")}
+          >
+            Merch delivery
+          </button>
         </nav>
-          <input type="date" value={sortedDate} onChange={(e) => setSortedDate(e.target.value)} className="bg-white px-4 py-2"/>
-        {orderData && orderData.length > 0 ? orderData.map(order => 
-          <div className="border border-vibrant" key={order.id}>
-            <div className={`flex text-white font-display uppercase py-3 px-4 justify-between items-center ${getTypeColour(order.deliveryType)}`}>
-              <span className="text-xl">{order.deliveryType} order #{order.order_number}</span>
-                {order.tracking && <div className="flex space-x-2 text-xl"><span>Tracking: </span><span>{order.tracking}</span></div>}
-                {order.completed ? <span className="text-xl">Email sent</span> : <>
-                  {order.deliveryType === "local-delivery" && <button className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100" onClick={() => sendDispatch(order._id, null)}>Send delivery email</button>}
-                  {order.deliveryType === "collect" && <button className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100" onClick={() => sendDispatch(order._id, null)}>Ready for collection</button>}
-                  {order.deliveryType === "merch-delivery" && <button className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100" onClick={() => setOrderId(order._id)}>Send delivery email</button>}
-                </>}
-            </div>
-            <div className="p-4 space-y-2">
-              <p className="font-body text-xl">{order.billing.firstName} {order.billing.lastName}</p>
-              <p className="font-body text-xl">{order.email}</p>
-              <p className="font-body text-xl">{order.phone}</p>
-            </div>
-            {order.deliveryType === "local-delivery" && <div className="border-t border-vibrant px-4 font-body  py-3 text-xl">
-              <span>Delivery {order.deliveryDay}</span> <span className="text-base text-gray-800">(Ordered on {order.date_created})</span>
-              <p>{order.shipping.address1}</p>
-              <p>{order.shipping.address2}</p>
-              <p>{order.shipping.suburb}</p>
-              <p>{order.shipping.postcode}</p>
-              <p>{order.shipping.country}</p>
-            </div>}
-            {order.deliveryType === "collect" && <div className="border-t border-vibrant px-4 font-body py-3 text-xl">
-              <span>Pick up {order.pick_up_date} {order.pick_up_time}</span> <span className="text-base text-gray-800">(Ordered on {order.date_created})</span>
-            </div>}
-            {order.deliveryType === "delivery" && <div className="font-body text-xl p-4 pt-0">
-              <div className="px-4 py-2">
-                <p className="font-body text-xl">Ordered on {order.date_created}</p>
+        <div className="flex space-x-2">
+          <input
+            type="date"
+            value={sortedDate}
+            onChange={(e) => setSortedDate(e.target.value)}
+            className="bg-white px-4 py-2"
+          />
+          <button className="font-body hover:bg-white px-2" onClick={() => setSortedDate("")}>Show all orders</button>
+        </div>
+        {orderData && orderData.length > 0 ? (
+          orderData.map((order) => (
+            <div className="border border-vibrant" key={order.id}>
+              <div
+                className={`flex text-white font-display uppercase py-3 px-4 justify-between items-center ${getTypeColour(
+                  order.deliveryType
+                )}`}
+              >
+                <span className="text-xl">
+                  {order.deliveryType} order #{order.order_number}
+                </span>
+                {order.tracking && (
+                  <div className="flex space-x-2 text-xl">
+                    <span>Tracking: </span>
+                    <span>{order.tracking}</span>
+                  </div>
+                )}
+                {order.completed ? (
+                  <span className="text-xl">Email sent</span>
+                ) : (
+                  <>
+                    {order.deliveryType === "local-delivery" && (
+                      <button
+                        className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100"
+                        onClick={() => sendDispatch(order._id, null)}
+                      >
+                        Send delivery email
+                      </button>
+                    )}
+                    {order.deliveryType === "collect" && (
+                      <button
+                        className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100"
+                        onClick={() => sendDispatch(order._id, null)}
+                      >
+                        Ready for collection
+                      </button>
+                    )}
+                    {order.deliveryType === "merch-delivery" && (
+                      <button
+                        className="bg-white font-display text-vibrant text-xl py-2 px-4 hover:bg-gray-100"
+                        onClick={() => setOrderId(order._id)}
+                      >
+                        Send delivery email
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
-              <h4 className=" mb-2">Shipping address</h4>
-              <p>{order.shipping.address1}</p>
-              <p>{order.shipping.address2}</p>
-              <p>{order.shipping.suburb}</p>
-              <p>{order.shipping.postcode}</p>
-              <p>{order.shipping.country}</p>
-            </div>}
-            {order.items.map((product, i) =>
-              <div key={`product_${i}`} className="border-t border-vibrant pt-4 space-y-2">
-                <h3 className="text-xl px-4 font-display uppercase ">{product.title} x {product.quantity}</h3>
-                <div className="p-4 pt-0">
-                  {product.cookies && <div className="space-y-2">
-                    {product.cookies.map(cookie =>
-                      <div key={cookie._id} className="flex space-x-2">
-                        <img src={urlFor(cookie.thumbnail)} className="w-8 h-8" />
-                        <span className="text-xl font-body">{cookie.quantity} X {cookie.title}</span>
+              <div className="p-4 space-y-2">
+                <p className="font-body text-xl">
+                  {order.billing.firstName} {order.billing.lastName}
+                </p>
+                <p className="font-body text-xl">{order.email}</p>
+                <p className="font-body text-xl">{order.phone}</p>
+              </div>
+              {order.deliveryType === "local-delivery" && (
+                <div className="border-t border-vibrant px-4 font-body  py-3 text-xl">
+                  <span>Delivery {order.deliveryDay}</span>{" "}
+                  <span className="text-base text-gray-800">
+                    (Ordered on {order.date_created})
+                  </span>
+                  <p>{order.shipping.address1}</p>
+                  <p>{order.shipping.address2}</p>
+                  <p>{order.shipping.suburb}</p>
+                  <p>{order.shipping.postcode}</p>
+                  <p>{order.shipping.country}</p>
+                </div>
+              )}
+              {order.deliveryType === "merch-delivery" && (
+                <div className="border-t border-vibrant px-4 font-body py-3 text-xl">
+                  <span className="text-lg text-gray-800">
+                    Ordered on {order.date_created}
+                  </span>
+                </div>
+              )}
+              {order.deliveryType === "collect" && (
+                <div className="border-t border-vibrant px-4 font-body py-3 text-xl">
+                  <span>
+                    Pick up {order.pick_up_date} {order.pick_up_time}
+                  </span>{" "}
+                  <span className="text-base text-gray-800">
+                    (Ordered on {order.date_created})
+                  </span>
+                </div>
+              )}
+              {order.deliveryType === "delivery" && (
+                <div className="font-body text-xl p-4 pt-0">
+                  <div className="px-4 py-2">
+                    <p className="font-body text-xl">
+                      Ordered on {order.date_created}
+                    </p>
+                  </div>
+                  <h4 className=" mb-2">Shipping address</h4>
+                  <p>{order.shipping.address1}</p>
+                  <p>{order.shipping.address2}</p>
+                  <p>{order.shipping.suburb}</p>
+                  <p>{order.shipping.postcode}</p>
+                  <p>{order.shipping.country}</p>
+                </div>
+              )}
+              {order.items.map((product, i) => (
+                <div
+                  key={`product_${i}`}
+                  className="border-t border-vibrant pt-4 space-y-2"
+                >
+                  <h3 className="text-xl px-4 font-display uppercase ">
+                    {product.title} x {product.quantity}
+                  </h3>
+                  <div className="p-4 pt-0">
+                    {product.cookies && (
+                      <div className="space-y-2">
+                        {product.cookies.map((cookie) => (
+                          <div key={cookie._id} className="flex space-x-2">
+                            <img
+                              src={urlFor(cookie.thumbnail)}
+                              className="w-8 h-8"
+                            />
+                            <span className="text-xl font-body">
+                              {cookie.quantity} X {cookie.title}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     )}
-                  </div>}
-                  {product.size && <p className='font-body text-gray-800 text-xl'>{product.size}</p>}
-                  {product.selectedOption && <p className='font-body text-gray-800 text-xl'>{product.selectedOption.label}</p>}
+                    {product.size && (
+                      <p className="font-body text-gray-800 text-xl">
+                        {product.size}
+                      </p>
+                    )}
+                    {product.selectedOption && (
+                      <p className="font-body text-gray-800 text-xl">
+                        {product.selectedOption.label}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>) : <div className="flex space-x-2 items-center"><span>No orders for this date </span><button className="bg-vibrant text-white px-4 py-2 font-body" onClick={() => setSortedDate("")}>Show all orders</button></div>}
+              ))}
+            </div>
+          ))
+        ) : (
+          <div className="flex space-x-2 items-center">
+            <span>No orders for this date </span>
+            <button
+              className="bg-vibrant text-white px-4 py-2 font-body"
+              onClick={() => setSortedDate("")}
+            >
+              Show all orders
+            </button>
+          </div>
+        )}
       </div>
     </Page>
-  )
+  );
 }
 
 export async function getServerSideProps() {
@@ -227,7 +380,7 @@ export async function getServerSideProps() {
   const orders = await db
     .collection("orders")
     .find({})
-    .sort({sort_date: -1})
+    .sort({ sort_date: -1 })
     .toArray();
 
   return {
