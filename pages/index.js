@@ -62,7 +62,7 @@ export default function Home({ products, reviews, logos }) {
           autoPlay
           muted
           loop
-          poster="poster.png"
+          poster="poster.jpg"
           src="homepage.mp4"
         >
           <source
