@@ -143,7 +143,6 @@ export default function Checkout({ settings, discounts }) {
     fetchPostJSON('/api/payment_intents', {
       amount: finalAmount,
     }).then((data) => {
-      console.log(data)
       setStage(3);
       setPaymentIntent(data);
       setInput({
@@ -236,7 +235,6 @@ export default function Checkout({ settings, discounts }) {
       body: JSON.stringify(emailData)
     }).then(response => response.json())
       .then((res) => {
-        console.log("Email sent")
         if (id) {
           router.push("/confirmed/" + id);
         }
@@ -248,8 +246,6 @@ export default function Checkout({ settings, discounts }) {
       handleShipping("local", 10);
     }
   }, []);
-
-  console.log(input);
 
   return (
     <Page

@@ -1,7 +1,6 @@
 import Page from "components/Page";
 import client from 'utils/sanity';
 
-import Cookie from 'components/Cookie';
 import Product from 'components/Product';
 
 export default function Merch({ products }) {

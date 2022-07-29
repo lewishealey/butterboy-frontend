@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useCart } from "contexts/cart-context";
+import { generatePurchaseObject } from "utils/ga";
+import Script from "next/script";
 import Page from "components/Page";
 
 export default function Confirmed({ slug }) {
-  const format = "dddd, MMMM Do YYYY";
   const [order, setOrder] = useState(null);
   const [status, setStatus] = useState("loading");
   const { clearCart } = useCart();
@@ -21,7 +22,6 @@ export default function Confirmed({ slug }) {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log("res", res);
         setStatus("loaded");
         setOrder(res);
       })
@@ -196,6 +196,13 @@ export default function Confirmed({ slug }) {
           </div>
         </div>
       </div>
+      {order && <Script
+        strategy="afterInteractive"
+        id="purchase-data"
+        dangerouslySetInnerHTML={{
+          __html: `gtag('event', 'purchase', ${generatePurchaseObject(order)});`,
+        }}
+      />}
     </Page>
   );
 }

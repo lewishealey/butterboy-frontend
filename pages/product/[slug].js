@@ -1,14 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Modal from 'react-modal';
 import { useEffect, useState } from "react";
-import { getSlugs, getProduct, getCookies } from 'utils/wordpress';
 import Select from 'react-select'
 import Page from "components/Page";
 import Cookie from 'components/Cookie';
-import AddToBox from 'components/AddToBox';
 import { useCart } from 'contexts/cart-context';
 import client from 'utils/sanity';
 import { urlFor } from "helpers/sanity";
@@ -179,7 +175,7 @@ export default function SingleProduct({ product, cookies }) {
                         </div>
                     </> : <div className='w-full flex justify-center'>
                         <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
-                        <button className={`font-display bg-vibrant text-white px-8 py-4 text-3xl hover:bg-red-700`} onClick={() => handleCart}>Add to cart</button>
+                        <button className={`font-display bg-vibrant text-white px-8 py-4 text-3xl hover:bg-red-700`} onClick={handleCart}>Add to cart</button>
                     </div>}
                 </div>
                 }

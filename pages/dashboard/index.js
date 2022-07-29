@@ -75,7 +75,7 @@ export default function Dashboard({ orders }) {
         refreshData();
       }
     }).catch(rejected => {
-      console.log(rejected);
+      console.error(rejected);
     });
   }
 

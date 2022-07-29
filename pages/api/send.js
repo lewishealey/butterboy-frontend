@@ -2,8 +2,6 @@ const SparkPost = require('sparkpost');
 var client = require('klaviyo-sdk');
 
 const sendThankYouEmail = async (data) => {
-  console.log('Sending the email');
-  console.log("data", data);
   const client = new SparkPost(process.env.SPARKPOST_KEY);
     await client.transmissions
     .send({

@@ -7,7 +7,6 @@ export default async (req, res) => {
 
   try {
     const order = await db.collection("orders").findOne({ _id: ObjectId(data) });
-    console.log(order)
     res.status(200).json(order);
 
   } catch(e){

@@ -1,7 +1,6 @@
 var client = require('klaviyo-sdk');
 
 export default async function (req, res) {
-  console.log("Save user")
   // Klaviyo sdk setup
   var defaultClient = client.ApiClient.instance;
   // Configure API key authorization: ApiKeyAuth
