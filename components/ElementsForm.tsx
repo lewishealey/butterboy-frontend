@@ -116,7 +116,7 @@ const ElementsForm: FC<{
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <StripeTestCards />
+        {/* <StripeTestCards /> */}
         <fieldset className="p-4 space-y-4">
           {paymentType === 'card' ? (
             <input
