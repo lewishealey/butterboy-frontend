@@ -15,8 +15,14 @@ const sendThankYouEmail = async (data) => {
       recipients: [
         {
           address: {
-            email: data.email, //data.userEmail
-            name: `${data.shipping.fName} ${data.shipping.lName}` //`${data.fName} ${data.lName}`,
+            email: data.email,
+            name: `${data.shipping.fName} ${data.shipping.lName}`
+          },
+        },
+        {
+          address: {
+            email: process.env.ADMIN_EMAIL,
+            name: `${data.shipping.fName} ${data.shipping.lName}`
           },
         },
       ]

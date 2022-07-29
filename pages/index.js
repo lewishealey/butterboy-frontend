@@ -1,14 +1,29 @@
-import Page from "../components/Page"
+import React, { useEffect } from "react";
+import Page from "../components/Page";
 import Marquee from "react-fast-marquee";
 import client from '../utils/sanity';
-import Image from 'next/image'
+import Image from 'next/image';
 import Product from '../components/Product';
 import Address from '../components/Address';
-import imageUrlBuilder from "@sanity/image-url"
+import imageUrlBuilder from "@sanity/image-url";
 
 const builder = imageUrlBuilder(client)
 
 export default function Home({ products, reviews, logos }) {
+
+  useEffect(() => {
+    fetch('/api/subscribe-email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(response => response.json())
+      .then((res) => {
+        console.log("Email sent")
+      });
+  }, []);
 
   //Loop of products
   const jsxBoxes = products && products.map((p) => {
@@ -34,7 +49,7 @@ export default function Home({ products, reviews, logos }) {
           <img src="logo_lilac.svg" className="m-auto w-4/5 md:w-3/5" />
         </div>
         <div className="relative m-auto w-full md:w-4/5 hidden md:block md:mb-8">
-          <Image src="/banner.png" layout="responsive" width={400} height={250} />
+          <Image src="/banner.png" layout="responsive" width={400} height={250} priority />
         </div>
         <div className="relative m-auto w-full md:w-3/5 block md:hidden pt-12">
           <Image src="/matcha-mobile.png" layout="responsive" width={400} height={400} />
@@ -48,6 +63,7 @@ export default function Home({ products, reviews, logos }) {
           muted
           loop
           poster="poster.png"
+          src="homepage.mp4"
         >
           <source
               src="homepage.mp4"
@@ -162,11 +178,11 @@ export default function Home({ products, reviews, logos }) {
         <Address />
       </section>
       <section className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover" style={{ backgroundImage: "url('chocolate.jpg')" }}>
-        {reviews && reviews.map(review => <div className="text-white font-body text-3xl text-center w-full" key={review.id}>
+        {reviews && reviews.map((review, i) => <div className="text-white font-body text-3xl text-center w-full" key={review.id + i}>
           "{review.text}"
         </div>)}
         <div className="max-w-5xl m-auto flex space-x-8 justify-between w-full">
-          {logos && logos.reverse().map((logo, i) => logo.thumbnail && <img src={urlFor(logo.thumbnail).width(200).url()} className="w-20 h-auto" key={`logo_${i}`} />)}
+          {logos && logos.map((logo, i) => logo.thumbnail && <img src={urlFor(logo.thumbnail).width(200).url()} className="w-20 h-auto" key={`logo_${i}`} />)}
         </div>
       </section>
     </Page>
