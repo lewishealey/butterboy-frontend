@@ -1,42 +1,54 @@
-const SparkPost = require('sparkpost');
-var client = require('klaviyo-sdk');
+const SparkPost = require("sparkpost");
+var client = require("klaviyo-sdk");
 
 const sendThankYouEmail = async (data) => {
   const client = new SparkPost(process.env.SPARKPOST_KEY);
-    await client.transmissions
-    .send({
-      metadata: data,
-      content: {
-        template_id: "order-confirmed",
-        subject: `Order #${data.order_number} Confirmed` //data.subject,
+  await client.transmissions.send({
+    metadata: data,
+    content: {
+      template_id: "order-confirmed",
+      subject: `Order #${data.order_number} Confirmed`, //data.subject,
+    },
+    recipients: [
+      {
+        address: {
+          email: data.email,
+          name: `${data.shipping.fName} ${data.shipping.lName}`,
+        },
       },
-      recipients: [
-        {
-          address: {
-            email: data.email,
-            name: `${data.shipping.fName} ${data.shipping.lName}`
-          },
+      {
+        address: {
+          email: process.env.ADMIN_EMAIL,
+          name: `${data.shipping.fName} ${data.shipping.lName}`,
         },
-        {
-          address: {
-            email: process.env.ADMIN_EMAIL,
-            name: `${data.shipping.fName} ${data.shipping.lName}`
-          },
-        },
-      ]
-  })
+      },
+    ],
+  });
 };
 
-const saveUser = async ({ name, email, message }) => {
-  console.log("Save user")
-  // Klaviyo sdk setup
-  var defaultClient = client.ApiClient.instance;
-  // Configure API key authorization: ApiKeyAuth
-  var ApiKeyAuth = defaultClient.authentications['Y8mCdQ'];
-  ApiKeyAuth.apiKey = "pk_7c96281b2406f78c7c82ad91634d688671";
-  await ListsSegments.addMembers("Vs4P8F", {
-    email: "butterboy@lewi.sh"
-  }); // Set list ID
+const saveUser = async ({ billing, email, phone }) => {
+  console.log("sending email", billing, email, phone)
+  const url =
+    "https://a.klaviyo.com/api/v2/list/Vs4P8F/members?api_key=" +
+    process.env.KLAYVIO_API_KEY;
+  const options = {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    body: JSON.stringify({
+      profiles: [
+        {
+          first_name: billing?.firstName,
+          last_name: billing?.lastName,
+          email: email
+        },
+      ],
+    }),
+  };
+
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => { return json })
+    .catch((err) => console.error("error:" + err));
 };
 
 export default async function (req, res) {
@@ -45,12 +57,11 @@ export default async function (req, res) {
     console.log("Send email");
 
     await sendThankYouEmail(data);
-    // await saveUser(data);
+    await saveUser(data);
 
     res.status(200).json(true);
-
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
-};
+}
