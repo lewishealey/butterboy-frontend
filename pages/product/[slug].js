@@ -186,7 +186,7 @@ export default function SingleProduct({ product, cookies }) {
             <Page title={product.title} heading={product.title}>
                 <div className="space-y-12 flex flex-col justify-center w-full items-center py-12">
                     {product.thumbnail && <img src={urlFor(product.thumbnail).width(800)} className="m-auto w-1/2 md:w-1/4" />}
-                    <h2 className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center">We just launched our new store and are still gettting to grips with our operation, this product isn't available for purchase just yet. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link> or a <Link href="/product/cookie-cake"><a className='inline text-vibrant font-body underline'>cookie cake</a></Link> though.</h2>
+                    <h2 className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center">Sorry, this product isn't available for purchase just yet, we've just launched our new store and are still getting to grips with our operation. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link></h2>
                 </div>
             </Page>
         )
