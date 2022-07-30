@@ -169,11 +169,11 @@ export default function SingleProduct({ product, cookies }) {
                         <button className={`p-2 text-2xl font-body ${selectedSize === "xl" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("xl")}>XL</button>
                         <button className={`p-2 text-2xl font-body ${selectedSize === "xxl" ? "bg-vibrant text-white" : "bg-white hover:bg-gray-200"}`} onClick={() => setSelectedSize("xxl")}>XXL</button>
                     </div>
-                        <div className='w-full flex justify-center'>
+                        <div className='w-full flex flex-col md:flex-row justify-center'>
                             <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
                             <button className={`font-display text-white px-8 py-4 text-3xl ${selectedSize ? "bg-vibrant hover:bg-red-700" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`} disabled={!selectedSize} onClick={handleCart}>Add to cart</button>
                         </div>
-                    </> : <div className='w-full flex justify-center'>
+                    </> : <div className='w-full flex flex-col md:flex-row justify-center'>
                         <span className="font-display text-vibrant px-8 py-4 text-4xl">${price}</span>
                         <button className={`font-display bg-vibrant text-white px-8 py-4 text-3xl hover:bg-red-700`} onClick={handleCart}>Add to cart</button>
                     </div>}
@@ -184,7 +184,7 @@ export default function SingleProduct({ product, cookies }) {
     } else {
         return (
             <Page title={product.title} heading={product.title}>
-                <div className="space-y-12 flex flex-col justify-center w-full items-center py-12">
+                <div className="space-y-12 flex flex-col justify-center w-full items-center py-12 px-6 md:px-0">
                     {product.thumbnail && <img src={urlFor(product.thumbnail).width(800)} className="m-auto w-1/2 md:w-1/4" />}
                     <h2 className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center">Sorry, this product isn't available for purchase just yet, we've just launched our new store and are still getting to grips with our operation. You can buy <Link href="/merch"><a className='inline text-vibrant font-body underline'>merch</a></Link></h2>
                 </div>

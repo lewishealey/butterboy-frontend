@@ -28,8 +28,8 @@ export default function Shop({ products, cookies }) {
             </section>
 
             <section className="space-y-24 pt-12">
-                <h2 className="text-7xl text-center text-mauve font-bold font-display uppercase">Flavours</h2>
-                <div className="grid grid-cols-4 max-w-7xl m-auto gap-20">
+                <h2 className="text-5xl md:text-7xl text-center text-mauve font-bold font-display uppercase">Flavours</h2>
+                <div className="grid grid-cols-1 md:grid-cols-4 px-8 md:px-0 max-w-7xl m-auto gap-12 md:gap-20">
                     {jsxCookies}
                 </div>
             </section>

@@ -11,6 +11,7 @@ const nextConfig = {
     MONGODB_DB: process.env.MONGODB_DB,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     KLAYVIO_API_KEY: process.env.KLAYVIO_API_KEY,
+    DASHBOARD_PASSWORD: process.env.DASHBOARD_PASSWORD
   }
 }
 

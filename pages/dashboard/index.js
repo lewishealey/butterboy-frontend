@@ -1,5 +1,6 @@
 import Page from "components/Page";
 import client from "utils/sanity";
+import Protect from 'components/protect'
 import { useState, useEffect } from "react";
 import { connectToDatabase } from "utils/mongodb";
 import imageUrlBuilder from "@sanity/image-url";
@@ -7,7 +8,6 @@ import moment from "moment";
 import Modal from "react-modal";
 const builder = imageUrlBuilder(client);
 import styled from "styled-components";
-
 import { useRouter } from "next/router";
 
 Modal.setAppElement("#__next");
@@ -140,6 +140,7 @@ export default function Dashboard({ orders }) {
   }, [sortedDate]);
 
   return (
+    <Protect>
     <Page title="Orders" heading="Orders" isAdmin>
       <Modal
         isOpen={orderId ? true : false}
@@ -371,6 +372,7 @@ export default function Dashboard({ orders }) {
         )}
       </div>
     </Page>
+    </Protect>
   );
 }
 

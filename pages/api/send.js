@@ -57,7 +57,11 @@ export default async function (req, res) {
     console.log("Send email");
 
     await sendThankYouEmail(data);
-    await saveUser(data);
+
+    // If signed up to newsletter
+    if(data.newsletter) {
+      await saveUser(data);
+    }
 
     res.status(200).json(true);
   } catch (error) {

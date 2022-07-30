@@ -282,14 +282,14 @@ export default function Cart({ settings }) {
                     </div>
                 </section>}
                 {deliveryType === "merch-delivery" && <section>
-                    <div className="flex border-t border-vibrant flex w-full border-b border-vibrant">
+                    <div className="flex border-t border-vibrant flex flex-col md:flex-row w-full border-b border-vibrant">
                         <div className="flex space-x-4 border-r border-vibrant p-8 w-full items-center">
                             <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">&nbsp;</span>
                             <div className="flex flex-col space-y-2">
-                                <h3 className="font-display uppercase text-vibrant text-2xl font-body">Important delivery info</h3>
-                                <span className="text-vibrant text-2xl font-body">Delivery is only available within 15km radius of the store</span>
-                                <span className="text-vibrant text-2xl font-body">74-78 The Corso Manly, 2095</span>
-                                <span className="text-vibrant text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
+                                <h3 className="font-display uppercase text-vibrant text-lg md:text-2xl font-body">Important delivery info</h3>
+                                <span className="text-vibrant text-lg md:text-2xl font-body">Delivery is only available within 15km radius of the store</span>
+                                <span className="text-vibrant text-lg md:text-2xl font-body">74-78 The Corso Manly, 2095</span>
+                                <span className="text-vibrant text-lg md:text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
                             </div>
                         </div>
                         <div className="flex w-full flex-col">

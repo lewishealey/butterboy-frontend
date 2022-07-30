@@ -35,7 +35,7 @@ const Page = ({ title, heading, children, header = true, isAdmin = false }) => {
       </Head>
       {header && !isAdmin && <Header />}
       {heading && (
-        <h1 className="text-5xl md:text-9xl text-center text-mauve font-bold font-display uppercase border-t border-b border-vibrant py-6 md:py-12">
+        <h1 className="text-5xl md:text-9xl text-center text-mauve font-bold font-display uppercase md:border-t border-b border-vibrant py-6 md:py-12">
           {heading}
         </h1>
       )}
