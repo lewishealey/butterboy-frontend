@@ -18,7 +18,7 @@ const AddressBox = ({ data, phone = false, type, onChange, postcode = null }) =>
             <input className={inputClasses} placeholder="Address" name="address1" onChange={handleOnChange} defaultValue={input.address1} />
             <div className='flex'>
                 <input className={inputClasses + " border-r"} placeholder="Suburb" name="suburb" onChange={handleOnChange} defaultValue={input.suburb} />
-                <input className={inputClasses + " border-r"} placeholder="City" name="city" onChange={handleOnChange} defaultValue={input.city} />
+                <input className={inputClasses + " md:border-r"} placeholder="City" name="city" onChange={handleOnChange} defaultValue={input.city} />
             </div>
             <div className="flex">
                 <input className={inputClasses + " border-r"} placeholder="State" name="state" onChange={handleOnChange} defaultValue={input.state} />

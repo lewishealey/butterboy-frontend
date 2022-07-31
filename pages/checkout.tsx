@@ -87,7 +87,7 @@ export default function Checkout({ settings, discounts }) {
 
   const [input, setInput] = useState(initialState);
   const inputClasses = "h-14 border-b border-vibrant px-8 bg-cream font-body text-vibrant outline-0";
-  const buttonClasses = "w-full bg-mauve font-display px-5 py-5 uppercase text-vibrant border-b border-t border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex";
+  const buttonClasses = "w-full bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-base md:text-xl hover:bg-vibrant hover:text-mauve inline-flex";
   const [stage, setStage] = useState(1);
 
   const handleAddress = (name, value, type) => {
@@ -253,7 +253,7 @@ export default function Checkout({ settings, discounts }) {
       heading="Checkout">
 
       <div className='flex min-h-screen border-b border-vibrant flex-col md:flex-row border-l border-r'>
-        <div className='w-full md:w-3/5 bg-cream flex justify-center border-r border-vibrant'>
+        <div className='w-full md:w-3/5 bg-cream flex justify-center md:border-r border-vibrant'>
           <div className='flex flex-col w-full'>
             {stage === 1 &&
               <>
@@ -290,19 +290,19 @@ export default function Checkout({ settings, discounts }) {
                 </fieldset>}
                 <div className="flex flex-col">
                   {deliveryType === "local-delivery" ? <button
-                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
+                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-base md:text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={handlePayment}
                   >
                     Proceed to payment
                   </button> : <button
-                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-xl hover:bg-vibrant hover:text-mauve inline-flex"
+                    className="bg-mauve font-display px-5 py-4 uppercase text-vibrant border-b border-vibrant text-base md:text-xl hover:bg-vibrant hover:text-mauve inline-flex"
                     onClick={() => setStage(2)}
                   >
                     Proceed to {deliveryType == "collect" ? "collection summary" : "delivery options"}
                   </button>}
                   <Link href="/cart">
                     <button
-                      className="hover:bg-white px-5 py-4 uppercase font-display text-vibrant text-xl hover:bg-gray-200 inline-flex"
+                      className="hover:bg-white px-5 py-4 uppercase font-display text-vibrant text-base md:text-xl hover:bg-gray-200 inline-flex border-b border-vibrant md:border-0"
                     >
                       Back to cart
                     </button>
@@ -492,7 +492,7 @@ export default function Checkout({ settings, discounts }) {
                 <input type="text" placeholder="Gift card or discount code" className={inputClasses + " w-full"} onChange={changeDiscount} value={discountCode} />
                 <button className="bg-cream border-l border-vibrant px-4 inline-flex h-14 border-b items-center uppercase font-display text-vibrant h-full" onClick={applyDiscount}>Apply</button>
               </div>}
-            <div className="flex flex-col justify-between py-6 border-b border-vibrant space-y-2 px-8">
+            <div className="flex flex-col justify-between py-4 md:py-6 border-b border-vibrant space-y-2 px-8">
               <div className="flex w-full justify-between">
                 <div className="font-body text-xl text-vibrant">Subtotal</div>
                 <div className="font-body text-xl font-body text-vibrant">${total.totalPrice.toFixed(2)}</div>
@@ -507,7 +507,7 @@ export default function Checkout({ settings, discounts }) {
                 {shipping.price && <div className="font-body text-xl text-vibrant">${shipping.price.toFixed(2)}</div>}
               </div>}
             </div>
-            <div className="flex flex-col justify-between space-y-2 px-8 py-6">
+            <div className="flex flex-col justify-between space-y-2 px-8 py-4 md:py-6">
               <div className="flex w-full justify-between">
                 <div className="font-body text-xl text-vibrant">Total</div>
                 <div className="font-body text-2xl space-x-2 items-center flex">

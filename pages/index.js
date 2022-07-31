@@ -11,20 +11,6 @@ const builder = imageUrlBuilder(client)
 
 export default function Home({ products, reviews, logos }) {
 
-  useEffect(() => {
-    fetch('/api/subscribe-email', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    }).then(response => response.json())
-      .then((res) => {
-        console.log("Email sent")
-      });
-  }, []);
-
   //Loop of products
   const jsxBoxes = products && products.map((p) => {
     //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
@@ -181,7 +167,7 @@ export default function Home({ products, reviews, logos }) {
         {reviews && reviews.map((review, i) => <div className="text-white font-body text-3xl text-center w-full" key={review.id + i}>
           "{review.text}"
         </div>)}
-        <div className="max-w-5xl m-auto flex space-x-8 justify-between w-full">
+        <div className="max-w-5xl m-auto flex space-x-4 md:space-x-8 justify-between w-full px-8 md:px-0">
           {logos && logos.map((logo, i) => logo.thumbnail && <img src={urlFor(logo.thumbnail).width(200).url()} className="w-20 h-auto" key={`logo_${i}`} />)}
         </div>
       </section>

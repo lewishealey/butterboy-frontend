@@ -24,7 +24,7 @@ const Footer = () => {
         <>
             <footer className='flex flex-col md:flex-row space-y-4 justify-between w-full p-6 pb-12 md:p-12 container m-auto'>
                 <div className="py-12 flex md:hidden">
-                    <img src="face.png" className="m-auto" style={{ width: "50%" }} />
+                    <img src="/face.png" className="m-auto" style={{ width: "50%" }} />
                 </div>
                 <div className='flex flex-col space-y-2 justify-center text-center md:text-right md:justify-end w-full'>
                     <Link href="/"><a className={navClasses}>Home</a></Link>

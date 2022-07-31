@@ -29,10 +29,10 @@ const Header = () => {
                 <button className='p-2 pt-8 font-body text-vibrant text-lg' onClick={() => setShowNav(!showNav)}>Close menu</button>
             </nav>}
             <div className='flex md:hidden border-b border-vibrant w-full justify-between items-center pl-2'>
-                <img src="mark_red.svg" className="square" style={{ width: "10%" }} />
+                <Link href="/"><img src="/mark_red.svg" className="square" style={{ width: "10%" }} /></Link>
                 <div className='flex items-center'>
-                    <Link href="shop-cookies"><a className='text-mauve uppercase p-3 border-r border-l border-vibrant font-display text-xl'>Order</a></Link>
-                    <button className='p-2' onClick={() => setShowNav(!showNav)}><img src="menu.png" className='h-6 w-6'/></button>
+                    <Link href="/shop-cookies"><a className='text-mauve uppercase p-3 border-r border-l border-vibrant font-display text-xl'>Order</a></Link>
+                    <button className='p-2' onClick={() => setShowNav(!showNav)}><img src="/menu.png" className='h-6 w-6'/></button>
                 </div>
             </div>
         </div>

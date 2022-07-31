@@ -47,12 +47,6 @@ export default function Cart({ settings }) {
     const [postcode, setPostcode] = useState("");
     const [message, setMessage] = useState("");
     const [selectDeliveryDay, setSelectDeliveryDay] = useState("");
-    const format = "dddd, MMMM Do YYYY";
-
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const timezone = "en-AU";
-
-    //<td>{moment(order.date).format("DD-MM-YYYY")}</td>
     const allowedPostcodes = ["2000","2007","2008","2008","2009","2010","2011","2015","2016","2017","2021","2060","2061","2062","2063","2064","2065","2066","2067","2068","2069","2086","2087","2088","2089","2090","2092","2093","2094","2095","2096","2097","2099","2100"];
 
     const activeDeliveryClasses = "flex-1 text-center bg-vibrant text-mauve font-display text-2xl md:text-6xl py-4 md:py-12 uppercase";
@@ -103,19 +97,6 @@ export default function Cart({ settings }) {
     }
 
     const hasCookes = products.filter(x => x.type === "box" || x.type === "other");
-    const Container = styled.div`
-        margin: 1em auto;
-        width: 100%;
-        padding: 1em;
-        background-color: #fff;
-        color: #333;
-        border-radius: 5px;
-        text-align: center;
-        box-shadow: 0 2px 4px #00000018;
-        @media (max-width: 520px) {
-            width: 100%;
-        }
-    ]`;
 
     if (product && products.length === 0) {
         return <Page
@@ -141,7 +122,7 @@ export default function Cart({ settings }) {
             >
                 {!selectDeliveryDay && <div className="w-full h-full p-6 md:p-12 space-y-4">
                     <h2 className="font-display text-3xl text-center text-vibrant uppercase">Enter postcode</h2>
-                    <input className="border border-vibrant h-20 px-6 py-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} autoFocus />
+                    <input className="border border-vibrant h-20 px-6 p-4 w-full" type="number" placeholder="Only 15km radius of Manly allowed" name="postcode" onChange={handlePostcodeChange} defaultValue={postcode} autoFocus />
                     {message === false && <div className="space-y-4"><p className="font-body text-xl">Postcode not available for delivery, sorry :(</p><button className="font-display uppercase text-vibrant bg-gray-100 py-4 text-2xl hover:bg-vibrant hover:text-mauve w-full" onClick={closePostcodeModal}>Close</button></div>}
                     {message === true && <button className="font-display uppercase text-vibrant bg-mauve py-4 md:py-6 text-2xl md:text-3xl hover:bg-vibrant hover:text-mauve w-full" onClick={onSelectDeliveryDay}>Next</button>}
                 </div>}
@@ -164,11 +145,11 @@ export default function Cart({ settings }) {
                 style={customStyles}
                 contentLabel="Enter date"
             >
-                <Container>
+                <div className="mx-auto w-full p-1 bg-white text-dark text-center shadow">
                     <div className="w-full h-full p-12 pt-4 space-y-8">
                         <PickDateTime onSchedule={handleSchedule} settings={settings} />
                     </div>
-                </Container>
+                </div>
             </Modal>
 
             <div className="flex flex-col justify-center space-y-0 md:space-y-8 py-4 md:py-8 md:pb-0 border-l border-r border-vibrant">
@@ -192,7 +173,7 @@ export default function Cart({ settings }) {
                     </div>
                     {products.map((product, i) => {
                         return <div className="border-b border-vibrant grid grid-cols-1 md:grid-cols-6 w-full" key={`product_${i}`}>
-                            <div className="border-r border-vibrant pb-8 p-4 md:p-6 md:p-12 col-span-3 border-b md:border-b-0">
+                            <div className="md:border-r border-vibrant pb-8 p-4 md:p-6 md:p-12 col-span-3 border-b md:border-b-0">
                                 <h3 className="font-display text-2xl text-xl text-vibrant mb-4 uppercase">{product.title}</h3>
                                 {product.size && <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">{product.size}</h4>}
                                 <div className="w-full flex space-x-2 items-center">
@@ -225,11 +206,11 @@ export default function Cart({ settings }) {
                 </div>
                 <div className="flex md:border-t border-b border-vibrant">
                     <div className="grid grid-cols-1 md:grid-cols-6 w-full">
-                        <label className="font-display uppercase flex items-center text-vibrant bg-cream text-xl hover:bg-gray-100 w-full border-r border-vibrant h-full md:justify-center col-span-1 p-4 md:p-0">ADD A MESSAGE</label>
-                        <textarea className="p-4 md:p-8 w-full h-full col-span-3 border-r border-vibrant border-b md:border-b-0 bg-cream" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
+                        <label className="font-display uppercase flex items-center text-vibrant bg-cream text-xl hover:bg-gray-100 w-full md:border-r border-vibrant h-full md:justify-center col-span-1 p-4 md:p-0">ADD A MESSAGE</label>
+                        <textarea className="p-4 md:p-8 w-full h-full col-span-3 md:border-r border-vibrant border-b md:border-b-0 bg-cream" onChange={(e) => assignOrderMessage(e.target.value)}>{orderMessage}</textarea>
                         <div className="col-span-2">
                             <div className="flex items-center border-b border-vibrant w-full">
-                                <div className="font-display uppercase flex items-center text-vibrant bg-cream text-xl flex-1 py-4 border-r border-vibrant justify-center">Subtotal</div>
+                                <div className="font-display uppercase flex items-center text-vibrant bg-cream text-xl flex-1 py-4 md:border-r border-vibrant justify-center">Subtotal</div>
                                 <div className="font-body text-xl text-vibrant flex-1 py-4 px-4">{total.currencyFormat}{total.totalPrice}</div>
                             </div>
                             <div className="font-body uppercase text-vibrant text-center text-xl flex justify-center items-center w-full py-4">{deliveryType === "delivery" && "SHIPPING CALCULATED AT CHECKOUT"}</div>
@@ -241,8 +222,8 @@ export default function Cart({ settings }) {
                     <button className={(deliveryType === "local-delivery" || deliveryType === "merch-delivery") ? activeDeliveryClasses : inActiveDeliveryClasses} onClick={() => hasCookes.length > 0 ? assignDeliveryType("local-delivery") : assignDeliveryType("merch-delivery")}>Shop delivery</button>
                 </section>
                 {deliveryType === "collect" && <section>
-                    <div className="flex flex-col md:flex-row border-t border-vibrant w-full border-b border-vibrant">
-                        <div className="flex space-x-4 border-r border-b md:border-b-0 border-vibrant p-8 w-full items-center">
+                    <div className="flex flex-col md:flex-row md:border-t border-vibrant w-full border-b border-vibrant">
+                        <div className="flex space-x-4 md:border-r border-b md:border-b-0 border-vibrant p-8 w-full items-center">
                             <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">&nbsp;</span>
                             <div>
                                 <h3 className="font-display uppercase text-vibrant text-xl md:text-2xl font-body">BUTTERBOY MANLY</h3>
@@ -251,12 +232,12 @@ export default function Cart({ settings }) {
                         </div>
                         <div className="flex w-full flex-col">
                             <div className="border-b border-vibrant flex w-full">
-                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-xl md:text-3xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
-                                <button className="font-display uppercase text-vibrant bg-mauve py-6 text-xl md:text-3xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-8">
-                                    <img src="/calendar.svg" className='w-12' />
+                                <button className="font-display uppercase text-vibrant bg-cream py-4 text-md md:text-xl hover:bg-gray-100 w-full" onClick={openDateModal}>{pickupDate && pickupTime ? `${pickupDate} ${pickupTime}` : `CHOOSE A DATE AND TIME`}</button>
+                                <button className="font-display uppercase text-vibrant bg-mauve py-3 md:py-6 text-xl md:text-xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-4 md:px-8">
+                                    <img src="/calendar.svg" className='w-8 md:w-12' />
                                 </button>
                             </div>
-                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-8 text-3xl ${!pickupDate && !pickupTime ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!pickupDate && !pickupTime}>Check out</button></Link>
+                            <Link href="/checkout"><button className={`font-display uppercase text-vibrant bg-mauve py-4 md:py-8 text-xl md:text-3xl ${!pickupDate && !pickupTime ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:bg-vibrant hover:text-mauve'}`} disabled={!pickupDate && !pickupTime}>Check out</button></Link>
                         </div>
                     </div>
                 </section>}
@@ -297,7 +278,7 @@ export default function Cart({ settings }) {
                                 <div className="font-display uppercase text-vibrant bg-cream py-4 text-base md:text-3xl md:h-32 w-full px-4 border-t border-vibrant"></div>
                             </div>
                             <Link href="/checkout">
-                                <button className={`font-display uppercase py-8 text-3xl bg-vibrant text-white bg-vibrant hover:text-mauve`} >Check out</button>
+                                <button className={`font-display uppercase py-6 md:py-8 text-3xl bg-vibrant text-white bg-vibrant hover:text-mauve`} >Check out</button>
                             </Link>
                         </div>
                     </div>
