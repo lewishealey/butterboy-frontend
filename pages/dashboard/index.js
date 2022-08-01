@@ -1,6 +1,6 @@
 import Page from "components/Page";
 import client from "utils/sanity";
-import Protect from 'components/protect'
+import Protect from 'components/Protect'
 import { useState, useEffect } from "react";
 import { connectToDatabase } from "utils/mongodb";
 import imageUrlBuilder from "@sanity/image-url";
