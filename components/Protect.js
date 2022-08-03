@@ -28,6 +28,8 @@ const PasswordProtect = ({ password, children }) => {
     if (loggedIn) {
       setIsLoaded(true);
       setIsValid(true);
+    } else {
+      setIsLoaded(true);
     }
   }, []);
 
