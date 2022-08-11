@@ -25,7 +25,6 @@ const ElementsForm: FC<{
   const defaultAmout = formatAmountFromStripe(paymentIntent.amount, paymentIntent.currency)
   const [input, setInput] = useState({
     customDonation: 100,
-    cardholderName: 'MR L Healey',
   })
   const [paymentType, setPaymentType] = useState('');
   const [payment, setPayment] = useState({ status: 'initial' });
