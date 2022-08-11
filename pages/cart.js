@@ -249,17 +249,17 @@ export default function Cart({ settings }) {
                                 <h3 className="font-display uppercase text-vibrant text-base md:text-2xl font-body">Important delivery info</h3>
                                 <span className="text-vibrant text-base md:text-2xl font-body">Delivery is only available within 15km radius of the store</span>
                                 <span className="text-vibrant text-base md:text-2xl font-body">74-78 The Corso Manly, 2095</span>
-                                <span className="text-vibrant text-base md:text-2xl font-body">Deliveries are only on Tues & Thurs and require 48hr notice</span>
+                                <span className="text-vibrant text-base md:text-2xl font-body">Deliveries will be available soon</span>
                             </div>
                         </div>
-                        <div className="flex w-full flex-col order-0 md:order-1">
+                        {/* <div className="flex w-full flex-col order-0 md:order-1">
                              <div className="border-b border-vibrant flex w-full">
                                 <button className="font-display uppercase text-vibrant bg-cream py-4 text-base md:text-3xl hover:bg-gray-100 md:h-32 w-full px-4 border-t border-vibrant" onClick={openPostcodeModal}>{(message === true && postcode) ? `Delivery to ${postcode} - ${deliveryDay ? deliveryDay : ""}` : "ENTER YOUR POSTCODE"}</button>
                             </div>
                             <Link href="/checkout">
                                 <button className={`font-display uppercase text-vibrant bg-mauve py-6 md:py-8 text-2xl md:text-3xl border-b border-vibrant md:border-0 ${!postcode && 'bg-gray-200 text-gray-400 cursor-not-allowed hover:bg-vibrant hover:text-mauve'}`} disabled={!postcode}>Check out</button>
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                 </section>}
                 {deliveryType === "merch-delivery" && <section>
@@ -303,7 +303,7 @@ export async function getStaticProps() {
 
 const RenderCollectionNotice = () => {
     const bannerStyles = "font-body text-vibrant py-2 w-full text-xl text-center border-b border-t border-vibrant";
-    return <div className={bannerStyles}>Order before 8pm for next day pickup</div>
+    return <div className={bannerStyles}>Order 2 days in advance</div>
 }
 
 

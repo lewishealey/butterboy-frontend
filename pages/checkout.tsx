@@ -22,21 +22,6 @@ interface EmailType {
   date: string;
   prettyDate: string;
 }
-
-const defaultCustomerInfo = {
-  firstName: 'Lewis',
-  lastName: 'Healey',
-  address1: '88 Macleay Street',
-  address2: '',
-  city: 'Sydney',
-  country: 'Australia',
-  suburb: 'Greystanes',
-  state: 'NSW',
-  postcode: '2044',
-  company: '',
-  errors: null
-}
-
 const blankCustomerInfo = {
   firstName: '',
   lastName: '',
@@ -63,8 +48,8 @@ export default function Checkout({ settings, discounts }) {
   const router = useRouter();
 
   const initialState = {
-    email: 'hello@lewi.sh',
-    phone: '0466154186',
+    email: '',
+    phone: '',
     billing: {
       ...blankCustomerInfo
     },
