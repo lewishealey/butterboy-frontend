@@ -73,10 +73,10 @@ export default function Home({ products, reviews, logos }) {
 
       <div className="hidden md:block">
         <Marquee
-          className="text-vibrant font-body text-xl md:text-3xl py-6"
+          className="text-vibrant font-body text-xl md:text-3xl py-6 uppercase"
           gradient={false}
         >
-          THE BUTTERBOY VAN IS ON THE ROAD EVERY SATURDAY - ORDER ONLINE TO HAVE YOUR COOKIES DELIVERED TO YOU
+          Our Butterboy van will be back on the road for deliveries soon. Delivering Saturdays, orders must be placed 2 days in advance
         </Marquee>
       </div>
 
@@ -88,9 +88,9 @@ export default function Home({ products, reviews, logos }) {
         {jsxBoxes}
       </section>
 
-      <section className="py-12 flex md:hidden">
+      {/* <section className="py-12 flex md:hidden">
         <img src="/emblem.png" className="m-auto" style={{ width: "70%" }} />
-      </section>
+      </section> */}
 
       <section className="hidden md:block">
         <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-b border-vibrant">
