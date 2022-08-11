@@ -76,9 +76,7 @@ export default function Home({ products, reviews, logos }) {
           className="text-vibrant font-body text-xl md:text-3xl py-6"
           gradient={false}
         >
-          THE BUTTERBOY VAN IS ON THE ROAD EVERY TUESDAY AND THURSDAY. ONLINE
-          ORDERING FOR THE ENTIRIES - THE BUTTERBOY VAN IS ON THE ROAD EVERY
-          TUESDAY AND THURSDAY. ONLINE ORDERING FOR THE ENTIRIES
+          THE BUTTERBOY VAN IS ON THE ROAD EVERY SATURDAY - ORDER ONLINE TO HAVE YOUR COOKIES DELIVERED TO YOU
         </Marquee>
       </div>
 

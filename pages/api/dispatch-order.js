@@ -15,6 +15,7 @@ export default async (req, res) => {
     let subject;
 
     if(order.deliveryType === "cookie-delivery") {
+        order.tracking = data.tracking;
         template = "local-dispatch";
         subject = `Order #${order.order_number} on its way`;
         updateDoc = {
@@ -27,6 +28,7 @@ export default async (req, res) => {
     }
 
     if(order.deliveryType === "merch-delivery") {
+        order.tracking = data.tracking;
         template = "order-dispatch";
         subject = `Order #${order.order_number} on its way`;
         updateDoc = {
