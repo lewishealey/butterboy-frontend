@@ -26,7 +26,7 @@ Date.prototype.addDays = function(days) {
             {!date && <h2 className="font-display text-4xl text-center text-vibrant uppercase">Select date</h2>}
             {!date && <ul className="flex flex-col space-y-2 font-body text-xl w-full">
                 {[...Array(settings[0].pickupRange)].map((elementInArray, index) => {
-                    let yourDate = today.addDays(index);
+                    let yourDate = today.addDays(index + (settings[0].noticePickUp / 24)); // noticePickUp / 24 = days
                     const formatedDate = yourDate.toISOString().split('T')[0];
                     if(index > 0) {
                         return <button className={settings[0].holiday.includes(formatedDate) ? disabledClasses : buttonClasses} key={index} disabled={settings[0].holiday.includes(formatedDate)} onClick={() => setDate(yourDate.toLocaleDateString(timezone, options))}>{yourDate.toLocaleDateString(timezone, options)}</button>

@@ -50,7 +50,7 @@ export default {
       {
         name: 'pickupRange',
         title: 'Number of days allowed for pickup',
-        description: 'This defines the number of days in advance the user is allowed to book a delivery',
+        description: 'This defines the number of days in advance the user is allowed to book a pickup',
         type: 'number',
         initialValue: 7
       },

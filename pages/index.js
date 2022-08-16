@@ -55,10 +55,10 @@ export default function Home({ products, reviews, logos }) {
             height={400}
           />
         </div>
-        <img
+        {/* <img
           src="order-by.png"
           className="absolute bottom-0 h-24 right-8 bottom-8 block md:hidden"
-        />
+        /> */}
       </div>
       <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto hidden md:block">
         <LazyVideo
