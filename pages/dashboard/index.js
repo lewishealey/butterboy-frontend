@@ -380,6 +380,10 @@ export default function Dashboard() {
                     </div>
                   </div>
                 ))}
+                {order.orderMessage && <div className="px-4 border-t border-vibrant py-4">
+                  <h3 className="text-xl font-display uppercase ">Order message</h3>
+                  <p className="font-body text-lg">{order.orderMessage}</p>
+                  </div>}
               </div>
             ))
           ) : (
