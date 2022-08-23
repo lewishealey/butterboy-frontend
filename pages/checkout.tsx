@@ -93,6 +93,14 @@ export default function Checkout({ settings, discounts }) {
     setInput(newState);
   };
 
+  const handleEmail = (value) => {
+    const newState = {
+      ...input,
+      email: value
+    };
+    setInput(newState);
+  };
+
   const getSortDate = () => {
     const sortFormat = "YYYY-MM-DD";
 
@@ -244,7 +252,7 @@ export default function Checkout({ settings, discounts }) {
               <>
                 <fieldset className='flex flex-col'>
                   <SectionLabel>Contact information</SectionLabel>
-                  <input className={inputClasses} placeholder="Email" name="email" defaultValue={input.email} />
+                  <input className={inputClasses} placeholder="Email" name="email" onChange={(e) => handleEmail(e.target.value)} defaultValue={input.email} />
                   <input className={inputClasses} placeholder="Phone (required for deliveries)" name="phone" onChange={(e) => handlePhone(e.target.value)} defaultValue={input.phone} />
                   <div className="flex space-x-2 items-center border-b border-vibrant py-4 px-8 cursor-pointer">
                     <input type="checkbox" className="h-4 w-4 rounded border border-vibrant cursor-pointer" name="newsletter" id="newsletter" defaultChecked={input.newsletter} onChange={handleSignup} />

@@ -149,6 +149,7 @@ export default function Confirmed({ slug }) {
                           {product.selectedOption.label}
                         </p>
                       )}
+                      {product.message && <p className="font-body text-gray-600">"{product.message}"</p>}
                       {product.size && (
                         <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">
                           {product.size}

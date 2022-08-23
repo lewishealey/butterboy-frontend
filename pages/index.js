@@ -197,11 +197,13 @@ export default function Home({ products, reviews, logos }) {
             logos.map(
               (logo, i) =>
                 logo.thumbnail && (
+                  <a href={logo.url} className="">
                   <img
                     src={urlFor(logo.thumbnail).width(200).url()}
                     className="w-20 h-auto"
                     key={`logo_${i}`}
                   />
+                  </a>
                 )
             )}
         </div>

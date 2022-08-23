@@ -377,6 +377,11 @@ export default function Dashboard() {
                           {product.selectedOption.label}
                         </p>
                       )}
+                      {product.message && (
+                        <p className="font-body text-gray-800 text-xl">
+                          Message: {product.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}

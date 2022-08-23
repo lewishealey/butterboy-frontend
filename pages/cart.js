@@ -186,6 +186,7 @@ export default function Cart({ settings }) {
                                         )}
                                     </div>}
                                     {product.selectedOption && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant">{product.selectedOption.label}</div>}
+                                    {product.message && <div className="flex flex-col text-lg font-body uppercase space-y-2 text-vibrant"> - "{product.message}"</div>}
                                 </div>
                             </div>
                             <div className="font-body text-2xl text-vibrant px-8 py-2 md:py-4 text-center border-r border-vibrant items-center justify-center hidden md:flex">

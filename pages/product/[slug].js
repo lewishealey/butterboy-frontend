@@ -43,6 +43,7 @@ export default function SingleProduct({ product, cookies }) {
   const [title, setTitle] = useState(product?.title);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
+  const [selectedMessage, setSelectedMessage] = useState("");
   const buttonClasses = "flex-1 text-xl text-vibrant text-center py-2";
 
   function renderCookieString(cookies) {
@@ -107,6 +108,7 @@ export default function SingleProduct({ product, cookies }) {
       quantity: 1,
       size: selectedSize ? selectedSize : product.details.sizing,
       selectedOption: selectedType ? selectedType : null,
+      message: selectedMessage,
     };
 
     addProduct({ ...productItem, quantity: 1 });
@@ -142,10 +144,10 @@ export default function SingleProduct({ product, cookies }) {
         {product?.details?.type === "other" && (
           <div className="space-y-12 flex flex-col justify-center py-12">
             <div className="m-auto w-full max-w-5xl">
-                <img
+              <img
                 src={urlFor(product.thumbnail).width(800)}
                 className={`m-auto w-full ${imageSize}`}
-                />
+              />
             </div>
             <div className="max-w-xl m-auto w-full">
               <Select
@@ -154,6 +156,16 @@ export default function SingleProduct({ product, cookies }) {
                 styles={customStyles}
               />
             </div>
+            {(selectedType && product.slug.current === "cookie-cake") && (
+              <div className="max-w-xl m-auto w-full">
+                <textarea
+                  placeholder="Enter cake message"
+                  onKeyDown={(e) => setSelectedMessage(e.target.value)}
+                  onChange={(e) => setSelectedMessage(e.target.value)}
+                  className="w-full bg-white border border-vibrant font-body p-3 text-xl"
+                >{selectedMessage}</textarea>
+              </div>
+            )}
             <div className="w-full flex justify-center">
               <span className="font-display text-vibrant px-8 py-4 text-4xl">
                 ${price}
@@ -234,10 +246,10 @@ export default function SingleProduct({ product, cookies }) {
         {product?.details?.type === "merch" && (
           <div className="space-y-12 flex flex-col justify-center py-12">
             <div className="m-auto w-full max-w-5xl">
-                <img
+              <img
                 src={urlFor(product.thumbnail)}
                 className={`m-auto ${imageSize}`}
-                />
+              />
             </div>
             {product?.details?.sizing === "t-shirt" ? (
               <>
