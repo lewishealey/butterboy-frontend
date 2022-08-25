@@ -76,7 +76,7 @@ export default function Home({ products, reviews, logos }) {
           className="text-vibrant font-body text-xl md:text-3xl py-6 uppercase"
           gradient={false}
         >
-          Our Butterboy van will be back on the road for deliveries soon. Delivering Saturdays, orders must be placed 2 days in advance
+          Our Butterboy van will be back on the road for deliveries soon. Delivering Saturdays, orders must be placed 2 days in advance - &nbsp;
         </Marquee>
       </div>
 

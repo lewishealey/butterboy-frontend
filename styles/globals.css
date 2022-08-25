@@ -37,6 +37,24 @@
 	animation: rotateAnimation 2s linear infinite;
 }
 
+.uploadcare--button_primary {
+    background: #F8F0E5 !important;
+    border-color: #F8F0E5 !important;
+    text-transform: uppercase;
+    color: #E50001 !important;
+    width: 100% !important;
+    font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
+}
+
+.uploadcare--widget__button_type_open {
+    background: #F8F0E5 !important;
+    border-color: #F8F0E5 !important;
+    text-transform: uppercase;
+    color: #E50001 !important;
+    width: 100% !important;
+    font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
+}
+
 @keyframes rotateAnimation {
 	from {transform: rotateY(0);}
 	to {transform: rotateY(360deg);}
