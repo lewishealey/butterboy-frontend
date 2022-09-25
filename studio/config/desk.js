@@ -18,5 +18,12 @@ export default () =>
             .schemaType('settings')
             .documentId('settings')
         ),
-      ...S.documentTypeListItems().filter(listItem => !['settings','location'].includes(listItem.getId())),
+      S.listItem()
+        .title('Homepage')
+        .child(
+          S.document()
+            .schemaType('homepage')
+            .documentId('homepage')
+        ),
+      ...S.documentTypeListItems().filter(listItem => !['settings','location', 'homepage'].includes(listItem.getId())),
     ])

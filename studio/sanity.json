@@ -14,7 +14,8 @@
     "@sanity/desk-tool",
     "tags",
     "dashboard-widget-netlify",
-    "@sanity/dashboard"
+    "@sanity/dashboard",
+    "tabs"
   ],
   "env": {
     "development": {

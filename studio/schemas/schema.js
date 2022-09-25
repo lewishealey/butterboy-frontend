@@ -12,6 +12,7 @@ import review from './review'
 import logo from './logo'
 import settings from './settings'
 import location from './location'
+import homepage from './homepage'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -28,6 +29,7 @@ export default createSchema({
     job,
     location,
     settings,
+    homepage,
     blockContent
   ]),
 })
