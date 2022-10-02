@@ -157,12 +157,6 @@ export default {
           title: "Merch delivery availability",
           type: "string",
         },
-        {
-          name: "allowedPostcodes",
-          title: "Allowed postcodes",
-          type: "array",
-          of: [{ type: "string" }],
-        },
       ],
     },
     {
