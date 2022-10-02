@@ -138,11 +138,6 @@ export default {
       fieldset: "cart",
       fields: [
         {
-          name: "allowLocalDelivery",
-          title: "Allow local cookie deliveries",
-          type: "boolean",
-        },
-        {
           name: "localDeliveryInfo",
           title: "Local delivery description",
           type: "string",
