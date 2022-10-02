@@ -105,6 +105,7 @@ export default function SingleProduct({ product, cookies }) {
       cookiesString: renderCookieString(changedCookies),
       image: urlFor(product.thumbnail).url(),
       type: product?.details?.type,
+      slug: product?.slug,
       quantity: 1,
       size: selectedSize ? selectedSize : product.details.sizing,
       selectedOption: selectedType ? selectedType : null,
@@ -156,14 +157,16 @@ export default function SingleProduct({ product, cookies }) {
                 styles={customStyles}
               />
             </div>
-            {(selectedType && product.slug.current === "cookie-cake") && (
+            {selectedType && product.slug.current === "cookie-cake" && (
               <div className="max-w-xl m-auto w-full">
                 <textarea
                   placeholder="Enter cake message"
                   onKeyDown={(e) => setSelectedMessage(e.target.value)}
                   onChange={(e) => setSelectedMessage(e.target.value)}
                   className="w-full bg-white border border-vibrant font-body p-3 text-xl"
-                >{selectedMessage}</textarea>
+                >
+                  {selectedMessage}
+                </textarea>
               </div>
             )}
             <div className="w-full flex justify-center">

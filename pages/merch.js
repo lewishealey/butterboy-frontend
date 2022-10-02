@@ -1,38 +1,34 @@
 import Page from "components/Page";
-import client from 'utils/sanity';
+import client from "utils/sanity";
 
-import Product from 'components/Product';
+import Product from "components/Product";
 
 export default function Merch({ products }) {
-
-    // Loop of products
-    const jsxProducts = products && products.map((product) => {
-        //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
-        return <Product product={product} key={product.id} />;
+  // Loop of products
+  const jsxProducts =
+    products &&
+    products.map((product) => {
+      //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
+      return <Product product={product} key={product.id} />;
     });
 
-    return (
-        <Page
-            title="Merch"
-            heading="Merch">
-
-            <section className="grid grid-cols-2 mb-12 border-l border-vibrant">
-                {jsxProducts}
-            </section>
-        </Page>
-    )
+  return (
+    <Page title="Merch" heading="Merch">
+      <section className="grid grid-cols-2 mb-12 border-l border-vibrant">
+        {jsxProducts}
+      </section>
+    </Page>
+  );
 }
 
 export async function getStaticProps({ params }) {
-
-    const products = await client.fetch(`
+  const products = await client.fetch(`
         *[_type == "product" && details.type == "merch"] | order(title)
     `);
 
-    return {
-        props: {
-            products
-        },
-        revalidate: 10, // In seconds
-    };
+  return {
+    props: {
+      products,
+    },
+  };
 }

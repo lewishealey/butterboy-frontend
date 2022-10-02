@@ -3,7 +3,14 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const Page = ({ title, heading, children, header = true, isAdmin = false }) => {
+const Page = ({
+  title,
+  heading,
+  children,
+  header = true,
+  isAdmin = false,
+  settings,
+}) => {
   return (
     <div className="bg-cream min-h-screen">
       <Head>
@@ -42,7 +49,7 @@ const Page = ({ title, heading, children, header = true, isAdmin = false }) => {
       <div className="flex flex-col mx-auto container md:container-2xl">
         {children}
       </div>
-      {!isAdmin && <Footer />}
+      {!isAdmin && <Footer settings={settings} />}
     </div>
   );
 };

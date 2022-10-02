@@ -66,7 +66,7 @@ export default function Jobs({ jobs }) {
     setApplyJob(false);
   }
 
-  console.log(name,email, phone, jobName, resume)
+  console.log(name, email, phone, jobName, resume);
 
   const jsxJobs =
     jobs &&
@@ -179,6 +179,5 @@ export async function getStaticProps({ params }) {
     props: {
       jobs,
     },
-    revalidate: 10, // In seconds
   };
 }

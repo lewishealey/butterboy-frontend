@@ -10,7 +10,7 @@ import { LazyVideo } from "react-lazy-media";
 
 const builder = imageUrlBuilder(client);
 
-export default function Home({ products, reviews, logos }) {
+export default function Home({ products, reviews, logos, settings }) {
   //Loop of products
   const jsxBoxes =
     products &&
@@ -23,8 +23,12 @@ export default function Home({ products, reviews, logos }) {
     return builder.image(source);
   }
 
+  if (!settings) {
+    return <div>Loading settings</div>;
+  }
+
   return (
-    <Page title="Homepage">
+    <Page title="Homepage" settings={settings}>
       <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
           <div className="max-w-7xl m-auto hidden md:flex">
@@ -76,7 +80,7 @@ export default function Home({ products, reviews, logos }) {
           className="text-vibrant font-body text-xl md:text-3xl py-6 uppercase"
           gradient={false}
         >
-          Our Butterboy van will be back on the road for deliveries soon. Delivering Saturdays, orders must be placed 2 days in advance - &nbsp;
+          {settings.homepage.marquee}
         </Marquee>
       </div>
 
@@ -177,7 +181,7 @@ export default function Home({ products, reviews, logos }) {
         </div>
       </section>
       <section className="hidden md:block">
-        <Address />
+        <Address settings={settings} />
       </section>
       <section
         className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover"
@@ -198,11 +202,11 @@ export default function Home({ products, reviews, logos }) {
               (logo, i) =>
                 logo.thumbnail && (
                   <a href={logo.url} className="">
-                  <img
-                    src={urlFor(logo.thumbnail).width(200).url()}
-                    className="w-20 h-auto"
-                    key={`logo_${i}`}
-                  />
+                    <img
+                      src={urlFor(logo.thumbnail).width(200).url()}
+                      className="w-20 h-auto"
+                      key={`logo_${i}`}
+                    />
                   </a>
                 )
             )}
@@ -222,11 +226,15 @@ export async function getStaticProps() {
   const logos = await client.fetch(`
     *[_type == "logo"]
   `);
+  const settings = await client.fetch(`
+    *[_type == "settings"]
+  `);
   return {
     props: {
       products,
       reviews,
       logos,
+      settings: settings[0],
     },
   };
 }

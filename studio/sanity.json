@@ -15,12 +15,13 @@
     "tags",
     "dashboard-widget-netlify",
     "@sanity/dashboard",
-    "google-analytics"
+    "google-analytics",
+    "tabs"
   ],
   "env": {
     "development": {
       "api": {
-        "dataset": "staging"
+        "dataset": "production"
       },
       "plugins": [
         "@sanity/vision"

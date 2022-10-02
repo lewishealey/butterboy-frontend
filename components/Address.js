@@ -1,6 +1,6 @@
 import React from "react";
 
-const Address = () => {
+const Address = ({ settings }) => {
   return (
     <div className="flex flex-col border-none md:border border-vibrant">
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
@@ -17,7 +17,7 @@ const Address = () => {
                 Location
               </h3>
               <p className="font-body text-vibrant text-xl p-6">
-                74-78 The Corso Manly Sydney Australia
+                {settings?.homepage?.location}
               </p>
             </figure>
             <figure className="space-y-2">
@@ -26,7 +26,7 @@ const Address = () => {
               </h3>
               <div className="p-6 space-y-2">
                 <p className="font-body text-vibrant text-xl">
-                  Everyday 9:00am - 6:00pm
+                  {settings?.homepage?.bakingHours}
                 </p>
               </div>
             </figure>
