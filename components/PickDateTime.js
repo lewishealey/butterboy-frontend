@@ -44,12 +44,14 @@ const PickDateTime = ({ onSchedule, settings }) => {
               return (
                 <button
                   className={
-                    settings.holiday.includes(formatedDate)
+                    settings.holiday && settings.holiday.includes(formatedDate)
                       ? disabledClasses
                       : buttonClasses
                   }
                   key={index}
-                  disabled={settings.holiday.includes(formatedDate)}
+                  disabled={
+                    settings.holiday && settings.holiday.includes(formatedDate)
+                  }
                   onClick={() =>
                     setDate(yourDate.toLocaleDateString(timezone, options))
                   }
