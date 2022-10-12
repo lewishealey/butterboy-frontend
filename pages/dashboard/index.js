@@ -54,7 +54,7 @@ export default function Dashboard() {
   const [sortedDate, setSortedDate] = useState(
     moment().format(sortFormat).toString()
   );
-  
+
   function getOrders() {
     fetch("/api/get-orders", {
       method: "POST",
@@ -65,18 +65,17 @@ export default function Dashboard() {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log(res)
-          if (sortedDate) {
-            setOrderData(
-              res.filter(
-                (x) =>
-                  sortedDate ===
-                  moment(x.sort_date).format(sortFormat).toString()
-              )
-            );
-          } else {
-            setOrderData(res);
-          }
+        console.log(res);
+        if (sortedDate) {
+          setOrderData(
+            res.filter(
+              (x) =>
+                sortedDate === moment(x.sort_date).format(sortFormat).toString()
+            )
+          );
+        } else {
+          setOrderData(res);
+        }
       })
       .catch((rejected) => {
         console.error(rejected);
@@ -355,11 +354,11 @@ export default function Dashboard() {
                       {product.cookies && (
                         <div className="space-y-2">
                           {product.cookies.map((cookie) => (
-                            <div key={`${cookie._id}-product_${i}-${order.id}`} className="flex space-x-2">
-                              <img
-                                src={urlFor(cookie.thumbnail)}
-                                className="w-8 h-8"
-                              />
+                            <div
+                              key={`${cookie._id}-product_${i}-${order.id}`}
+                              className="flex space-x-2"
+                            >
+                              <img src={cookie.thumbnail} className="w-8 h-8" />
                               <span className="text-xl font-body">
                                 {cookie.quantity} X {cookie.title}
                               </span>
@@ -385,10 +384,14 @@ export default function Dashboard() {
                     </div>
                   </div>
                 ))}
-                {order.orderMessage && <div className="px-4 border-t border-vibrant py-4">
-                  <h3 className="text-xl font-display uppercase ">Order message</h3>
-                  <p className="font-body text-lg">{order.orderMessage}</p>
-                  </div>}
+                {order.orderMessage && (
+                  <div className="px-4 border-t border-vibrant py-4">
+                    <h3 className="text-xl font-display uppercase ">
+                      Order message
+                    </h3>
+                    <p className="font-body text-lg">{order.orderMessage}</p>
+                  </div>
+                )}
               </div>
             ))
           ) : (

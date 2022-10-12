@@ -16,7 +16,8 @@
     "dashboard-widget-netlify",
     "@sanity/dashboard",
     "google-analytics",
-    "tabs"
+    "tabs",
+    "@sanity/google-maps-input"
   ],
   "env": {
     "development": {
