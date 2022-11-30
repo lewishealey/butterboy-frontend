@@ -23,7 +23,7 @@ export default function Stockists({ stockists }) {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [stock.location.lng, stock.location.lat],
+        coordinates: [stock?.location?.lng, stock?.location?.lat],
       },
     };
   });
