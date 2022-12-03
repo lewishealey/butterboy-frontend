@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/mapbox.css";
 import { CartProvider } from "../contexts/cart-context/CartContextProvider";
 import Script from "next/script";
 
