@@ -39,9 +39,9 @@ const Footer = ({ settings }) => {
             <Link href="/location">
               <a className={navClasses}>Location</a>
             </Link>
-            <NavLink href="/stockists">
+            <Link href="/stockists">
               <a className={navClasses}>Stockists</a>
-            </NavLink>
+            </Link>
           </div>
         </div>
       </footer>
