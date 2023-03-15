@@ -76,13 +76,29 @@ export default function SingleProduct({ product, cookies }) {
     setCookiesObject(updatedCookies);
   }
 
-  function handleChange(event) {
-    const quantity = event.target.value / 6;
+  function resetCookies() {
+    console.log("Resetting cookies");
+    const updatedCookies = cookiesObject.map((c) => {
+      return {
+        ...c,
+        quantity: 0,
+      };
+    });
+
+    setCount(0);
+    setCookiesObject(updatedCookies);
+  }
+
+  function handleChange(total) {
+    const quantity = total / 6;
     const totalPrice = quantity * product.price;
-    const newTitle = product.title.replace("6", event.target.value);
+    const newTitle = product.title.replace("6", total);
     setTitle(newTitle);
     setPrice(totalPrice);
-    setMaxCookies(event.target.value);
+    if (total < maxCookies) {
+      resetCookies();
+    }
+    setMaxCookies(total);
   }
 
   function handleCart() {
@@ -190,9 +206,9 @@ export default function SingleProduct({ product, cookies }) {
         {product?.details?.type === "box" && (
           <>
             <div className="grid grid-cols-1 gap-4 gap-y-12 p-8 md:grid-cols-4 md:p-24 md:gap-20 md;pt-24">
-              {cookiesObject.map((cookie) => {
+              {cookiesObject.map((cookie, i) => {
                 return (
-                  <div key={cookie.id} className="space-y-4">
+                  <div key={cookie.id + "-" + i} className="space-y-4">
                     <Cookie cookie={cookie} />
                     <div className="flex border border-white bg-white">
                       <button
@@ -221,17 +237,22 @@ export default function SingleProduct({ product, cookies }) {
                 {count}/{maxCookies} added to box
               </h2>
               <div className="flex">
-                <input
-                  type="number"
-                  step={6}
-                  defaultValue={maxCookies}
-                  className="px-2 text-2xl w-20 text-center"
-                  onKeyDown={handleChange}
-                  onChange={handleChange}
-                  value={maxCookies}
-                />
-                <span className="font-display text-white px-8 py-4 text-2xl text-center md:text-left">
-                  ${price}
+                {maxCookies > 6 && (
+                  <button
+                    className="font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant  hover:bg-mauve"
+                    onClick={() => handleChange(maxCookies - 6)}
+                  >
+                    -6 less
+                  </button>
+                )}
+                <button
+                  className="font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant ml-2 hover:bg-mauve"
+                  onClick={() => handleChange(maxCookies + 6)}
+                >
+                  +6 more
+                </button>
+                <span className="font-display text-white px-8 py-4 text-4xl text-center md:text-left">
+                  {maxCookies} cookies = ${price}
                 </span>
                 <button
                   className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${
