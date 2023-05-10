@@ -111,9 +111,9 @@ export default function Dashboard() {
     setFilter(type);
     setSortedDate("");
     if (type === "all") {
-      setOrderData(orders);
+      setOrderData(orderData);
     } else {
-      setOrderData(orders.filter((x) => x.deliveryType === type));
+      setOrderData(orderData.filter((x) => x.deliveryType === type));
     }
   }
 
