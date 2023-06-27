@@ -3,7 +3,7 @@ import Link from "next/link";
 import imageUrlBuilder from "@sanity/image-url";
 import client from "../utils/sanity";
 
-const Product = ({ product }) => {
+const ProductWholesale = ({ product }) => {
   if (!product) {
     return null;
   }
@@ -21,7 +21,7 @@ const Product = ({ product }) => {
   }
 
   return (
-    <Link href={`/product/${product.slug.current}`}>
+    <Link href={`/wholesale/product/${product.slug.current}`}>
       <a
         className={`border-r border-b border-vibrant transition duration-200 ease-linear group`}
       >
@@ -50,9 +50,6 @@ const Product = ({ product }) => {
           )}
         </div>
         <div className="border-t border-vibrant flex flex-col md:flex-row">
-          <span className="uppercase font-body text-xl md:text-3xl text-vibrant border-t md:border-r md:border-t-0 border-vibrant p-3 md:p-6 md:p-12 order-1 md:order-0 text-center">
-            ${product.price}
-          </span>
           <h4 className="uppercase font-body text-xl md:text-3xl text-vibrant p-3 md:p-6 md:p-12 w-full text-center order-0 md:order-1">
             {product.title}
           </h4>
@@ -62,4 +59,4 @@ const Product = ({ product }) => {
   );
 };
 
-export default Product;
+export default ProductWholesale;

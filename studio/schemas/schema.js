@@ -5,8 +5,10 @@ import createSchema from "part:@sanity/base/schema-creator";
 import schemaTypes from "all:part:@sanity/base/schema-type";
 import blockContent from "./blockContent";
 import product from "./product";
+import productWholesale from "./product-wholesale";
 import discount from "./discount";
 import cookie from "./cookie";
+import cookieWholesale from "./cookie-wholesale";
 import job from "./job";
 import review from "./review";
 import logo from "./logo";
@@ -31,5 +33,7 @@ export default createSchema({
     location,
     settings,
     blockContent,
+    cookieWholesale,
+    productWholesale,
   ]),
 });

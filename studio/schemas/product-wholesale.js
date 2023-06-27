@@ -1,6 +1,6 @@
 export default {
-  name: "product",
-  title: "Retail Product",
+  name: "product-wholesale",
+  title: "Wholesale Product",
   type: "document",
   fields: [
     {
@@ -23,11 +23,6 @@ export default {
       name: "content",
       title: "Body",
       type: "blockContent",
-    },
-    {
-      name: "available",
-      title: "Available for purchase",
-      type: "boolean",
     },
     {
       name: "live",
@@ -57,7 +52,7 @@ export default {
       of: [
         {
           type: "reference",
-          to: [{ type: "cookie" }],
+          to: [{ type: "cookie-wholesale" }],
         },
       ],
     },
@@ -72,55 +67,6 @@ export default {
           { title: "Large", value: "large" },
         ],
       },
-    },
-    {
-      name: "details",
-      type: "object",
-      title: "Details",
-      fields: [
-        {
-          name: "type",
-          title: "Type",
-          type: "string",
-          options: {
-            list: [
-              { title: "Box", value: "box" },
-              { title: "Merch", value: "merch" },
-              { title: "Other", value: "other" },
-            ],
-          },
-        },
-        {
-          title: "Flavours",
-          name: "flavours",
-          type: "array",
-          of: [
-            {
-              type: "reference",
-              to: [{ type: "cookie" }],
-            },
-          ],
-          hidden: ({ parent, value }) =>
-            parent?.type !== "box" && parent?.type !== "other",
-        },
-        {
-          name: "sizing",
-          title: "Sizing",
-          type: "string",
-          options: {
-            list: [
-              { title: "One size fits all", value: "one-size" },
-              { title: "T-shirt sizes", value: "t-shirt" },
-            ],
-          },
-          hidden: ({ parent, value }) => parent?.type !== "merch",
-        },
-      ],
-    },
-    {
-      name: "price",
-      title: "Price",
-      type: "number",
     },
     {
       name: "order",

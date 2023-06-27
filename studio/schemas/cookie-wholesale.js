@@ -1,6 +1,6 @@
 export default {
-  name: "cookie",
-  title: "Retail Cookie",
+  name: "cookie-wholesale",
+  title: "Wholesale Cookie",
   type: "document",
   fields: [
     {
