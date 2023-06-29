@@ -28,7 +28,7 @@ export default function Home({ products, reviews, logos, settings }) {
   }
 
   return (
-    <Page title="Homepage" settings={settings}>
+    <Page title={null} settings={settings}>
       <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
           <div className="max-w-7xl m-auto hidden md:flex">
