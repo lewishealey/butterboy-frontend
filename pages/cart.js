@@ -63,8 +63,6 @@ export default function Cart({ settings }) {
   const [selectDeliveryDay, setSelectDeliveryDay] = useState("");
   const allowedPostcodes = [settings?.cart?.allowedPostcodes];
 
-  console.log("products", products);
-
   const activeDeliveryClasses =
     "flex-1 text-center bg-vibrant text-mauve font-display text-2xl md:text-6xl py-4 md:py-12 uppercase";
   const inActiveDeliveryClasses =

@@ -11,6 +11,8 @@ import { LazyVideo } from "react-lazy-media";
 const builder = imageUrlBuilder(client);
 
 export default function WholesaleHome({ products, reviews, logos, settings }) {
+  const buttonClasses =
+    "font-display px-8 py-4 text-3xl hover:bg-red-700 bg-vibrant text-white";
   //Loop of products
   const jsxBoxes =
     products &&
@@ -32,97 +34,113 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-t border-vibrant">
         Wholesale
       </h2>
+      <nav className="m-auto space-x-8 pb-12">
+        <a href="#about" className="text-vibrant font-body text-xl uppercase">
+          About
+        </a>
+        <a
+          href="#corporate"
+          className="text-vibrant font-body text-xl uppercase"
+        >
+          Corporate orders
+        </a>
+        <a href="#contact" className="text-vibrant font-body text-xl uppercase">
+          Contact
+        </a>
+      </nav>
 
       <section className="grid grid-cols-2 border-t border-vibrant border-l">
         {jsxBoxes}
       </section>
 
-      <section className="hidden md:block">
-        <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-b border-vibrant">
-          How to heat
-        </h2>
-        <div className="max-w-5xl m-auto flex text-center font-body text-vibrant text-xl py-12 flex-col space-y-6">
-          <p>
-            Here is your step-by-step guide on how-to-heat-up your cookie, to
-            perfect that warm, gooey, crunchy cookie, so when your in-laws come
-            around you can pretend that you actually bake... and bake well.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-base">
-            <div className="space-y-4">
-              <div className="h-52 md:h-40 flex justify-center">
-                <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
-                  <LazyVideo
-                    src="/GIF-1.mp4"
-                    poster="/placeholder.png"
-                    classes={["md:w-full h-full object-cover z-auto"]}
-                    autoplay
-                    muted
-                    loop
-                    controls={false}
-                  />
-                </div>
-              </div>
-              <p>Store your cookies in the fridge to keep them fresh.</p>
+      <section className="hidden md:block" id="about">
+        <div className="flex flex-col border-none md:border border-vibrant border-b">
+          <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
+            About
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center border-b border-vibrant">
+            <div className="flex-1 p-6 md:p-24">
+              <img src="butterboy.png" className="" />
             </div>
-            <div className="space-y-4">
-              <div className="h-52 md:h-40 flex justify-center">
-                <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
-                  <LazyVideo
-                    src="/GIF-2.mp4"
-                    poster="/placeholder.png"
-                    classes={["md:w-full h-full object-cover z-auto"]}
-                    autoplay
-                    muted
-                    loop
-                    controls={false}
-                  />
-                </div>
+            <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
+              <div className="text-left space-y-4 w-full">
+                <figure className="space-y-2 border-vibrant">
+                  <p className="font-body text-vibrant text-xl p-6">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nulla molestie justo interdum posuere mollis. Quisque id mi
+                    in urna ultrices hendrerit. Nullam porta augue sit amet arcu
+                    aliquet, vitae ullamcorper mauris tempus. Praesent posuere
+                    ligula non odio maximus aliquet. Quisque gravida libero
+                    vestibulum, euismod justo ac, vulputate eros. In aliquet
+                    ultricies vulputate. Vivamus eget ante eget risus
+                    pellentesque convallis. Nunc et purus arcu. Maecenas a
+                    cursus odio. In dignissim tortor eget vulputate condimentum.
+                    Pellentesque consequat rutrum malesuada. Aliquam mattis orci
+                    vitae magna convallis aliquam. Morbi interdum felis non
+                    lacinia commodo. Donec posuere tellus placerat mauris rutrum
+                    malesuada. Nulla rutrum arcu nec ante mollis pulvinar. Sed
+                    quis est ut lorem ultricies sodales.
+                  </p>
+                </figure>
               </div>
-              <p>
-                Preheat the oven to 175 degrees celsius, then place the cookies
-                on a baking tray.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <div className="h-52 md:h-40 flex justify-center">
-                <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
-                  <LazyVideo
-                    src="/GIF-1.mp4"
-                    poster="/placeholder.png"
-                    classes={["md:w-full h-full object-cover z-auto"]}
-                    autoplay
-                    muted
-                    loop
-                    controls={false}
-                  />
-                </div>
-              </div>
-              <p>
-                Heat your cookies in the oven for 3-5 minutes, remove them once
-                the chocolate has melted.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <div className="h-52 md:h-40 flex justify-center">
-                <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
-                  <LazyVideo
-                    src="/GIF-4.mp4"
-                    poster="/placeholder.png"
-                    classes={["md:w-full h-full object-cover z-auto"]}
-                    autoplay
-                    muted
-                    loop
-                    controls={false}
-                  />
-                </div>
-              </div>
-              <p>Enjoy the warm gooey cookie with a glass of cold milk.</p>
             </div>
           </div>
         </div>
       </section>
+
+      <section
+        className="hidden md:block border-b border-vibrant pb-12"
+        id="corporate"
+      >
+        <div className="flex flex-col border-none md:border border-vibrant space-y-8">
+          <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
+            Corporate orders
+          </h2>
+          <p className="m-auto text-xl max-w-3xl">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
+            molestie justo interdum posuere mollis. Quisque id mi in urna
+            ultrices hendrerit. Nullam porta augue sit amet arcu aliquet, vitae
+            ullamcorper mauris tempus.
+          </p>
+          <div className="m-auto max-w-4xl">
+            <button className={buttonClasses}>Get in touch</button>
+          </div>
+        </div>
+      </section>
+
       <section className="hidden md:block">
-        <Address settings={settings} />
+        <div className="flex flex-col border-none md:border border-vibrant">
+          <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
+            Contact
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="flex-1 p-6 md:p-24">
+              <img src="butterboy.png" className="" />
+            </div>
+            <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
+              <div className="text-left space-y-4 w-full">
+                <figure className="space-y-2 border-b border-vibrant">
+                  <h3 className="font-display uppercase text-3xl md:text-6xl text-mauve border-b border-vibrant p-6">
+                    Location
+                  </h3>
+                  <p className="font-body text-vibrant text-xl p-6">
+                    {settings?.homepage?.location}
+                  </p>
+                </figure>
+                <figure className="space-y-2">
+                  <h3 className="font-display uppercase text-3xl md:text-6xl text-mauve border-b border-vibrant p-6">
+                    BAKING HOURS
+                  </h3>
+                  <div className="p-6 space-y-2">
+                    <p className="font-body text-vibrant text-xl">
+                      {settings?.homepage?.bakingHours}
+                    </p>
+                  </div>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
       <section
         className="flex border-t border-vibrant py-24 flex-col space-y-16 bg-cover"

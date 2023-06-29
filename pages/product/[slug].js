@@ -77,7 +77,6 @@ export default function SingleProduct({ product, cookies }) {
   }
 
   function resetCookies() {
-    console.log("Resetting cookies");
     const updatedCookies = cookiesObject.map((c) => {
       return {
         ...c,

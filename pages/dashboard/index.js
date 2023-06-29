@@ -65,7 +65,6 @@ export default function Dashboard() {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log(res);
         if (sortedDate) {
           setOrderData(
             res.filter(
@@ -96,7 +95,6 @@ export default function Dashboard() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log(res);
         if (res.status < 300) {
           getOrders();
           removeTracking();

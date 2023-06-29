@@ -48,7 +48,6 @@ export default function Stockists({ stockists }) {
     () =>
       stockists.map((stock, index) => {
         if (stock && stock.location) {
-          console.log(stock);
           return (
             <Marker
               key={`marker-${index}`}

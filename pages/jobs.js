@@ -66,8 +66,6 @@ export default function Jobs({ jobs }) {
     setApplyJob(false);
   }
 
-  console.log(name, email, phone, jobName, resume);
-
   const jsxJobs =
     jobs &&
     jobs.map((job, i) => {

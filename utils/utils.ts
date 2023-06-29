@@ -30,7 +30,6 @@ export function getDeliveryDates(settings) {
       }
     });
   }
-  console.log("dates", dates);
   return dates;
 }
 

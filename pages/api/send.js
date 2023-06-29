@@ -27,7 +27,6 @@ const sendThankYouEmail = async (data) => {
 };
 
 const saveUser = async ({ billing, email, phone }) => {
-  console.log("sending email", billing, email, phone)
   const url =
     "https://a.klaviyo.com/api/v2/list/Vs4P8F/members?api_key=" +
     process.env.KLAYVIO_API_KEY;
@@ -39,7 +38,7 @@ const saveUser = async ({ billing, email, phone }) => {
         {
           first_name: billing?.firstName,
           last_name: billing?.lastName,
-          email: email
+          email: email,
         },
       ],
     }),
@@ -47,19 +46,19 @@ const saveUser = async ({ billing, email, phone }) => {
 
   fetch(url, options)
     .then((res) => res.json())
-    .then((json) => { return json })
+    .then((json) => {
+      return json;
+    })
     .catch((err) => console.error("error:" + err));
 };
 
 export default async function (req, res) {
   try {
     const data = req.body;
-    console.log("Send email");
-
     await sendThankYouEmail(data);
 
     // If signed up to newsletter
-    if(data.newsletter) {
+    if (data.newsletter) {
       await saveUser(data);
     }
 

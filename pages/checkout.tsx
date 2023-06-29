@@ -57,6 +57,7 @@ export default function Checkout({ settings, discounts }) {
   const [discountCode, setDiscountCode] = useState("");
   const [finalAmount, setFinalAmount] = useState(total.totalPrice);
   const [discount, setDiscount] = useState(null);
+  const [paymentError, setPaymentError] = useState(null);
   const router = useRouter();
 
   const initialState = {
@@ -151,11 +152,15 @@ export default function Checkout({ settings, discounts }) {
       amount: finalAmount,
     }).then((data) => {
       setStage(3);
-      setPaymentIntent(data);
-      setInput({
-        ...input,
-        billing: input.shipping,
-      });
+      if (data.statusCode) {
+        setPaymentError(data?.message);
+      } else {
+        setPaymentIntent(data);
+        setInput({
+          ...input,
+          billing: input.shipping,
+        });
+      }
     });
   };
 
@@ -654,7 +659,28 @@ export default function Checkout({ settings, discounts }) {
                           />
                         </Elements>
                       ) : (
-                        <p>Loading...</p>
+                        <p className="text-vibrant font-body pt-6 px-4">
+                          Loading...
+                        </p>
+                      )}
+                      {paymentError && (
+                        <div>
+                          <p className="text-vibrant font-body p-4">
+                            Error: {paymentError}
+                          </p>
+                          <p className="text-vibrant font-body p-4">
+                            Apologies, there seems to be an error loading your
+                            payment through Stripe. The I.T department has been
+                            notified.
+                          </p>
+                          <p className="text-vibrant font-body p-4">
+                            Please{" "}
+                            <Link href="/#contact">
+                              <a className="underline">contact</a>
+                            </Link>{" "}
+                            Butterboy to finish your order.
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>

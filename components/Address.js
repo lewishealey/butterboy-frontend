@@ -2,7 +2,10 @@ import React from "react";
 
 const Address = ({ settings }) => {
   return (
-    <div className="flex flex-col border-none md:border border-vibrant">
+    <div
+      className="flex flex-col border-none md:border border-vibrant"
+      id="contact"
+    >
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
         Contact
       </h2>

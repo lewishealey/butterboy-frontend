@@ -18,6 +18,8 @@
     "@sanity/client": "^3.3.0",
     "@sanity/image-url": "^1.0.1",
     "@sendgrid/mail": "^7.7.0",
+    "@sentry/nextjs": "^7.57.0",
+    "@sentry/react": "^7.57.0",
     "@stripe/react-stripe-js": "^1.8.0-0",
     "@stripe/stripe-js": "^1.29.0",
     "@uploadcare/react-widget": "^2.1.5",
