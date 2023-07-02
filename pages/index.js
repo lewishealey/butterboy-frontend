@@ -1,17 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Page from "../components/Page";
 import Marquee from "react-fast-marquee";
+import Link from "next/link";
 import client from "../utils/sanity";
 import Image from "next/image";
 import Product from "../components/Product";
 import Address from "../components/Address";
 import imageUrlBuilder from "@sanity/image-url";
 import { LazyVideo } from "react-lazy-media";
+import Modal from "react-modal";
 
 const builder = imageUrlBuilder(client);
 
+Modal.setAppElement("#__next");
+
+const customStyles = {
+  background: {
+    zIndex: "1000",
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    minWidth: "40%",
+    background: "#ffffff",
+    padding: "0",
+    overflow: "none",
+    maxHeight: "75%",
+  },
+};
+
 export default function Home({ products, reviews, logos, settings }) {
   //Loop of products
+  const [modal, setModal] = useState(true);
   const jsxBoxes =
     products &&
     products.map((p) => {
@@ -23,12 +47,48 @@ export default function Home({ products, reviews, logos, settings }) {
     return builder.image(source);
   }
 
+  function openModal() {
+    setModal(true);
+  }
+
+  function closeModal() {
+    setModal(false);
+  }
+
   if (!settings) {
     return <div>Loading settings</div>;
   }
 
   return (
     <Page title="Homepage" settings={settings}>
+      <Modal
+        isOpen={modal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Get in touch"
+      >
+        <div className="flex gap-4">
+          <div className="p-12 flex-1 items-center justify-center text-center">
+            <img src="https://cdn.sanity.io/images/ot7oiwja/production/d0bd313ef93e3f86475afbb753be7516577b5cbe-1562x1536.png?w=400" />
+            <p className="text-3xl font-body pb-8">Cookie delivery & Collect</p>
+            <button
+              className="uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-mauve hover:text-vibrant"
+              onClick={closeModal}
+            >
+              Retail
+            </button>
+          </div>
+          <div className="p-12 flex-1 items-center justify-center text-center bg-mauve">
+            <img src="https://cdn.sanity.io/images/ot7oiwja/production/5f3cf7703d4b9e16cd51edeca7dd8d79b1daf12a-1536x1536.png?rect=154,353,1213,1183&w=400" />
+            <p className="text-3xl font-body pb-8">Corporate orders & Cafes</p>
+            <Link href="/wholesale">
+              <a className="uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-white hover:text-vibrant">
+                Wholesale
+              </a>
+            </Link>
+          </div>
+        </div>
+      </Modal>
       <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
           <div className="max-w-7xl m-auto hidden md:flex">

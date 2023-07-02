@@ -1,19 +1,61 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Page from "../../components/Page";
 import Marquee from "react-fast-marquee";
 import client from "../../utils/sanity";
-import Image from "next/image";
+import { useFormspark } from "@formspark/use-formspark";
+const FORMSPARK_FORM_ID = "650VxMLv";
+import { useRouter } from "next/router";
 import ProductWholesale from "../../components/ProductWholesale";
 import Address from "../../components/Address";
 import imageUrlBuilder from "@sanity/image-url";
-import { LazyVideo } from "react-lazy-media";
+import Modal from "react-modal";
 
 const builder = imageUrlBuilder(client);
+
+Modal.setAppElement("#__next");
+
+const customStyles = {
+  background: {
+    zIndex: "1000",
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    minWidth: "40%",
+    background: "#ffffff",
+    padding: "0",
+    overflow: "none",
+    maxHeight: "75%",
+  },
+};
 
 export default function WholesaleHome({ products, reviews, logos, settings }) {
   const buttonClasses =
     "font-display px-8 py-4 text-3xl hover:bg-red-700 bg-vibrant text-white";
+  const inputClasses =
+    "h-14 border w-full px-4 font-body text-vibrant border-vibrant bg-cream uppercase";
+  const areaClasses =
+    "border w-full px-4 pt-4 font-body text-vibrant border-vibrant bg-cream uppercase";
   //Loop of products
+  const [modal, setModal] = useState(false);
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [cafeName, setCafeName] = useState("");
+  const [cafeLocation, setCafeLocation] = useState("");
+  const [cafeAbout, setCafeAbout] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [notes, setNotes] = useState("");
+  const [cookieEstimate, setCookieEstimate] = useState("");
+  const [submit, submitting] = useFormspark({
+    formId: FORMSPARK_FORM_ID,
+  });
   const jsxBoxes =
     products &&
     products.map((p) => {
@@ -21,16 +63,122 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
       return <ProductWholesale product={p} key={p._id} />;
     });
 
+  function openModal() {
+    setModal(true);
+  }
+
+  function closeModal() {
+    setModal(false);
+  }
+
   function urlFor(source) {
     return builder.image(source);
   }
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await submit({
+      name,
+      email,
+      phone,
+      cafeName,
+      cafeLocation,
+      cafeAbout,
+      cookieEstimate,
+    });
+    router.push("/thanks");
+  };
+
+  const onSubmitCoporate = async (e) => {
+    e.preventDefault();
+    await submit({
+      name,
+      email,
+      phone,
+      deliveryAddress,
+      eventDate,
+      notes,
+      cookieEstimate,
+    });
+    router.push("/thanks");
+  };
 
   if (!settings) {
     return <div>Loading settings</div>;
   }
 
   return (
-    <Page title="Homepage" settings={settings}>
+    <Page title="Wholesale" settings={settings}>
+      <Modal
+        isOpen={modal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Get in touch"
+      >
+        <div className="mx-auto w-full p-1 bg-white text-dark text-center shadow">
+          <h2 className="uppercase font-display text-vibrant text-2xl md:text-4xl text-center pt-12">
+            Corporate enquiry
+          </h2>
+          <form className="space-y-3 p-12" onSubmit={onSubmitCoporate}>
+            <input
+              type="text"
+              placeholder="Contact name"
+              name="name"
+              className={inputClasses}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Email address"
+              name="email"
+              className={inputClasses}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Estimate of cookies you would like"
+              name="cookie_estimate"
+              className={inputClasses}
+              onChange={(e) => setCookieEstimate(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Delivery address"
+              name="delivery_address"
+              className={inputClasses}
+              onChange={(e) => setDeliveryAddress(e.target.value)}
+              required
+            />
+            <input
+              type="date"
+              placeholder="Event date"
+              name="event_date"
+              className={inputClasses}
+              onChange={(e) => setEventDate(e.target.value)}
+              required
+            />
+            <textarea
+              type="text"
+              placeholder="Additional information"
+              name="notes"
+              className={areaClasses}
+              rows={4}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button
+              name="email"
+              className="font-display uppercase text-white bg-vibrant py-4 text-xl md:text-2xl w-full"
+              disabled={submitting}
+            >
+              {submitting ? "Sending..." : "Submit"}
+            </button>
+          </form>
+        </div>
+      </Modal>
+
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-t border-vibrant">
         Wholesale
       </h2>
@@ -65,7 +213,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
             <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
               <div className="text-left space-y-4 w-full">
                 <figure className="space-y-2 border-vibrant">
-                  <p className="font-body text-vibrant text-xl p-6">
+                  <p className="font-body text-2xl p-6 leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Nulla molestie justo interdum posuere mollis. Quisque id mi
                     in urna ultrices hendrerit. Nullam porta augue sit amet arcu
@@ -96,14 +244,16 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
           <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
             Corporate orders
           </h2>
-          <p className="m-auto text-xl max-w-3xl">
+          <p className="m-auto text-2xl font-body max-w-3xl leading-relaxed">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
             molestie justo interdum posuere mollis. Quisque id mi in urna
             ultrices hendrerit. Nullam porta augue sit amet arcu aliquet, vitae
             ullamcorper mauris tempus.
           </p>
           <div className="m-auto max-w-4xl">
-            <button className={buttonClasses}>Get in touch</button>
+            <button className={buttonClasses} onClick={openModal}>
+              Enquire
+            </button>
           </div>
         </div>
       </section>
@@ -113,33 +263,77 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
           <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
             Contact
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="flex-1 p-6 md:p-24">
-              <img src="butterboy.png" className="" />
+          <p className="block text-2xl font-body text-center pt-12">
+            We would love to supply your cafe, get in touch below
+          </p>
+          <form
+            className="space-y-3 w-full max-w-3xl m-auto py-12"
+            onSubmit={onSubmit}
+          >
+            <input
+              type="text"
+              placeholder="Contact name"
+              name="name"
+              className={inputClasses}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                placeholder="Cafe name"
+                name="cafe_name"
+                className={inputClasses}
+                onChange={(e) => setCafeName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Cafe location"
+                name="cafe_location"
+                className={inputClasses}
+                onChange={(e) => setCafeLocation(e.target.value)}
+              />
             </div>
-            <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
-              <div className="text-left space-y-4 w-full">
-                <figure className="space-y-2 border-b border-vibrant">
-                  <h3 className="font-display uppercase text-3xl md:text-6xl text-mauve border-b border-vibrant p-6">
-                    Location
-                  </h3>
-                  <p className="font-body text-vibrant text-xl p-6">
-                    {settings?.homepage?.location}
-                  </p>
-                </figure>
-                <figure className="space-y-2">
-                  <h3 className="font-display uppercase text-3xl md:text-6xl text-mauve border-b border-vibrant p-6">
-                    BAKING HOURS
-                  </h3>
-                  <div className="p-6 space-y-2">
-                    <p className="font-body text-vibrant text-xl">
-                      {settings?.homepage?.bakingHours}
-                    </p>
-                  </div>
-                </figure>
-              </div>
-            </div>
-          </div>
+            <textarea
+              type="text"
+              placeholder="Tell us about your cafe"
+              name="about_cafe"
+              className={areaClasses}
+              rows={4}
+              onChange={(e) => setCafeAbout(e.target.value)}
+            ></textarea>
+            <input
+              type="text"
+              placeholder="Email address"
+              name="email"
+              className={inputClasses}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Phone"
+              name="phone"
+              className={inputClasses}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Estimate of cookies you would like"
+              name="cookie_estimate"
+              className={inputClasses}
+              onChange={(e) => setCookieEstimate(e.target.value)}
+              required
+            />
+            <button
+              name="email"
+              className="font-display uppercase text-white bg-vibrant py-4 text-xl md:text-2xl w-full"
+              disabled={submitting}
+            >
+              {submitting ? "Sending..." : "Submit"}
+            </button>
+          </form>
         </div>
       </section>
       <section
