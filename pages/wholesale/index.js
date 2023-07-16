@@ -58,10 +58,24 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
   });
   const jsxBoxes =
     products &&
-    products.map((p) => {
-      //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
-      return <ProductWholesale product={p} key={p._id} />;
-    });
+    products
+      .sort((a, b) => compareOrder(a, b))
+      .map((p) => {
+        //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
+        return <ProductWholesale product={p} key={p._id} />;
+      });
+
+  function compareOrder(a, b) {
+    console.log("Compare order");
+    if (a.order < b.order) {
+      return -1;
+    }
+    if (a.order > b.order) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
 
   function openModal() {
     setModal(true);
@@ -354,7 +368,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
             logos.map(
               (logo, i) =>
                 logo.thumbnail && (
-                  <a href={logo.url} className="">
+                  <a href={logo.url} className="" key={`logo_${i}`}>
                     <img
                       src={urlFor(logo.thumbnail).width(200).url()}
                       className="w-20 h-auto"

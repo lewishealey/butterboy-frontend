@@ -38,14 +38,6 @@ export default {
       },
     },
     {
-      name: "hover",
-      title: "Hover",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-    },
-    {
       title: "Cookies",
       name: "cookies",
       type: "array",
@@ -57,14 +49,14 @@ export default {
       ],
     },
     {
-      name: "image_size",
-      title: "Image size",
+      name: "type",
+      title: "Type",
       type: "string",
       options: {
         list: [
-          { title: "Small", value: "small" },
-          { title: "Medium", value: "medium" },
-          { title: "Large", value: "large" },
+          { title: "Cookie", value: "cookie" },
+          { title: "Dough", value: "dough" },
+          { title: "Merch", value: "merch" },
         ],
       },
     },

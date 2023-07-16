@@ -1,13 +1,12 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
 import { useEffect, useState } from "react";
-import Select from "react-select";
+import RenderBody from "utils/body";
 import Page from "components/Page";
 import Cookie from "components/Cookie";
-import { useCart } from "contexts/cart-context";
 import client from "utils/sanity";
-import { urlFor } from "helpers/sanity";
+const FORMSPARK_FORM_ID = "650VxMLv";
+import { useFormspark } from "@formspark/use-formspark";
 
 Modal.setAppElement("#__next");
 
@@ -36,7 +35,16 @@ const customStyles = {
 export default function WholesaleProduct({ product, cookies }) {
   const router = useRouter();
   const [cookiesObject, setCookiesObject] = useState(cookies);
+  const [modal, setModal] = useState(false);
   const [title, setTitle] = useState(product?.title);
+  const [submit, submitting] = useFormspark({
+    formId: FORMSPARK_FORM_ID,
+  });
+
+  const inputClasses =
+    "h-14 border w-full px-4 font-body text-vibrant border-vibrant bg-cream uppercase";
+  const areaClasses =
+    "border w-full px-4 pt-4 font-body text-vibrant border-vibrant bg-cream uppercase";
 
   if (!product) {
     return null;
@@ -61,14 +69,118 @@ export default function WholesaleProduct({ product, cookies }) {
       break;
   }
 
+  function openModal() {
+    setModal(true);
+  }
+
+  function closeModal() {
+    setModal(false);
+  }
+
+  const onSubmitCoporate = async (e) => {
+    e.preventDefault();
+    await submit({
+      name,
+      email,
+      phone,
+      deliveryAddress,
+      eventDate,
+      notes,
+      cookieEstimate,
+    });
+    router.push("/thanks");
+  };
+
   const buttonClasses =
     "font-display px-8 py-4 text-3xl hover:bg-red-700 bg-vibrant text-white";
 
   return (
     <Page title={title} heading={title}>
+      <Modal
+        isOpen={modal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Get in touch"
+      >
+        <div className="mx-auto w-full p-1 bg-white text-dark text-center shadow">
+          <h2 className="uppercase font-display text-vibrant text-2xl md:text-4xl text-center pt-12">
+            Corporate enquiry
+          </h2>
+          <form className="space-y-3 p-12" onSubmit={onSubmitCoporate}>
+            <input
+              type="text"
+              placeholder="Contact name"
+              name="name"
+              className={inputClasses}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Email address"
+              name="email"
+              className={inputClasses}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Estimate of cookies you would like"
+              name="cookie_estimate"
+              className={inputClasses}
+              onChange={(e) => setCookieEstimate(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Delivery address"
+              name="delivery_address"
+              className={inputClasses}
+              onChange={(e) => setDeliveryAddress(e.target.value)}
+              required
+            />
+            <input
+              type="date"
+              placeholder="Event date"
+              name="event_date"
+              className={inputClasses}
+              onChange={(e) => setEventDate(e.target.value)}
+              required
+            />
+            <textarea
+              type="text"
+              placeholder="Additional information"
+              name="notes"
+              className={areaClasses}
+              rows={4}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button
+              name="email"
+              className="font-display uppercase text-white bg-vibrant py-4 text-xl md:text-2xl w-full"
+              disabled={submitting}
+            >
+              {submitting ? "Sending..." : "Submit"}
+            </button>
+          </form>
+        </div>
+      </Modal>
       <>
-        <button className={buttonClasses}>Get in touch</button>
-        <div className="grid grid-cols-1 gap-4 gap-y-12 p-8 md:grid-cols-4 md:p-24 md:gap-20 md;pt-24">
+        <div className="p-8 bg-white flex flex-col space-y-8 my-8 max-w-7xl m-auto">
+          {product.content && (
+            <RenderBody body={product.content} className="text-xl font-body" />
+          )}
+          <div>
+            <button className={buttonClasses} onClick={openModal}>
+              Get in touch
+            </button>
+          </div>
+        </div>
+
+        <h2 className="text-3xl md:text-5xl text-center text-vibrant font-bold font-display uppercase md:border-t border-b border-vibrant py-6 md:py-12">
+          Flavours
+        </h2>
+        <div className="grid grid-cols-1 gap-4 gap-y-12 p-8 md:grid-cols-4 md:p-24 md:gap-20 md:pt-12">
           {cookiesObject.map((cookie, i) => {
             return (
               <div key={cookie.id + "-" + i} className="space-y-4">
@@ -106,8 +218,9 @@ export async function getStaticProps(context) {
     `,
     { slug }
   );
+
   const cookies = await client.fetch(`
-        *[_type == "cookie-wholesale"] | order(title)
+        *[_type == "cookie-wholesale" && type == "${product.type}"] | order(title)
     `);
   return {
     props: {
