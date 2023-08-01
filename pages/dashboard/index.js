@@ -348,7 +348,7 @@ export default function Dashboard() {
                     className="border-t border-vibrant pt-4 space-y-2"
                   >
                     <h3 className="text-xl px-4 font-display uppercase ">
-                      {product.title} x {product.quantity}
+                      {product.title} x {product.quantity} - ${product.price}
                     </h3>
                     <div className="p-4 pt-0">
                       {product.cookies && (

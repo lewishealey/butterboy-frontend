@@ -102,6 +102,16 @@ export default function SingleProduct({ product, cookies }) {
   }
 
   function handleCart() {
+    const cookieToPriceRatio = price / count;
+    if (
+      product?.details?.type === "box" &&
+      cookieToPriceRatio.toFixed(2) > 7.33
+    ) {
+      return alert(
+        "An error has occured, there seems to be too many cookies for the box selected. Please refresh and try again or notify Butterboy at manly@butterboy.com.au."
+      );
+    }
+
     const addedCookies = cookiesObject.filter((c) => c.quantity > 0);
 
     let changedCookies = [];
@@ -166,13 +176,15 @@ export default function SingleProduct({ product, cookies }) {
                 className={`m-auto w-full ${imageSize}`}
               />
             </div>
-            {options.length > 0 && <div className="max-w-xl m-auto w-full">
-              <Select
-                options={options}
-                onChange={(type) => setSelectedType(type)}
-                styles={customStyles}
-              />
-            </div>}
+            {options.length > 0 && (
+              <div className="max-w-xl m-auto w-full">
+                <Select
+                  options={options}
+                  onChange={(type) => setSelectedType(type)}
+                  styles={customStyles}
+                />
+              </div>
+            )}
             {selectedType && product.slug.current === "cookie-cake" && (
               <div className="max-w-xl m-auto w-full">
                 <textarea
