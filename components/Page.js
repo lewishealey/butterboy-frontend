@@ -10,6 +10,7 @@ const Page = ({
   header = true,
   isAdmin = false,
   settings,
+  fullWidth = false,
 }) => {
   return (
     <div className="bg-cream min-h-screen">
@@ -46,7 +47,11 @@ const Page = ({
           {heading}
         </h1>
       )}
-      <div className="flex flex-col mx-auto container md:container-2xl">
+      <div
+        className={`flex flex-col ${
+          fullWidth ? "w-full" : "mx-auto container md:container-2xl"
+        }`}
+      >
         {children}
       </div>
       {!isAdmin && <Footer settings={settings} />}

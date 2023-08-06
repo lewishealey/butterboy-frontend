@@ -8,7 +8,7 @@ const Cookie = ({ cookie, readMore = false }) => {
         <div className="relative h-60">
           <img
             src={urlFor(cookie.thumbnail).width(400)}
-            className="h-full w-full"
+            className="h-full w-auto m-auto"
             layout="fill"
             objectfit="contain"
           />
