@@ -245,29 +245,45 @@ export default function SingleProduct({ product, cookies }) {
               })}
             </div>
             <div className="sticky space-y-4 md:space-y-0 flex-col md:flex-row bottom-0 md:bottom-12 left-0 w-full bg-vibrant font-display flex justify-between py-6 px-4 md:px-12 items-center z-20">
-              <h2 className="text-white text-3xl">
+              <h2 className="text-white text-xl lg:text-3xl">
                 {count}/{maxCookies} added to box
               </h2>
-              <div className="flex">
+              <div className="flex flex-col lg:flex-row">
                 {maxCookies > 6 && (
                   <button
-                    className="font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant  hover:bg-mauve"
+                    className="hidden lg:flex font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant  hover:bg-mauve"
                     onClick={() => handleChange(maxCookies - 6)}
                   >
                     -6 less
                   </button>
                 )}
                 <button
-                  className="font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant ml-2 hover:bg-mauve"
+                  className={`absolute lg:hidden top-4 left-0 font-display px-4 py-2 text-2xl text-center md:text-left bg-white text-vibrant ${
+                    maxCookies === 6 ? "opacity-50" : ""
+                  }`}
+                  onClick={() => handleChange(maxCookies - 6)}
+                  disabled={maxCookies === 6}
+                >
+                  -6
+                </button>
+
+                <button
+                  className="hidden lg:flex font-display px-8 py-4 text-2xl text-center md:text-left bg-white text-vibrant ml-2 hover:bg-mauve"
                   onClick={() => handleChange(maxCookies + 6)}
                 >
                   +6 more
                 </button>
-                <span className="font-display text-white px-8 py-4 text-4xl text-center md:text-left">
+                <button
+                  className="absolute lg:hidden top-4 right-0 font-display px-4 py-2 text-2xl text-center md:text-left bg-white text-vibrant ml-2"
+                  onClick={() => handleChange(maxCookies + 6)}
+                >
+                  +6
+                </button>
+                <span className="font-display text-white px-8 py-4 text-xl lg:text-4xl text-center md:text-left">
                   {maxCookies} cookies = ${price}
                 </span>
                 <button
-                  className={`font-display bg-white text-vibrant px-8 py-4 text-2xl ${
+                  className={`font-display bg-white text-vibrant px-8 py-4 text-2xl w-full lg:w-auto ${
                     count < maxCookies ? "opacity-50" : ""
                   }`}
                   disabled={count < maxCookies}

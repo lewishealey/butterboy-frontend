@@ -63,8 +63,6 @@ export default function Cart({ settings }) {
   const [selectDeliveryDay, setSelectDeliveryDay] = useState("");
   const allowedPostcodes = [settings?.cart?.allowedPostcodes];
 
-  console.log("products", products);
-
   const activeDeliveryClasses =
     "flex-1 text-center bg-vibrant text-mauve font-display text-2xl md:text-6xl py-4 md:py-12 uppercase";
   const inActiveDeliveryClasses =
@@ -354,33 +352,36 @@ export default function Cart({ settings }) {
             </div>
           </div>
         </div>
-        <section className="flex flex-col md:flex-row border-b border-t border-vibrant">
-          <button
-            className={
-              deliveryType === "collect"
-                ? activeDeliveryClasses
-                : inActiveDeliveryClasses
-            }
-            onClick={() => assignDeliveryType("collect")}
-          >
-            Shop pick up
-          </button>
-          <button
-            className={
-              deliveryType === "local-delivery" ||
-              deliveryType === "merch-delivery"
-                ? activeDeliveryClasses
-                : inActiveDeliveryClasses
-            }
-            onClick={() =>
-              hasCookes.length > 0
-                ? assignDeliveryType("local-delivery")
-                : assignDeliveryType("merch-delivery")
-            }
-          >
-            Shop delivery
-          </button>
-        </section>
+        {/* When local delivery is available, the tabs will turn on */}
+        {settings.delivery.allowLocalDelivery && (
+          <section className="flex flex-col md:flex-row border-b border-t border-vibrant">
+            <button
+              className={
+                deliveryType === "collect"
+                  ? activeDeliveryClasses
+                  : inActiveDeliveryClasses
+              }
+              onClick={() => assignDeliveryType("collect")}
+            >
+              Shop pick up
+            </button>
+            <button
+              className={
+                deliveryType === "local-delivery" ||
+                deliveryType === "merch-delivery"
+                  ? activeDeliveryClasses
+                  : inActiveDeliveryClasses
+              }
+              onClick={() =>
+                hasCookes.length > 0
+                  ? assignDeliveryType("local-delivery")
+                  : assignDeliveryType("merch-delivery")
+              }
+            >
+              Shop delivery
+            </button>
+          </section>
+        )}
         {deliveryType === "collect" && (
           <section>
             <div className="flex flex-col md:flex-row md:border-t border-vibrant w-full border-b border-vibrant">

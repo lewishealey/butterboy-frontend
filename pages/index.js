@@ -88,7 +88,7 @@ export default function Home({ products, reviews, logos, settings }) {
         Shop cookies
       </h2>
 
-      <section className="grid grid-cols-2 border-t border-vibrant border-l">
+      <section className="m-2 lg:m-0 grid grid-cols-2 border-t border-vibrant border-l">
         {jsxBoxes}
       </section>
 
