@@ -13,10 +13,10 @@ const Header = () => {
         <NavLink href="/">Home</NavLink>
         <NavLink href="/shop-cookies">Cookies</NavLink>
         <NavLink href="/merch">Merch</NavLink>
-        <NavLink href="/wholesale">Wholesale</NavLink>
         <NavLink href="/location">Location</NavLink>
-        <NavLink href="/jobs">Jobs</NavLink>
+        <NavLink href="/wholesale">Wholesale</NavLink>
         <NavLink href="/stockists">Stockists</NavLink>
+        <NavLink href="/jobs">Jobs</NavLink>
         <NavLink href="/cart">Cart ({products.length})</NavLink>
       </nav>
       {showNav && (
@@ -24,10 +24,10 @@ const Header = () => {
           <NavLink href="/">Home</NavLink>
           <NavLink href="/shop-cookies">Cookies</NavLink>
           <NavLink href="/merch">Merch</NavLink>
-          <NavLink href="/wholesale">Wholesale</NavLink>
           <NavLink href="/location">Location</NavLink>
-          <NavLink href="/jobs">Jobs</NavLink>
+          <NavLink href="/wholesale">Wholesale</NavLink>
           <NavLink href="/stockists">Stockists</NavLink>
+          <NavLink href="/jobs">Jobs</NavLink>
           <NavLink href="/cart">Cart ({products.length})</NavLink>
           <button
             className="p-2 pt-8 font-body text-vibrant text-lg"
