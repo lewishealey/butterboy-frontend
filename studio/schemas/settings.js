@@ -129,6 +129,24 @@ export default {
           title: "Baking hours",
           type: "string",
         },
+        {
+          name: "allowPopup",
+          title: "Show a popup for retail and wholesale",
+          type: "boolean",
+          initialValue: false,
+        },
+        {
+          name: "wholesalThumbnail",
+          title: "Wholesale thumbnail",
+          type: "image",
+          hidden: ({ parent, value }) => !parent?.allowPopup,
+        },
+        {
+          name: "retailThumbnail",
+          title: "Retail thumbnail",
+          type: "image",
+          hidden: ({ parent, value }) => !parent?.allowPopup,
+        },
       ],
     },
     {

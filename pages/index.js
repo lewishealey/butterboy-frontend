@@ -61,34 +61,46 @@ export default function Home({ products, reviews, logos, settings }) {
 
   return (
     <Page title="Homepage" settings={settings}>
-      <Modal
-        isOpen={modal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Get in touch"
-      >
-        <div className="flex gap-4">
-          <div className="p-12 flex-1 items-center justify-center text-center">
-            <img src="https://cdn.sanity.io/images/ot7oiwja/production/d0bd313ef93e3f86475afbb753be7516577b5cbe-1562x1536.png?w=400" />
-            <p className="text-3xl font-body pb-8">Cookie delivery & Collect</p>
-            <button
-              className="uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-mauve hover:text-vibrant"
-              onClick={closeModal}
-            >
-              Retail
-            </button>
+      {settings.homepage.allowPopup && (
+        <Modal
+          isOpen={modal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Wholesale or retail"
+        >
+          <div className="flex gap-4">
+            <div className="p-12 flex-1 items-center justify-center text-center space-y-8">
+              <img
+                src={urlFor(settings.homepage.retailThumbnail).width(400)}
+                className={`h-auto w-full`}
+                layout="fill"
+              />
+              <p className="text-3xl font-body">Cookie delivery & Collect</p>
+              <button
+                className="flex w-full text-center justify-center uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-mauve hover:text-vibrant"
+                onClick={closeModal}
+              >
+                Retail
+              </button>
+            </div>
+            <div className="p-12 flex-1 items-center justify-center text-center bg-mauve space-y-8">
+              <img
+                src={urlFor(settings.homepage.wholesalThumbnail).width(400)}
+                className={`h-auto w-full`}
+                layout="fill"
+              />{" "}
+              <p className="text-3xl font-body block">
+                Corporate orders & Cafes
+              </p>
+              <Link href="/wholesale">
+                <a className="block uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-white hover:text-vibrant">
+                  Wholesale
+                </a>
+              </Link>
+            </div>
           </div>
-          <div className="p-12 flex-1 items-center justify-center text-center bg-mauve">
-            <img src="https://cdn.sanity.io/images/ot7oiwja/production/5f3cf7703d4b9e16cd51edeca7dd8d79b1daf12a-1536x1536.png?rect=154,353,1213,1183&w=400" />
-            <p className="text-3xl font-body pb-8">Corporate orders & Cafes</p>
-            <Link href="/wholesale">
-              <a className="uppercase font-display text-3xl text-white bg-vibrant px-5 py-3 hover:bg-white hover:text-vibrant">
-                Wholesale
-              </a>
-            </Link>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
       <div className="relative py-6 md:py-12">
         <div className="absolute w-full z-20">
           <div className="max-w-7xl m-auto hidden md:flex">
