@@ -101,6 +101,16 @@ export default function SingleProduct({ product, cookies }) {
   }
 
   function handleCart() {
+    const cookieToPriceRatio = price / count;
+    if (
+      product?.details?.type === "box" &&
+      cookieToPriceRatio.toFixed(2) > 7.33
+    ) {
+      return alert(
+        "An error has occured, there seems to be too many cookies for the box selected. Please refresh and try again or notify Butterboy at manly@butterboy.com.au."
+      );
+    }
+
     const addedCookies = cookiesObject.filter((c) => c.quantity > 0);
 
     let changedCookies = [];
@@ -165,13 +175,15 @@ export default function SingleProduct({ product, cookies }) {
                 className={`m-auto w-full ${imageSize}`}
               />
             </div>
-            <div className="max-w-xl m-auto w-full">
-              <Select
-                options={options}
-                onChange={(type) => setSelectedType(type)}
-                styles={customStyles}
-              />
-            </div>
+            {options.length > 0 && (
+              <div className="max-w-xl m-auto w-full">
+                <Select
+                  options={options}
+                  onChange={(type) => setSelectedType(type)}
+                  styles={customStyles}
+                />
+              </div>
+            )}
             {selectedType && product.slug.current === "cookie-cake" && (
               <div className="max-w-xl m-auto w-full">
                 <textarea
@@ -190,7 +202,7 @@ export default function SingleProduct({ product, cookies }) {
               </span>
               <button
                 className={`font-display px-8 py-4 text-3xl ${
-                  selectedType
+                  selectedType || options.length === 0
                     ? "hover:bg-red-700 bg-vibrant text-white"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}

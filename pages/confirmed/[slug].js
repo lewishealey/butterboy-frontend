@@ -149,7 +149,11 @@ export default function Confirmed({ slug }) {
                           {product.selectedOption.label}
                         </p>
                       )}
-                      {product.message && <p className="font-body text-gray-600">"{product.message}"</p>}
+                      {product.message && (
+                        <p className="font-body text-gray-600">
+                          "{product.message}"
+                        </p>
+                      )}
                       {product.size && (
                         <h4 className="font-body text-lg text-gray-800 mb-6 uppercase">
                           {product.size}
@@ -158,7 +162,7 @@ export default function Confirmed({ slug }) {
                     </div>
                   </div>
                   <span className="font-body text-xl text-gray-800">
-                    ${product.price}
+                    ${product.price.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -197,13 +201,17 @@ export default function Confirmed({ slug }) {
           </div>
         </div>
       </div>
-      {order && <Script
-        strategy="afterInteractive"
-        id="purchase-data"
-        dangerouslySetInnerHTML={{
-          __html: `gtag('event', 'purchase', ${generatePurchaseObject(order)});`,
-        }}
-      />}
+      {order && (
+        <Script
+          strategy="afterInteractive"
+          id="purchase-data"
+          dangerouslySetInnerHTML={{
+            __html: `gtag('event', 'purchase', ${generatePurchaseObject(
+              order
+            )});`,
+          }}
+        />
+      )}
     </Page>
   );
 }

@@ -297,7 +297,7 @@ export default function Cart({ settings }) {
                   </div>
                 </div>
                 <div className="font-body text-2xl text-vibrant px-8 py-2 md:py-4 text-center border-r border-vibrant items-center justify-center hidden md:flex">
-                  ${product.price}
+                  ${product.price.toFixed(2)}
                 </div>
                 <div className="font-body text-2xl text-vibrant px-8 py-2 md:py-4 text-center border-r border-vibrant flex items-center justify-center">
                   {product.quantity}

@@ -43,7 +43,7 @@ const Page = ({
       </Head>
       {header && !isAdmin && <Header />}
       {heading && (
-        <h1 className="text-5xl md:text-9xl text-center text-mauve font-bold font-display uppercase md:border-t border-b border-vibrant py-6 md:py-12">
+        <h1 className="text-5xl md:text-9xl text-center text-mauve font-bold font-display uppercase md:border-t border-b border-vibrant py-6 md:py-12 px-2 md:px-8">
           {heading}
         </h1>
       )}
