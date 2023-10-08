@@ -20,48 +20,75 @@ export default function MenuRetail({ products, cookies }) {
 
   return (
     <Page title="Menu" heading="Menu" isAdmin fullWidth>
-      {products.map((product, i) => (
-        <div className="w-full" key={`product_${product._id}`}>
-          <div
-            className={`uppercase font-display text-vibrant text-2xl md:text-4xl text-center py-12 ${
-              i === 0 ? "border-b" : "border-t"
-            } border-vibrant`}
-          >
-            {product.title}
+      {products
+        .filter((x) => x?.details?.type !== "merch")
+        .map((product, i) => (
+          <div className="w-full" key={`product_${product._id}`}>
+            <div
+              className={`uppercase font-display text-vibrant text-2xl md:text-4xl text-center py-12 ${
+                i === 0 ? "border-b" : "border-t"
+              } border-vibrant`}
+            >
+              {product.title}
+            </div>
+            {/* {product?.details?.type === "merch" && (
+              <div>
+                <img
+                  src={urlFor(product.thumbnail).width(800)}
+                  className={`m-auto w-full py-12`}
+                  style={{ maxWidth: 400 }}
+                />
+              </div>
+            )} */}
+
+            {product?.cookies && (
+              <div className="grid grid-cols-1 md:grid-cols-4 px-8 md:px-0 max-w-7xl m-auto gap-12 md:gap-20 py-12 items-center justify-center">
+                {product?.cookies.map((cookie) => {
+                  const cook = cookies.find((c) => c._id === cookie._ref);
+                  if (cook) {
+                    return <Cookie cookie={cook} key={cook.id} />;
+                  }
+                })}
+              </div>
+            )}
+            {product?.details?.flavours &&
+              Object.entries(
+                groupedCookies(product.details.flavours, cookies)
+              ).map(([category, cookiesInCategory]) => (
+                <div key={category}>
+                  <h2 className="uppercase font-display text-gray-800 text-xl md:text-4xl text-center pt-12">
+                    {category.replace("-", " ")}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-4 px-8 md:px-0 max-w-7xl m-auto gap-12 md:gap-20 py-12 items-center justify-center">
+                    {cookiesInCategory.map((cookie) => (
+                      <Cookie cookie={cookie} key={cookie.id} />
+                    ))}
+                  </div>
+                </div>
+              ))}
           </div>
-          {product?.details?.type === "merch" && (
-            <div>
-              <img
-                src={urlFor(product.thumbnail).width(800)}
-                className={`m-auto w-full py-12`}
-                style={{ maxWidth: 400 }}
-              />
-            </div>
-          )}
-          {product?.cookies && (
-            <div className="grid grid-cols-1 md:grid-cols-4 px-8 md:px-0 max-w-7xl m-auto gap-12 md:gap-20 py-12">
-              {product?.cookies.map((cookie) => {
-                const cook = cookies.find((c) => c._id === cookie._ref);
-                if (cook) {
-                  return <Cookie cookie={cook} key={cook.id} />;
-                }
-              })}
-            </div>
-          )}
-          {product?.details?.flavours && (
-            <div className="grid grid-cols-1 md:grid-cols-4 px-8 md:px-0 max-w-7xl m-auto gap-12 md:gap-20 py-12">
-              {product?.details?.flavours?.map((cookie) => {
-                const cook = cookies.find((c) => c._id === cookie._ref);
-                if (cook) {
-                  return <Cookie cookie={cook} key={cook.id} />;
-                }
-              })}
-            </div>
-          )}
-        </div>
-      ))}
+        ))}
     </Page>
   );
+}
+
+function groupedCookies(flavours, cookies) {
+  const cookiesGrroup = {};
+
+  flavours.forEach((cookie) => {
+    const cook = cookies.find((c) => c._id === cookie._ref);
+    console.log("cook", cook);
+    if (cook) {
+      const category = cook.category; // Assuming 'category' is a key in the cookie object.
+      if (!cookiesGrroup[category]) {
+        cookiesGrroup[category] = [];
+      }
+      cookiesGrroup[category].push(cook);
+    }
+  });
+
+  console.log("cookiesGrroup", cookiesGrroup);
+  return cookiesGrroup;
 }
 
 export async function getStaticProps({ params }) {

@@ -33,6 +33,20 @@ export default {
       },
     },
     {
+      name: "category",
+      title: "category",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+      initialValue: { title: "Cookie flavours", value: "cookie-flavours" },
+      options: {
+        list: [
+          { title: "Cookie flavours", value: "cookie-flavours" },
+          { title: "Cookie specials", value: "cookie-specials" },
+          { title: "Brownie sandwiches", value: "brownie-sandwhiches" },
+        ],
+      },
+    },
+    {
       name: "thumbnail",
       title: "Thumbnail",
       type: "image",
