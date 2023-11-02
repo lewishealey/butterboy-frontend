@@ -139,14 +139,19 @@ export default function WholesaleProduct({ product, cookies }) {
               onChange={(e) => setDeliveryAddress(e.target.value)}
               required
             />
-            <input
-              type="date"
-              placeholder="Event date"
-              name="event_date"
-              className={inputClasses}
-              onChange={(e) => setEventDate(e.target.value)}
-              required
-            />
+            <div className="flex">
+              <label className="flex whitespace-nowrap font-body text-vibrant text-base uppercase border border-vibrant border-r-0 px-4 h-14 items-center">
+                Event date
+              </label>
+              <input
+                type="date"
+                placeholder="Event date"
+                name="event_date"
+                className={inputClasses}
+                onChange={(e) => setEventDate(e.target.value)}
+                required
+              />
+            </div>
             <textarea
               type="text"
               placeholder="Additional information"

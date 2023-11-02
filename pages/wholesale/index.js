@@ -37,9 +37,9 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
   const buttonClasses =
     "font-display px-8 py-4 text-3xl hover:bg-red-700 bg-vibrant text-white";
   const inputClasses =
-    "h-14 border w-full px-4 font-body text-vibrant border-vibrant bg-cream uppercase";
+    "h-14 border w-full px-4 font-body text-vibrant border-vibrant bg-white uppercase";
   const areaClasses =
-    "border w-full px-4 pt-4 font-body text-vibrant border-vibrant bg-cream uppercase";
+    "border w-full px-4 pt-4 font-body text-vibrant border-vibrant bg-white uppercase";
   //Loop of products
   const [modal, setModal] = useState(false);
   const router = useRouter();
@@ -166,14 +166,19 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
               onChange={(e) => setDeliveryAddress(e.target.value)}
               required
             />
-            <input
-              type="date"
-              placeholder="Event date"
-              name="event_date"
-              className={inputClasses}
-              onChange={(e) => setEventDate(e.target.value)}
-              required
-            />
+            <div className="flex">
+              <label className="flex whitespace-nowrap font-body text-vibrant text-base uppercase border border-vibrant border-r-0 px-4 h-14 items-center">
+                Event date
+              </label>
+              <input
+                type="date"
+                placeholder="Event date"
+                name="event_date"
+                className={inputClasses}
+                onChange={(e) => setEventDate(e.target.value)}
+                required
+              />
+            </div>
             <textarea
               type="text"
               placeholder="Additional information"
@@ -196,7 +201,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
       <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-8 md:py-16 border-t border-vibrant">
         Wholesale
       </h2>
-      <nav className="m-auto space-x-8 pb-12">
+      <nav className="hidden md:block m-auto space-x-8 pb-12">
         <a href="#about" className="text-vibrant font-body text-xl uppercase">
           About
         </a>
@@ -210,12 +215,17 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
           Contact
         </a>
       </nav>
-
+      <p className="font-body text-lg md:text-2xl p-6 max-w-5xl m-auto leading-relaxed text-center">
+        Is your cafe missing something sweet? Butterboy offers a wholesale
+        option so our customers can have the convenience of getting their cookie
+        fix at a local cafe nearby, and for our stockists to be able to supply
+        the best cookies in town!
+      </p>
       <section className="grid grid-cols-2 border-t border-vibrant border-l">
         {jsxBoxes}
       </section>
 
-      <section className="hidden md:block" id="about">
+      <section className="block" id="about">
         <div className="flex flex-col border-none md:border border-vibrant border-b">
           <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
             About
@@ -227,21 +237,15 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
             <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
               <div className="text-left space-y-4 w-full">
                 <figure className="space-y-2 border-vibrant">
-                  <p className="font-body text-2xl p-6 leading-relaxed">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla molestie justo interdum posuere mollis. Quisque id mi
-                    in urna ultrices hendrerit. Nullam porta augue sit amet arcu
-                    aliquet, vitae ullamcorper mauris tempus. Praesent posuere
-                    ligula non odio maximus aliquet. Quisque gravida libero
-                    vestibulum, euismod justo ac, vulputate eros. In aliquet
-                    ultricies vulputate. Vivamus eget ante eget risus
-                    pellentesque convallis. Nunc et purus arcu. Maecenas a
-                    cursus odio. In dignissim tortor eget vulputate condimentum.
-                    Pellentesque consequat rutrum malesuada. Aliquam mattis orci
-                    vitae magna convallis aliquam. Morbi interdum felis non
-                    lacinia commodo. Donec posuere tellus placerat mauris rutrum
-                    malesuada. Nulla rutrum arcu nec ante mollis pulvinar. Sed
-                    quis est ut lorem ultricies sodales.
+                  <p className="font-body text-lg md:text-2xl p-6 leading-relaxed">
+                    Renowned for our unique and ever-evolving cookies that push
+                    the flavour boundaries, at Butterboy we bake, sell and
+                    wholesale some of the best cookies in Sydney. Our gourmet
+                    cookies are created from scratch, with the highest quality
+                    ingredients and then hand-rolled and baked fresh daily by
+                    our team. We pride ourselves on bringing joy with every
+                    bite. You can find us at our Flagship store on Manly Corso,
+                    or stocked in some of the coolest cafes across Sydney.
                   </p>
                 </figure>
               </div>
@@ -250,19 +254,17 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
         </div>
       </section>
 
-      <section
-        className="hidden md:block border-b border-vibrant pb-12"
-        id="corporate"
-      >
-        <div className="flex flex-col border-none md:border border-vibrant space-y-8">
+      <section className="block border-b border-vibrant pb-12" id="corporate">
+        <div className="flex flex-col border-none md:border border-vibrant space-y-8 px-4">
           <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
             Corporate orders
           </h2>
-          <p className="m-auto text-2xl font-body max-w-3xl leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            molestie justo interdum posuere mollis. Quisque id mi in urna
-            ultrices hendrerit. Nullam porta augue sit amet arcu aliquet, vitae
-            ullamcorper mauris tempus.
+          <p className="m-auto text-lg md:text-2xl font-body max-w-5xl leading-relaxed text-center">
+            Do you have an event happening soon? Bring Butterboy to sweeten
+            things up. Choose from our many classic or fun flavours which are
+            guaranteed crowd-pleasers. Made from the finest ingredients and
+            baked fresh on the day, our gooey, gourmet cookies are sure to be a
+            hit at any function!
           </p>
           <div className="m-auto max-w-4xl">
             <button className={buttonClasses} onClick={openModal}>
@@ -272,9 +274,12 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
         </div>
       </section>
 
-      <section className="hidden md:block">
+      <section className="block px-4">
         <div className="flex flex-col border-none md:border border-vibrant">
-          <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
+          <h2
+            className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant"
+            id="contact"
+          >
             Contact
           </h2>
           <p className="block text-2xl font-body text-center pt-12">

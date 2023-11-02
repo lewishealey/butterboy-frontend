@@ -6,7 +6,9 @@ export default function Thanks() {
   return (
     <Page title="Thank you" heading="Thank you">
       <div className="rounded-lg border-gray-900 px-12 py-8 space-y-6 w-full max-w-4xl m-auto">
-        <p>Thanks for your wholesale submission</p>
+        <p className="m-auto text-2xl font-body max-w-3xl leading-relaxed">
+          Thanks for your wholesale submission, someone will be in touch shortly
+        </p>
       </div>
     </Page>
   );
