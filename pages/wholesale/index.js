@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import Page from "../../components/Page";
-import Marquee from "react-fast-marquee";
 import client from "../../utils/sanity";
 import { useFormspark } from "@formspark/use-formspark";
 const FORMSPARK_FORM_ID = "650VxMLv";
 import { useRouter } from "next/router";
 import ProductWholesale from "../../components/ProductWholesale";
-import Address from "../../components/Address";
 import imageUrlBuilder from "@sanity/image-url";
 import Modal from "react-modal";
 
