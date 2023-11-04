@@ -16,8 +16,6 @@ export default function WholesaleRetail({ products, cookies }) {
     return <div>Loading...</div>;
   }
 
-  console.log("products", products);
-
   return (
     <Page title="Menu" heading="Menu" isAdmin fullWidth>
       {products.map((product, i) => (

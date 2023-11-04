@@ -33,19 +33,19 @@ const ProductWholesale = ({ product }) => {
               className={`absolute top-0 z-10 h-full w-full justify-center hidden md:flex ${padding}`}
             >
               <img
-                src={urlFor(product.hover).width(400)}
+                src={urlFor(product.hover).width(800)}
                 className="h-full opacity-0 group-hover:opacity-100"
-                layout="fill"
+                layout="responsive"
               />
             </div>
           )}
           {product.thumbnail && (
             <img
-              src={urlFor(product.thumbnail).width(400)}
+              src={urlFor(product.thumbnail).width(800)}
               className={`h-full ${
                 product.hover && "group-hover:opacity-0"
               } ${padding} ${rotate}`}
-              layout="fill"
+              layout="responsive"
             />
           )}
         </div>

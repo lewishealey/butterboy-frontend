@@ -66,7 +66,6 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
       });
 
   function compareOrder(a, b) {
-    console.log("Compare order");
     if (a.order < b.order) {
       return -1;
     }
