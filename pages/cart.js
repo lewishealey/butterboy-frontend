@@ -391,7 +391,7 @@ export default function Cart({ settings }) {
                 </span>
                 <div className="flex flex-col space-y-2">
                   <h4 className="font-display uppercase text-vibrant text-xl md:text-2xl font-display bold">
-                    Pickup from
+                    Pickup in Store
                   </h4>
                   <h3 className="font-display uppercase text-vibrant text-xl md:text-2xl font-body">
                     BUTTERBOY MANLY
