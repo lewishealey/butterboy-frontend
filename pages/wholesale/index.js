@@ -212,7 +212,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
           Contact
         </a>
       </nav>
-      <p className="font-body text-lg md:text-2xl p-6 max-w-5xl m-auto leading-relaxed text-center">
+      <p className="font-body text-lg md:text-2xl p-6 max-w-5xl m-auto leading-relaxed text-center text-vibrant">
         Is your cafe missing something sweet? Butterboy offers a wholesale
         option so our customers can have the convenience of getting their cookie
         fix at a local cafe nearby, and for our stockists to be able to supply
@@ -234,7 +234,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
             <div className="flex-1 flex justify-start items-center flex-col text-left border-l border-vibrant">
               <div className="text-left space-y-4 w-full">
                 <figure className="space-y-2 border-vibrant">
-                  <p className="font-body text-lg md:text-2xl p-6 leading-relaxed">
+                  <p className="font-body text-lg md:text-2xl p-6 leading-relaxed text-vibrant">
                     Renowned for our unique and ever-evolving cookies that push
                     the flavour boundaries, at Butterboy we bake, sell and
                     wholesale some of the best cookies in Sydney. Our gourmet
@@ -256,7 +256,7 @@ export default function WholesaleHome({ products, reviews, logos, settings }) {
           <h2 className="uppercase font-display text-mauve text-4xl md:text-8xl text-center py-16 border-b border-vibrant">
             Corporate orders
           </h2>
-          <p className="m-auto text-lg md:text-2xl font-body max-w-5xl leading-relaxed text-center">
+          <p className="m-auto text-lg md:text-2xl font-body max-w-5xl leading-relaxed text-center text-vibrant">
             Do you have an event happening soon? Bring Butterboy to sweeten
             things up. Choose from our many classic or fun flavours which are
             guaranteed crowd-pleasers. Made from the finest ingredients and

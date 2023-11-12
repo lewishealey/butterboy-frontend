@@ -389,7 +389,10 @@ export default function Cart({ settings }) {
                 <span className="h-4 w-4 border-4 border-vibrant bg-mauve rounded-full mt-2 hidden md:flex">
                   &nbsp;
                 </span>
-                <div>
+                <div className="flex flex-col space-y-2">
+                  <h4 className="font-display uppercase text-vibrant text-xl md:text-2xl font-display bold">
+                    Pickup from
+                  </h4>
                   <h3 className="font-display uppercase text-vibrant text-xl md:text-2xl font-body">
                     BUTTERBOY MANLY
                   </h3>
@@ -406,7 +409,7 @@ export default function Cart({ settings }) {
                   >
                     {pickupDate && pickupTime
                       ? `${pickupDate} ${pickupTime}`
-                      : `CHOOSE A DATE AND TIME`}
+                      : `CHOOSE A PICKUP DATE AND TIME`}
                   </button>
                   <button className="font-display uppercase text-vibrant bg-mauve py-3 md:py-6 text-xl md:text-xl hover:bg-vibrant hover:text-mauve border-l border-vibrant px-4 md:px-8">
                     <img src="/calendar.svg" className="w-8 md:w-12" />
