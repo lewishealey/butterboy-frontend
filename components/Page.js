@@ -49,7 +49,7 @@ const Page = ({
       )}
       <div
         className={`flex flex-col ${
-          fullWidth ? "w-full" : "mx-auto container md:container-2xl"
+          fullWidth ? "w-full" : "mx-auto container-responsive"
         }`}
       >
         {children}

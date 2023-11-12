@@ -6,17 +6,6 @@ import Pin from "../components/Pin";
 import { urlFor } from "helpers/sanity";
 import { useMediaQuery } from "react-responsive";
 
-const layerStyle = {
-  id: "point",
-  type: "circle",
-  paint: {
-    "circle-radius": 10,
-    "circle-color": "#007cbf",
-  },
-};
-
-const SECRET =
-  "sk.eyJ1IjoibGV3aXNoZWFsZXkiLCJhIjoiY2w4eWNuNmh2MDZ6ejN2cXA0bjBrYWloZyJ9.XeUZ1wI8wJ1ayj6obUsDiQ";
 const PUBLIC =
   "pk.eyJ1IjoibGV3aXNoZWFsZXkiLCJhIjoiY2tuMW1ic3ZiMHpiMDJwdHA3YngyZGw3NCJ9.HIUEFGrQfzLWF-c7sShszg";
 
@@ -37,8 +26,10 @@ export default function Stockists({ stockists }) {
       setData(stockists);
     } else {
       setData(
-        data.filter((x) =>
-          x.title.toLowerCase().includes(event.target.value.toLowerCase())
+        data.filter(
+          (x) =>
+            x.title?.toLowerCase().includes(event.target.value.toLowerCase()) ||
+            x.address?.toLowerCase().includes(event.target.value.toLowerCase())
         )
       );
     }
@@ -79,7 +70,7 @@ export default function Stockists({ stockists }) {
           <div className="p-4 space-y-2 bg-cream rounded-lg">
             <div className="relative sticky top-0">
               <input
-                placeholder="Search"
+                placeholder="Search name, suburb or postcode"
                 className="font-body h-12 border border-vibrant px-2 w-full"
                 onKeyDown={onChange}
                 onChange={onChange}
@@ -131,8 +122,6 @@ export default function Stockists({ stockists }) {
         <div className="order-0 md:order-1">
           <Map
             initialViewState={initialLocation}
-            longitude={initialLocation.longitude}
-            latitude={initialLocation.latitude}
             zoom={initialLocation.zoom}
             style={{ width: "100%", height: isTabletAndBelow ? 400 : 700 }}
             mapStyle="mapbox://styles/mapbox/streets-v9"

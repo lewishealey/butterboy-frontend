@@ -10,8 +10,8 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "description",
-      title: "Description",
+      name: "extraInfo",
+      title: "Extra info (shows on list)",
       type: "blockContent",
     },
     {

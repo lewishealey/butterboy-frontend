@@ -9,8 +9,9 @@ export default {
   fieldsets: [
     { name: "delivery", title: "Delivery", options: { sortOrder: 10 } },
     { name: "homepage", title: "Homepage", options: { sortOrder: 20 } },
-    { name: "cart", title: "Cart", options: { sortOrder: 30 } },
-    { name: "footer", title: "Footer", options: { sortOrder: 40 } },
+    { name: "product", title: "Product", options: { sortOrder: 30 } },
+    { name: "cart", title: "Cart", options: { sortOrder: 40 } },
+    { name: "footer", title: "Footer", options: { sortOrder: 50 } },
   ],
   fields: [
     {
@@ -146,6 +147,19 @@ export default {
           title: "Retail thumbnail",
           type: "image",
           hidden: ({ parent, value }) => !parent?.allowPopup,
+        },
+      ],
+    },
+    {
+      type: "object",
+      name: "product",
+      title: "Product",
+      fieldset: "product",
+      fields: [
+        {
+          name: "outOfStockText",
+          title: "Out of stock",
+          type: "blockContent",
         },
       ],
     },

@@ -3,59 +3,69 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'humanst521_ubd_btultra_bold';
-    src: url('/fonts/humanist-521-ultra-bold-bt-webfont.woff2') format('woff2'),
-         url('/fonts/humanist-521-ultra-bold-bt-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "humanst521_ubd_btultra_bold";
+  src: url("/fonts/humanist-521-ultra-bold-bt-webfont.woff2") format("woff2"),
+    url("/fonts/humanist-521-ultra-bold-bt-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'bikobold';
-    src: url('/fonts/biko_bold-webfont.woff2') format('woff2'),
-         url('/fonts/biko_bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
+  font-family: "bikobold";
+  src: url("/fonts/biko_bold-webfont.woff2") format("woff2"),
+    url("/fonts/biko_bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'bikoregular';
-    src: url('/fonts/biko_regular-webfont.woff2') format('woff2'),
-         url('/fonts/biko_regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "bikoregular";
+  src: url("/fonts/biko_regular-webfont.woff2") format("woff2"),
+    url("/fonts/biko_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 .svg-inline--fa {
-    height: 20px;
-    width: 20px;
-    margin: 0 auto;
+  height: 20px;
+  width: 20px;
+  margin: 0 auto;
 }
 
 .square {
-	transform: rotateY(45deg);
-	animation: rotateAnimation 2s linear infinite;
+  transform: rotateY(45deg);
+  animation: rotateAnimation 2s linear infinite;
 }
 
 .uploadcare--button_primary {
-    background: #F8F0E5 !important;
-    border-color: #F8F0E5 !important;
-    text-transform: uppercase;
-    color: #E50001 !important;
-    width: 100% !important;
-    font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
+  background: #f8f0e5 !important;
+  border-color: #f8f0e5 !important;
+  text-transform: uppercase;
+  color: #e50001 !important;
+  width: 100% !important;
+  font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
 }
 
 .uploadcare--widget__button_type_open {
-    background: #F8F0E5 !important;
-    border-color: #F8F0E5 !important;
-    text-transform: uppercase;
-    color: #E50001 !important;
-    width: 100% !important;
-    font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
+  background: #f8f0e5 !important;
+  border-color: #f8f0e5 !important;
+  text-transform: uppercase;
+  color: #e50001 !important;
+  width: 100% !important;
+  font-family: humanst521_ubd_btultra_bold, Arial, sans-serif !important;
 }
 
 @keyframes rotateAnimation {
-	from {transform: rotateY(0);}
-	to {transform: rotateY(360deg);}
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.container-responsive {
+  width: 100%;
+  max-width: 2400px;
+  margin: auto;
 }

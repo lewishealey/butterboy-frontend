@@ -73,3 +73,6 @@ export function getDeliveryDate(object) {
     }
   }
 }
+
+export const cookieListContainerStyles =
+  "grid grid-cols-1 gap-4 lg:gap-y-24 p-8 md:grid-cols-4 lg:p-24 lg:gap-20";

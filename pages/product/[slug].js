@@ -2,12 +2,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
 import { useEffect, useState } from "react";
+import RenderBody from "utils/body";
 import Select from "react-select";
 import Page from "components/Page";
 import Cookie from "components/Cookie";
 import { useCart } from "contexts/cart-context";
 import client from "utils/sanity";
 import { urlFor } from "helpers/sanity";
+import { cookieListContainerStyles } from "../../utils/utils";
 
 Modal.setAppElement("#__next");
 
@@ -33,7 +35,7 @@ const customStyles = {
   }),
 };
 
-export default function SingleProduct({ product, cookies }) {
+export default function SingleProduct({ settings, product, cookies }) {
   const router = useRouter();
   const [cookiesObject, setCookiesObject] = useState(cookies);
   const { addProduct } = useCart();
@@ -216,10 +218,13 @@ export default function SingleProduct({ product, cookies }) {
         )}
         {product?.details?.type === "box" && (
           <>
-            <div className="grid grid-cols-1 gap-4 gap-y-12 p-8 md:grid-cols-4 md:p-24 md:gap-20 md;pt-24">
+            <div className={cookieListContainerStyles}>
               {cookiesObject.map((cookie, i) => {
                 return (
-                  <div key={cookie.id + "-" + i} className="space-y-4">
+                  <div
+                    key={cookie.id + "-" + i}
+                    className="flex flex-col space-y-4"
+                  >
                     <Cookie cookie={cookie} />
                     <div className="flex border border-white bg-white">
                       <button
@@ -412,14 +417,10 @@ export default function SingleProduct({ product, cookies }) {
               />
             )}
           </div>
-          <h2 className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center">
-            Sorry, this product isn't available for purchase just yet, we've
-            just launched our new store and are still getting to grips with our
-            operation. You can buy{" "}
-            <Link href="/merch">
-              <a className="inline text-vibrant font-body underline">merch</a>
-            </Link>
-          </h2>
+          <RenderBody
+            body={settings?.product?.outOfStockText}
+            className="text-xl md:text-2xl font-body text-vibrant max-w-2xl text-center"
+          />
         </div>
       </Page>
     );
@@ -453,10 +454,15 @@ export async function getStaticProps(context) {
   const cookies = await client.fetch(`
         *[_type == "cookie" && type == "cookie"] | order(title)
     `);
+  const settings = await client.fetch(`
+        *[_type == "settings"]
+    `);
+
   return {
     props: {
       product,
       cookies,
+      settings: settings[0],
     },
   };
 }

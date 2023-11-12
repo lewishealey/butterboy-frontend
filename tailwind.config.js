@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: 'humanst521_ubd_btultra_bold, Arial, sans-serif',
-        heading: 'bikobold, Arial, sans-serif',
-        body: 'bikoregular, Arial, sans-serif'
+        display: "humanst521_ubd_btultra_bold, Arial, sans-serif",
+        heading: "bikobold, Arial, sans-serif",
+        body: "bikoregular, Arial, sans-serif",
       },
       colors: {
         fade: "#F7F5F2",
@@ -16,10 +16,9 @@ module.exports = {
         "brand-purple": "#d9bce2",
         vibrant: "#E50001",
         mauve: "#DCC9E8",
-        cream: "#f9f0e5"
-
-      }
+        cream: "#f9f0e5",
+      },
     },
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/typography")],
+};

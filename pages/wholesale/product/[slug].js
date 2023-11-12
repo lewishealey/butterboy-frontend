@@ -7,6 +7,7 @@ import Cookie from "components/Cookie";
 import client from "utils/sanity";
 const FORMSPARK_FORM_ID = "650VxMLv";
 import { useFormspark } from "@formspark/use-formspark";
+import { cookieListContainerStyles } from "../../../utils/utils";
 
 Modal.setAppElement("#__next");
 
@@ -171,9 +172,9 @@ export default function WholesaleProduct({ product, cookies }) {
         </div>
       </Modal>
       <>
-        <div className="p-8 bg-white flex flex-col space-y-8 my-8 max-w-7xl m-auto">
+        <div className="p-8 flex flex-col space-y-8 my-8 max-w-7xl m-auto justify-center text-center text-vibrant">
           {product.content && (
-            <RenderBody body={product.content} className="text-xl font-body" />
+            <RenderBody body={product.content} className="text-2xl font-body" />
           )}
           <div>
             <button className={buttonClasses} onClick={openModal}>
@@ -185,10 +186,13 @@ export default function WholesaleProduct({ product, cookies }) {
         <h2 className="text-3xl md:text-5xl text-center text-vibrant font-bold font-display uppercase md:border-t border-b border-vibrant py-6 md:py-12">
           Flavours
         </h2>
-        <div className="grid grid-cols-1 gap-4 gap-y-12 p-8 md:grid-cols-4 md:p-24 md:gap-20 md:pt-12">
+        <div className={cookieListContainerStyles}>
           {cookiesObject.map((cookie, i) => {
             return (
-              <div key={cookie.id + "-" + i} className="space-y-4">
+              <div
+                key={cookie.id + "-" + i}
+                className="flex flex-col space-y-4"
+              >
                 <Cookie cookie={cookie} />
               </div>
             );

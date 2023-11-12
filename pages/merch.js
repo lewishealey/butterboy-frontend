@@ -8,8 +8,7 @@ export default function Merch({ products }) {
   const jsxProducts =
     products &&
     products.map((product) => {
-      //const featuredMedia = cookie['_embedded']['wp:featuredmedia'][0];
-      return <Product product={product} key={product.id} />;
+      return product.live && <Product product={product} key={product.id} />;
     });
 
   return (
