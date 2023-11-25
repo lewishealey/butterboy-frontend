@@ -160,7 +160,7 @@ export default function Home({ products, reviews, logos, settings }) {
         Shop cookies
       </h2>
 
-      <section className="m-2 lg:m-0 grid grid-cols-2 border-t border-vibrant border-l">
+      <section className="grid grid-cols-2 border-t border-vibrant border-l m-auto w-full max-w-7xl">
         {jsxBoxes}
       </section>
 
@@ -252,7 +252,7 @@ export default function Home({ products, reviews, logos, settings }) {
           </div>
         </div>
       </section>
-      <section className="hidden md:block">
+      <section className="hidden md:block m-auto w-full max-w-7xl">
         <Address settings={settings} />
       </section>
       <section
@@ -268,7 +268,7 @@ export default function Home({ products, reviews, logos, settings }) {
               "{review.text}"
             </div>
           ))}
-        <div className="max-w-5xl m-auto flex space-x-4 md:space-x-8 justify-between w-full px-8 md:px-0">
+        <div className="max-w-5xl m-auto flex space-x-2 md:space-x-8 justify-between w-full px-8 md:px-0">
           {logos &&
             logos.map(
               (logo, i) =>
