@@ -55,6 +55,7 @@ export default function Cart({ settings }) {
     assignOrderMessage,
     orderMessage,
   } = useCart();
+
   const [postcodeModal, setPostcodeModal] = useState(false);
   const [date, setDate] = useState(null);
   const [dateModal, setDateModal] = useState(false);

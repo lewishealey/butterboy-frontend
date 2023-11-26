@@ -103,44 +103,51 @@ export default function SingleProduct({ settings, product, cookies }) {
   }
 
   function handleCart() {
-    const cookieToPriceRatio = price / count;
-    if (
-      product?.details?.type === "box" &&
-      cookieToPriceRatio.toFixed(2) > 7.33
-    ) {
-      return alert(
-        "An error has occured, there seems to be too many cookies for the box selected. Please refresh and try again or notify Butterboy at manly@butterboy.com.au."
+    if (count > maxCookies) {
+      alert(
+        `You can't add more cookies than you're allowed! Please remove ${
+          count - maxCookies
+        } cookie`
       );
+    } else {
+      const addedCookies = cookiesObject.filter((c) => c.quantity > 0);
+
+      let changedCookies = [];
+      addedCookies &&
+        addedCookies.forEach((c) =>
+          changedCookies.push({
+            ...c,
+            thumbnail: urlFor(c.thumbnail).url(),
+          })
+        );
+
+      const productItem = {
+        id: product?._id,
+        title: title,
+        price: price,
+        cookies: changedCookies,
+        cookiesString: renderCookieString(changedCookies),
+        image: urlFor(product.thumbnail).url(),
+        type: product?.details?.type,
+        slug: product?.slug,
+        quantity: 1,
+        size: selectedSize ? selectedSize : product.details.sizing,
+        selectedOption: selectedType ? selectedType : null,
+        message: selectedMessage,
+      };
+
+      addProduct({ ...productItem, quantity: 1 });
+      router.push("/cart");
     }
-
-    const addedCookies = cookiesObject.filter((c) => c.quantity > 0);
-
-    let changedCookies = [];
-    addedCookies &&
-      addedCookies.forEach((c) =>
-        changedCookies.push({
-          ...c,
-          thumbnail: urlFor(c.thumbnail).url(),
-        })
-      );
-
-    const productItem = {
-      id: product?._id,
-      title: title,
-      price: price,
-      cookies: changedCookies,
-      cookiesString: renderCookieString(changedCookies),
-      image: urlFor(product.thumbnail).url(),
-      type: product?.details?.type,
-      slug: product?.slug,
-      quantity: 1,
-      size: selectedSize ? selectedSize : product.details.sizing,
-      selectedOption: selectedType ? selectedType : null,
-      message: selectedMessage,
-    };
-
-    addProduct({ ...productItem, quantity: 1 });
-    router.push("/cart");
+    // const cookieToPriceRatio = price / count;
+    // if (
+    //   product?.details?.type === "box" &&
+    //   cookieToPriceRatio.toFixed(2) > 7.33
+    // ) {
+    //   return alert(
+    //     "An error has occured, there seems to be too many cookies for the box selected. Please refresh and try again or notify Butterboy at manly@butterboy.com.au."
+    //   );
+    // }
   }
 
   if (!product) {
