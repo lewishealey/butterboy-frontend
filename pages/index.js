@@ -138,7 +138,7 @@ export default function Home({ products, reviews, logos, settings }) {
       </div>
       <div className="p-6 pb-0 pt-0 md:p-12 pb-0 w-full max-w-7xl m-auto hidden md:block">
         <LazyVideo
-          src="homepage.webm"
+          src="https://test-lewis.s3.eu-west-1.amazonaws.com/homepage.webm"
           poster="/poster.jpg"
           autoplay
           muted
@@ -183,7 +183,7 @@ export default function Home({ products, reviews, logos, settings }) {
               <div className="h-52 md:h-40 flex justify-center">
                 <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
                   <LazyVideo
-                    src="/GIF-1.mp4"
+                    src="https://test-lewis.s3.eu-west-1.amazonaws.com/GIF-1.mp4"
                     poster="/placeholder.png"
                     classes={["md:w-full h-full object-cover z-auto"]}
                     autoplay
@@ -199,7 +199,7 @@ export default function Home({ products, reviews, logos, settings }) {
               <div className="h-52 md:h-40 flex justify-center">
                 <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
                   <LazyVideo
-                    src="/GIF-2.mp4"
+                    src="https://test-lewis.s3.eu-west-1.amazonaws.com/GIF-2.mp4"
                     poster="/placeholder.png"
                     classes={["md:w-full h-full object-cover z-auto"]}
                     autoplay
@@ -218,7 +218,7 @@ export default function Home({ products, reviews, logos, settings }) {
               <div className="h-52 md:h-40 flex justify-center">
                 <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
                   <LazyVideo
-                    src="/GIF-1.mp4"
+                    src="https://test-lewis.s3.eu-west-1.amazonaws.com/GIF-3.mp4"
                     poster="/placeholder.png"
                     classes={["md:w-full h-full object-cover z-auto"]}
                     autoplay
@@ -237,7 +237,7 @@ export default function Home({ products, reviews, logos, settings }) {
               <div className="h-52 md:h-40 flex justify-center">
                 <div className="md:w-full h-full object-cover z-auto border border-vibrant rounded-xl overflow-hidden">
                   <LazyVideo
-                    src="/GIF-4.mp4"
+                    src="https://test-lewis.s3.eu-west-1.amazonaws.com/GIF-4.mp4"
                     poster="/placeholder.png"
                     classes={["md:w-full h-full object-cover z-auto"]}
                     autoplay
